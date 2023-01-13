@@ -1,8 +1,9 @@
 import "../style/style.scss";
+import Board from "./compoentns/board";
 
 const App = () => (   
-  <div> 
-    App ASDAS XCZXCZX
+  <div id="board-container"> 
+    <Board />
   </div>
 );
 
