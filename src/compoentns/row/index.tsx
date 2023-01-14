@@ -10,25 +10,20 @@ type Props = {
   rowNumber: number;
 }
 
-const letters = "abcdefgh";
-
-const Row = ({ isEven, rowNumber }: Props) => {
+const Row = ({ rowNumber }: Props) => {
   const board = useSelector(boardSelector);
-  const offset = (rowNumber - 1) * 8;
-  const row = board.slice(offset, offset + 8);
+  const row = board[rowNumber - 1];
 
   return (
     <div className={styles.row}>
-      <Cell index="" isDisabled >{rowNumber}</Cell>
-      {row.map((cell, i) => {
-        const isWhite = i % 2 === 0 ? isEven : !isEven;
-        const index = `${rowNumber}${letters[i]}`;
+      <Cell index={[99, 99]} isDisabled >{rowNumber}</Cell>
+      {row.map((cell) => {
+        const { index } = cell;
 
         return (
           <Cell 
-            key={index}
-            index={index} 
-            isWhite={isWhite}
+            key={`${index[0]}${index[1]}`}
+            {...cell}
           >
             {cell.state === "empty" 
               ? "" 

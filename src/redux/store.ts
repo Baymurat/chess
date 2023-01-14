@@ -1,11 +1,23 @@
-import { configureStore } from "@reduxjs/toolkit";
-import boardStateReducer from "./features/board/boardSlice";
+import { configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
+import boardStateReducer, { onClickCell, setSelectedCell } from "./features/board/boardSlice";
 
+const listenerMiddleware = createListenerMiddleware();
+
+listenerMiddleware.startListening({
+  actionCreator: onClickCell,
+  effect: async (action, listenerApi) => {
+    const { payload: { index } } = action;
+    const { boardStore } = listenerApi.getState() as RootState;
+
+    listenerApi.dispatch(setSelectedCell({ index }));
+  }
+});
 export const store = configureStore({
   reducer: {
     boardStore: boardStateReducer
   },
-  devTools: true
+  devTools: true,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(listenerMiddleware.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

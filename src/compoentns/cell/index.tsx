@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 type Props = PropsWithChildren & {
   isDisabled?: boolean;
   isWhite?: boolean;
-  index: string;
+  index: [number, number];
   isSelected?: boolean;
   isPossibleMove?: boolean;
 }
