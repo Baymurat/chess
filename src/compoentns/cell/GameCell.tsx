@@ -3,17 +3,12 @@ import styles from "./styles.module.scss";
 import cx from "classnames";
 import { onClickCell } from "../../redux/features/board/boardSlice";
 import { useDispatch } from "react-redux";
+import { Cell } from "../../types/types";
 
-type Props = PropsWithChildren & {
-  isDisabled?: boolean;
-  isWhite?: boolean;
-  index: [number, number];
-  isSelected?: boolean;
-  isPossibleMove?: boolean;
-}
+type Props = PropsWithChildren & Omit<Cell, "state">;
 
 const Cell = ({
-  isPossibleMove, isSelected, isWhite, index, isDisabled, children 
+  isPossibleMove, isSelected, isWhite, index, children 
 }: Props) => {
   const dispatch = useDispatch();
   
@@ -21,7 +16,6 @@ const Cell = ({
     <div 
       className={cx(styles.cell, { 
         [styles.white]: isWhite,
-        [styles.disabled]: isDisabled,
         [styles.possibleMove]: isPossibleMove,
         [styles.selected]: isSelected,
       })}

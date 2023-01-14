@@ -1,14 +1,11 @@
-import Cell from "../cell";
+import { DisabledCell, GameCell } from "../cell";
 import { useSelector } from "react-redux";
 import { boardSelector } from "../../redux/features/board/boardSlice";
 import { getPiece } from "./utils";
 
 import styles from "./styles.module.scss";
 
-type Props = {
-  isEven?: boolean;
-  rowNumber: number;
-}
+type Props = { rowNumber: number }
 
 const Row = ({ rowNumber }: Props) => {
   const board = useSelector(boardSelector);
@@ -16,19 +13,19 @@ const Row = ({ rowNumber }: Props) => {
 
   return (
     <div className={styles.row}>
-      <Cell index={[99, 99]} isDisabled >{rowNumber}</Cell>
+      <DisabledCell>{rowNumber}</DisabledCell>
       {row.map((cell) => {
         const { index } = cell;
 
         return (
-          <Cell 
+          <GameCell 
             key={`${index[0]}${index[1]}`}
             {...cell}
           >
             {cell.state === "empty" 
               ? "" 
               : <img src={getPiece(`${cell.state.name}_${cell.state.color}`)} />}
-          </Cell>
+          </GameCell>
         );
       }
       )}

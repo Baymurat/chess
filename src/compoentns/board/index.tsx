@@ -1,18 +1,17 @@
-import Row from "../row";
-import HorizontalLegendRow from "../row/HorizontalLegendRow";
+import { HorizontalLegendRow, GameRow } from "../row";
 
 import styles from "./styles.module.scss";
 
 const Board = () => (
   <div className={styles.board}>
-    <Row rowNumber={8} isEven />
-    <Row rowNumber={7} />
-    <Row rowNumber={6} isEven />
-    <Row rowNumber={5} />
-    <Row rowNumber={4} isEven />
-    <Row rowNumber={3} />
-    <Row rowNumber={2} isEven/>
-    <Row rowNumber={1} />
+    <GameRow rowNumber={8} />
+    <GameRow rowNumber={7} />
+    <GameRow rowNumber={6} />
+    <GameRow rowNumber={5} />
+    <GameRow rowNumber={4} />
+    <GameRow rowNumber={3} />
+    <GameRow rowNumber={2}/>
+    <GameRow rowNumber={1} />
     <HorizontalLegendRow />
   </div>
 );
