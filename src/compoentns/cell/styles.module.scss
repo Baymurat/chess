@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   background: #7a7474;
-  pointer-events: none;
+  position: relative;
 }
 
 .white {
@@ -17,4 +17,18 @@
   padding: 0.7rem;
   background: transparent;
   border: none;
+  pointer-events: none;
+}
+
+.possibleMove::before {
+  content: '';
+  position: absolute;
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+  background: #cbb64a;
+}
+
+.selected {
+  background: #cbb64a;
 }

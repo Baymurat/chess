@@ -65,11 +65,14 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
       console.log(action.payload);
       
       state.board[0] = { state: "empty" };
+    },
+    onClickCell(state, action: PayloadAction<{index: string}>) {
+      console.log(action.payload);
     }
   }
 });
 
-export const { movePiece } = boardSlice.actions;
+export const { movePiece, onClickCell } = boardSlice.actions;
 
 export const boardSelector = (state: { boardStore: BoardStore }) => state.boardStore.board;
 
