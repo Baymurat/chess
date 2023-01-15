@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction, SliceCaseReducers } from "@reduxjs/toolkit";
-import { CellIndex, Cell, BoardStore } from "../../../types/types";
+import { createSlice, PayloadAction, SliceCaseReducers, current } from "@reduxjs/toolkit";
+import { CellIndex, BoardStore, Piece, Cell } from "../../../types/types";
 import { generateBoard } from "../../../utils/initBoard";
+import { calculatePossibleMoves } from "../../../utils/possibleMoves";
 
 const initialState: BoardStore = {
   board: generateBoard(),
@@ -17,8 +18,8 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
     movePiece(state, action: PayloadAction<any>) {
       console.log(action.payload);
     },
-    onClickCell(state, action: PayloadAction<{ index: [number, number] }>) {
-      console.log(action.payload);
+    onClickCell(state, action: PayloadAction<{ index: CellIndex }>) {
+      action.payload;
     },
     setSelectedCell(state, action: PayloadAction<{ index: CellIndex }>) {
       const [cP, rP] = state.selectedCellIndex;
@@ -30,14 +31,29 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
         state.selectedCellIndex = action.payload.index;
       }
     },
-    setPossibleMoves(state, action: PayloadAction<Cell[]>) {
-      state.possibleMoves = action.payload;
+    setPossibleMoves(state, action: PayloadAction<{ index: CellIndex }>) {
+      state.possibleMoves.forEach((move) => {
+        const [r, c] = move;
+        state.board[r][c].isPossibleMove = false;
+      });
+
+      const [c, r] = action.payload.index;
+      const selected = current(state.board[c][r]);
+      
+      const possibleMoves = calculatePossibleMoves(state.board, selected);
+      
+      possibleMoves.forEach((move) => {
+        const [r, c] = move;
+        state.board[r][c].isPossibleMove = true;
+      });
+      
+      state.possibleMoves = possibleMoves;
     }
   }
 });
 
 export const {
-  movePiece, onClickCell, setSelectedCell 
+  movePiece, onClickCell, setSelectedCell, setPossibleMoves
 } = boardSlice.actions;
 
 export const boardSelector = (state: { boardStore: BoardStore }) => state.boardStore.board;

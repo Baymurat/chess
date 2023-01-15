@@ -1,5 +1,5 @@
 import { configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
-import boardStateReducer, { onClickCell, setSelectedCell } from "./features/board/boardSlice";
+import boardStateReducer, { onClickCell, setSelectedCell, setPossibleMoves } from "./features/board/boardSlice";
 
 const listenerMiddleware = createListenerMiddleware();
 
@@ -10,6 +10,7 @@ listenerMiddleware.startListening({
     const { boardStore } = listenerApi.getState() as RootState;
 
     listenerApi.dispatch(setSelectedCell({ index }));
+    listenerApi.dispatch(setPossibleMoves({ index }));
   }
 });
 export const store = configureStore({

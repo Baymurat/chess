@@ -1,6 +1,15 @@
+export enum PieceNames {
+  PAWN = "PAWN",
+  ROOK = "ROOK",
+  KNIGHT = "KNIGHT",
+  BISHOP = "BISHOP",
+  QUEEN = "QUEEN",
+  KING = "KING",
+}
+
 export type Piece = {
-  name: string;
-  color: "white" | "black";
+  name: PieceNames;
+  color: PieceColor;
 }
 
 export type CellIndex = [number, number]
@@ -18,5 +27,7 @@ export type BoardStore = {
   loading: boolean;
   error: string;
   selectedCellIndex: CellIndex;
-  possibleMoves: Cell[];
+  possibleMoves: CellIndex[];
 }
+
+export type PieceColor = "white" | "black"
