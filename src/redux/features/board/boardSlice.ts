@@ -83,6 +83,8 @@ export const {
 } = boardSlice.actions;
 
 export const clearValues = boardSlice.actions.clearValues as ActionCreatorWithoutPayload<`${string}/${string}`>;
+
 export const boardSelector = (state: { boardStore: BoardStore }) => state.boardStore.board;
+export const turnSelector = (state: { boardStore: BoardStore}) => state.boardStore.turn;
 
 export default boardSlice.reducer;
