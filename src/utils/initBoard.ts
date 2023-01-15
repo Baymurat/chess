@@ -1,17 +1,17 @@
 import { Piece, Cell, CellIndex, PieceColor } from "../types/types";
 import { PieceNames } from "../types/types";
 
-const initCell = (state: "empty" | Piece, isWhite = false): Cell => ({
+const initCell = (state: "empty" | Piece): Cell => ({
   isPossibleMove: false,
   isSelected: false,
   index: [0, 0],
+  isWhite: false,
   state,
-  isWhite,
 });
 
 const initRowIndexes = (
   arr: Cell[], row: number
-) => arr.map((c, i) => ({
+): Cell[] => arr.map((c, i) => ({
   ...c, 
   index: [row - 1, i]  as [number, number],
   isWhite: (row + i) % 2 === 0,
@@ -19,13 +19,13 @@ const initRowIndexes = (
 
 const generateOfficerPieces = (color: PieceColor): Cell[] => {
   const arr: Cell[] = [];
-  arr.push(initCell({ name: PieceNames.ROOK, color }, true));
+  arr.push(initCell({ name: PieceNames.ROOK, color }));
   arr.push(initCell({ name: PieceNames.KNIGHT, color }));
-  arr.push(initCell({ name: PieceNames.BISHOP, color }, true));
-  arr.push(initCell({ name: PieceNames.KING, color }));
-  arr.push(initCell({ name: PieceNames.QUEEN, color }, true));
   arr.push(initCell({ name: PieceNames.BISHOP, color }));
-  arr.push(initCell({ name: PieceNames.KNIGHT, color }, true));
+  arr.push(initCell({ name: PieceNames.KING, color }));
+  arr.push(initCell({ name: PieceNames.QUEEN, color }));
+  arr.push(initCell({ name: PieceNames.BISHOP, color }));
+  arr.push(initCell({ name: PieceNames.KNIGHT, color }));
   arr.push(initCell({ name: PieceNames.ROOK, color }));
   
   return arr;
