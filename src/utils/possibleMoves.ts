@@ -21,18 +21,19 @@ const pawnMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex
   const [row, column] = position;
   const result: CellIndex[] = [];
 
-  const p1 = piece.color === "white" ? 1 : -1;
-  const p2 = piece.color === "white" ? 2 : -2;
-
+  const isWhite = piece.color === "white";
+  const p1 = isWhite ? 1 : -1;
+  const p2 = isWhite ? 2 : -2;
   const r1 = row + p1;
   const r2 = row + p2;
 
   if (board[r1][column].state === "empty") {
     result.push([r1, column]);
-  }
 
-  if (board[r2][column].state === "empty") {
-    result.push([r2, column]);
+    const isStart = isWhite ? row === 1 : row === 6;
+    if (isStart && board[r2][column].state === "empty") {
+      result.push([r2, column]);
+    }
   }
   
   return result;
@@ -64,8 +65,9 @@ const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): CellInd
   ];
 
   coordindates.forEach(([v, h, condition]) => {
-    if (condition && board[v][h].state === "empty") {
-      result.push([v, h]); 
+    if (condition) {
+      const isEnemy = (board[v][h].state as Piece).color !== piece.color;
+      isEnemy && result.push([v, h]); 
     }
   });
   

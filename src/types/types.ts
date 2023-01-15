@@ -28,6 +28,7 @@ export type BoardStore = {
   error: string;
   selectedCellIndex: CellIndex;
   possibleMoves: CellIndex[];
+  turn: PieceColor;
 }
 
 export type PieceColor = "white" | "black"
