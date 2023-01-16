@@ -9,6 +9,7 @@ const initialState: BoardStore = {
   error: "",
   selectedCellIndex: [-1, -1],
   possibleMoves: [],
+  impossibleMoves: [],
   turn: "white",
 };
 
@@ -44,23 +45,33 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
       //   state.selectedCellIndex = [-1, -1];
       // }
     },
-    setPossibleMoves(state, action: PayloadAction<{ index: CellIndex }>) {
-      // state.possibleMoves.forEach((move) => {
-      //   const [r, c] = move;
-      //   state.board[r][c].isPossibleMove = false;
-      // });
-
-      const [c, r] = action.payload.index;
-      const selected = current(state.board[c][r]);
-      
-      const possibleMoves = calculatePossibleMoves(state.board, selected);
-      
-      possibleMoves.forEach((move) => {
+    setPossibleMoves(state, action: PayloadAction<{ possibleMoves: CellIndex[] }>) {
+      action.payload.possibleMoves.forEach((move) => {
         const [r, c] = move;
         state.board[r][c].isPossibleMove = true;
       });
       
-      state.possibleMoves = possibleMoves;
+      state.possibleMoves = action.payload.possibleMoves;
+    },
+    // setPossibleMoves(state, action: PayloadAction<{ clickedCellIndex: CellIndex }>) {
+    //   const [c, r] = action.payload.clickedCellIndex;
+    //   const clickedCell = current(state.board[c][r]);
+      
+    //   const possibleMoves = calculatePossibleMoves(state.board, clickedCell);
+      
+    //   possibleMoves.forEach((move) => {
+    //     const [r, c] = move;
+    //     state.board[r][c].isPossibleMove = true;
+    //   });
+      
+    //   state.possibleMoves = possibleMoves;
+    // },
+    setImpossibleMoves(state, action: PayloadAction<{ impossibleMoves: CellIndex[] }>) {
+      action.payload.impossibleMoves.forEach((cell) => {
+        const [r, c] = cell;
+        state.board[r][c].isImpossibleMove = true;
+      });
+      state.impossibleMoves = action.payload.impossibleMoves;
     },
     clearValues(state) {
       state.possibleMoves.forEach((move) => {
@@ -69,6 +80,12 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
       });
       state.possibleMoves = [];
 
+      state.impossibleMoves.forEach((cell) => {
+        const [r, c] = cell;
+        state.board[r][c].isImpossibleMove = false;
+      });
+      state.impossibleMoves = [];
+      
       const [rP, cP] = state.selectedCellIndex;
       if (rP !== -1 && cP !== -1) {
         state.board[rP][cP].isSelected = false;
@@ -79,7 +96,7 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
 });
 
 export const {
-  movePiece, onClickCell, setSelectedCell, setPossibleMoves
+  movePiece, onClickCell, setSelectedCell, setPossibleMoves, setImpossibleMoves
 } = boardSlice.actions;
 
 export const clearValues = boardSlice.actions.clearValues as ActionCreatorWithoutPayload<`${string}/${string}`>;

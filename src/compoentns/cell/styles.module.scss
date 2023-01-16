@@ -26,8 +26,6 @@
   &.underAttack {
     background: #57ad57;
     
-    // #db6f6f
-
     &::before {
       content: none;
     }
@@ -43,6 +41,9 @@
   }
 }
 
+.impossibleMove {
+  background: #db6f6f;
+}
 
 
 .selected {

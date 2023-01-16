@@ -1,11 +1,13 @@
 import { configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
-import { CellIndex, Piece } from "../types/types";
+import { CellIndex, Piece, PieceNames } from "../types/types";
+import { calculatePossibleMoves, calculateImpossibleMoves } from "../utils/possibleMoves";
 import boardStateReducer, { 
   onClickCell, 
   setSelectedCell, 
   setPossibleMoves,
   clearValues,
   movePiece,
+  setImpossibleMoves,
 } from "./features/board/boardSlice";
 
 const listenerMiddleware = createListenerMiddleware();
@@ -46,50 +48,18 @@ listenerMiddleware.startListening({
       } else {
         listenerApi.dispatch(clearValues());
         listenerApi.dispatch(setSelectedCell({ index }));
-        listenerApi.dispatch(setPossibleMoves({ index }));
+
+        const clickedCell = board[currentRow][currentColumn];
+        const possibleMoves = calculatePossibleMoves(board, clickedCell);
+        listenerApi.dispatch(setPossibleMoves({ possibleMoves }));
+        
+        if ((clickedCell.state as Piece).name === PieceNames.KING) {
+          console.log("KING");
+          const impossibleMoves = calculateImpossibleMoves(board, clickedCell.state as Piece, possibleMoves);
+          listenerApi.dispatch(setImpossibleMoves({ impossibleMoves }));
+        }
       }
     }
-
-    // const { payload: { index } } = action;
-    // const { boardStore } = listenerApi.getState() as RootState;
-    // const { board } = boardStore;
-  
-    // const clickedCell = board[index[0]][index[1]];
-    
-    // const { selectedCellIndex, possibleMoves } = boardStore;
-    // const [rP, cP] = selectedCellIndex;
-
-    // const noSelectedCell = rP === -1 && cP === -1;
-
-    // if (noSelectedCell) {
-    //   listenerApi.dispatch(setSelectedCell({ index }));
-    //   listenerApi.dispatch(setPossibleMoves({ index }));
-
-    //   return;
-    // } 
-
-    // const firstPiece = board[rP][cP].state as Piece;
-    // const secondPiece = board[index[0]][index[1]].state as Piece;
-    
-    // if (firstPiece.color === secondPiece.color) {
-    //   listenerApi.dispatch(clearValues());
-    //   listenerApi.dispatch(setSelectedCell({ index }));
-    //   listenerApi.dispatch(setPossibleMoves({ index }));
-
-    //   return;
-    // }
-
-    // const nextMove = possibleMoves
-    //   .find(([r, c]) => r === index[0] && c === index[1]);
-
-    // if (nextMove) {
-    //   listenerApi.dispatch(movePiece({ from: [rP, cP], to: [index[0], index[1]] }));
-    // }
-
-    // if (clickedCell.state === "empty") {
-    //   listenerApi.dispatch(clearValues());
-    //   return;
-    // }
   }
 });
 export const store = configureStore({

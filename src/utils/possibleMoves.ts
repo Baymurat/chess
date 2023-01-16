@@ -1,5 +1,32 @@
 import { Cell, Piece, PieceNames, PieceColor, CellIndex } from "../types/types";
 
+export const calculateImpossibleMoves = (board: Cell[][], piece: Piece, possibleMoves: CellIndex[]): CellIndex[] => {
+  const result: CellIndex[] = [];
+  const enemies = getEnemies(board, piece.color);
+
+  for (let i = 0; i < possibleMoves.length; i++) {
+    const [row, column] = possibleMoves[i];
+
+    for (let j = 0; j < enemies.length; j++) {
+      const enemyPiece = enemies[j].state as Piece;
+      const [enemyRow, enemycolumn] = enemies[j].index;
+
+      if (enemyPiece.name === PieceNames.ROOK) {
+        if (enemyRow === row) {
+          result.push([row, column]);
+          continue;
+        }
+        if (enemycolumn === column) {
+          result.push([row, column]);
+          continue;
+        }
+      }
+    }
+  }
+
+  return result;
+};
+
 export const calculatePossibleMoves = (board: Cell[][], selected: Cell): CellIndex[] => {
   const piece = selected.state as Piece;
   const position = selected.index;
@@ -252,6 +279,71 @@ const queenMove = (board: Cell[][], piece: Piece, position: CellIndex): CellInde
   const bishopMoves = bishopMove(board, piece, position);
 
   return [...rookMoves, ...bishopMoves];
+};
+
+const getEnemies = (board: Cell[][], color: PieceColor): Cell[] => {
+  const enemyPieces: Cell[] = [];
+
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      const isEnemy = board[i][j].state !== "empty" && (board[i][j].state as Piece).color !== color;
+
+      if (isEnemy) {
+        enemyPieces.push(board[i][j]);
+      }
+    }
+  }
+
+  return enemyPieces;
+};
+
+// const getUnsaveCells = (board: Cell[][], piece: Piece): CellIndex[] => {
+//   const enemies = getEnemies(board, piece.color);
+
+//   const enemyMoves: CellIndex[] = [];
+  
+//   enemies.forEach((cell) => {
+//     const piece = cell.state as Piece;
+//     const position = cell.index;
+    
+    
+//     let result: CellIndex[] = [];
+    
+//     if (piece.name === PieceNames.KNIGHT) {
+//       result = knightMove(board, piece, position);
+//     }
+
+//     if (piece.name === PieceNames.ROOK) {
+//       result = rookMove(board, piece, position);
+//     }
+
+//     if (piece.name === PieceNames.BISHOP) {
+//       result = bishopMove(board, piece, position);
+//     }
+
+//     if (piece.name === PieceNames.QUEEN) {
+//       result = queenMove(board, piece, position);
+//     }
+
+//     enemyMoves.push(...result);
+//   });
+    
+//   return enemyMoves;
+// };
+
+const isSave = (enemies: Cell[], row: number, column: number): boolean => {
+  for (let i = 0; i < enemies.length; i++) {
+    const enemyPiece = enemies[i].state as Piece;
+    const [enemyRow, enemyColumn] = enemies[i].index;
+
+    if (enemyPiece.name === PieceNames.ROOK) {
+      if (enemyRow !== row && enemyColumn !== column) {
+        continue;
+      }
+    }
+  }
+
+  return true;
 };
 
 const kingMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {

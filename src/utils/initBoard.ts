@@ -3,6 +3,7 @@ import { PieceNames } from "../types/types";
 
 const initCell = (state: "empty" | Piece): Cell => ({
   isPossibleMove: false,
+  isImpossibleMove: false,
   isSelected: false,
   index: [0, 0],
   isWhite: false,

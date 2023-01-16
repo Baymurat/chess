@@ -19,6 +19,7 @@ export type Cell = {
   index: CellIndex;
   isSelected: boolean;
   isPossibleMove: boolean;
+  isImpossibleMove: boolean;
   isWhite: boolean;
 }
 
@@ -28,6 +29,7 @@ export type BoardStore = {
   error: string;
   selectedCellIndex: CellIndex;
   possibleMoves: CellIndex[];
+  impossibleMoves: CellIndex[];
   turn: PieceColor;
 }
 

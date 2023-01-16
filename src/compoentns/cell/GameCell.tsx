@@ -5,11 +5,10 @@ import { onClickCell } from "../../redux/features/board/boardSlice";
 import { useDispatch } from "react-redux";
 import { Cell } from "../../types/types";
 
-// type Props = PropsWithChildren & Omit<Cell, "state">;
 type Props = PropsWithChildren & Cell;
 
 const Cell = ({
-  isPossibleMove, isSelected, isWhite, index, children, state
+  isPossibleMove, isImpossibleMove, isSelected, isWhite, index, children, state
 }: Props) => {
   const dispatch = useDispatch();
   const isUnderAttack = state !== "empty";
@@ -19,6 +18,7 @@ const Cell = ({
       className={cx(styles.cell, { 
         [styles.white]: isWhite,
         [styles.possibleMove]: isPossibleMove,
+        [styles.impossibleMove]: isImpossibleMove,
         [styles.selected]: isSelected,
         [styles.underAttack]: isUnderAttack,
       })}
