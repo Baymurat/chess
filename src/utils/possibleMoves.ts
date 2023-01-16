@@ -16,6 +16,10 @@ export const calculatePossibleMoves = (board: Cell[][], selected: Cell): CellInd
     return rookMove(board, piece, position);
   }
   
+  if (piece.name === PieceNames.BISHOP) {
+    return bishopMove(board, piece, position);
+  }
+
   return [];
 };
 
@@ -99,7 +103,7 @@ const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): CellInd
   return result;
 };
 
-const rookMoveHelper = (board: Cell[][], color:PieceColor, row: number, column: number) => {
+const moveHelper = (board: Cell[][], color:PieceColor, row: number, column: number) => {
   if (board[row][column].state === "empty") {
     return [true, false];
   }
@@ -119,7 +123,7 @@ const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex
 
   // TO RIGHT
   for (let i = column + 1; i < 8; i++) {
-    const [isAdd, isBreak] = rookMoveHelper(board, piece.color, row, i);
+    const [isAdd, isBreak] = moveHelper(board, piece.color, row, i);
 
     if (isAdd) {
       result.push([row, i]);
@@ -132,7 +136,7 @@ const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex
 
   // TO LEFT
   for (let i = column - 1; i > -1; i--) {
-    const [isAdd, isBreak] = rookMoveHelper(board, piece.color, row, i);
+    const [isAdd, isBreak] = moveHelper(board, piece.color, row, i);
 
     if (isAdd) {
       result.push([row, i]);
@@ -145,7 +149,7 @@ const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex
 
   // UP
   for (let i = row + 1; i < 8; i++) {
-    const [isAdd, isBreak] = rookMoveHelper(board, piece.color, i, column);
+    const [isAdd, isBreak] = moveHelper(board, piece.color, i, column);
 
     if (isAdd) {
       result.push([i, column]);
@@ -158,7 +162,7 @@ const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex
 
   // DOWN
   for (let i = row - 1; i > -1; i--) {
-    const [isAdd, isBreak] = rookMoveHelper(board, piece.color, i, column);
+    const [isAdd, isBreak] = moveHelper(board, piece.color, i, column);
 
     if (isAdd) {
       result.push([i, column]);
@@ -169,5 +173,68 @@ const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex
     }
   }
 
+  return result;
+};
+
+// const bishopMoveHelper = (board: Cell[][], color: PieceColor, row: number, column: number) => {
+
+// }
+
+const bishopMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
+  const [row, column] = position;
+  const result: CellIndex[] = [];
+
+  // UP RIGHT
+  for (let i = row + 1, j = column + 1; i < 8 && j < 8; i++, j++) {
+    const [isAdd, isBreak] = moveHelper(board, piece.color, i, j);
+
+    if (isAdd) {
+      result.push([i, j]);
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
+  // UP LEFT
+  for (let i = row + 1, j = column - 1; i < 8 && j > -1; i++, j--) {
+    const [isAdd, isBreak] = moveHelper(board, piece.color, i, j);
+  
+    if (isAdd) {
+      result.push([i, j]);
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+    
+  // DOWN LEFT
+  for (let i = row - 1, j = column - 1; i > -1 && j > -1; i--, j--) {
+    const [isAdd, isBreak] = moveHelper(board, piece.color, i, j);
+    
+    if (isAdd) {
+      result.push([i, j]);
+    }
+  
+    if (isBreak) {
+      break;
+    }
+  }
+    
+  // DOWN RIGHT
+  for (let i = row - 1, j = column + 1; i > -1 && j < 8; i--, j++) {
+    const [isAdd, isBreak] = moveHelper(board, piece.color, i, j);
+      
+    if (isAdd) {
+      result.push([i, j]);
+    }
+    
+    if (isBreak) {
+      break;
+    }
+  }
+    
   return result;
 };
