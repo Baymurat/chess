@@ -20,6 +20,10 @@ export const calculatePossibleMoves = (board: Cell[][], selected: Cell): CellInd
     return bishopMove(board, piece, position);
   }
 
+  if (piece.name === PieceNames.QUEEN) {
+    return queenMove(board, piece, position);
+  }
+
   return [];
 };
 
@@ -237,4 +241,11 @@ const bishopMove = (board: Cell[][], piece: Piece, position: CellIndex): CellInd
   }
     
   return result;
+};
+
+const queenMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
+  const rookMoves = rookMove(board, piece, position);
+  const bishopMoves = bishopMove(board, piece, position);
+
+  return [...rookMoves, ...bishopMoves];
 };
