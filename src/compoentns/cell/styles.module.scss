@@ -24,7 +24,9 @@
 .possibleMove {
 
   &.underAttack {
-    background: #db6f6f;
+    background: #57ad57;
+    
+    // #db6f6f
 
     &::before {
       content: none;

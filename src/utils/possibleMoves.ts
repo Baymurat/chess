@@ -24,6 +24,10 @@ export const calculatePossibleMoves = (board: Cell[][], selected: Cell): CellInd
     return queenMove(board, piece, position);
   }
 
+  if (piece.name === PieceNames.KING) {
+    return kingMove(board, piece, position);
+  }
+
   return [];
 };
 
@@ -86,7 +90,7 @@ const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): CellInd
   const hL2 = column - 2;
   const hL1 = column - 1;
   
-  const coordindates: [number, number, boolean][] = [
+  const allDirections: [number, number, boolean][] = [
     [vUp2, hL1, vUp2 < 8 && hL1 > -1],
     [vUp2, hR1, vUp2 < 8 && hR1 < 8],
     [vD2, hL1, vD2 > -1 && hL1 > -1],
@@ -97,10 +101,14 @@ const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): CellInd
     [vD1, hR2, vD1 > -1 && hR2 < 8],
   ];
 
-  coordindates.forEach(([v, h, condition]) => {
-    if (condition) {
+  allDirections.forEach(([v, h, canMove]) => {
+    if (canMove) {
+      const isEmpty = board[v][h].state === "empty";
       const isEnemy = (board[v][h].state as Piece).color !== piece.color;
-      isEnemy && result.push([v, h]); 
+
+      if (isEmpty || isEnemy) {
+        isEnemy && result.push([v, h]);
+      }
     }
   });
   
@@ -180,10 +188,6 @@ const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex
   return result;
 };
 
-// const bishopMoveHelper = (board: Cell[][], color: PieceColor, row: number, column: number) => {
-
-// }
-
 const bishopMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
   const [row, column] = position;
   const result: CellIndex[] = [];
@@ -248,4 +252,39 @@ const queenMove = (board: Cell[][], piece: Piece, position: CellIndex): CellInde
   const bishopMoves = bishopMove(board, piece, position);
 
   return [...rookMoves, ...bishopMoves];
+};
+
+const kingMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
+  const [row, column] = position;
+  const result: CellIndex[] = [];
+
+  const up = row + 1;
+  const down = row - 1;
+  const left = column - 1;
+  const right = column + 1;
+
+  const allDirections: [number, number, boolean][] = [
+    [up, right, up < 8 && right < 8],
+    [up, left, up < 8 && left > -1],
+    [down, right, down > -1 && right < 8],
+    [down, left, down > -1 && left > -1],
+
+    [up, column, up < 8],
+    [down, column, down > -1],
+    [row, left, left > -1],
+    [row, right, right < 8],
+  ];
+  
+  allDirections.forEach(([v, h, canMove]) => {  
+    if (canMove) {
+      const isEmpty = board[v][h].state === "empty";
+      const isEnemy = (board[v][h].state as Piece).color !== piece.color;
+
+      if (isEmpty || isEnemy) {
+        result.push([v, h]);
+      }
+    }
+  });
+
+  return result;
 };
