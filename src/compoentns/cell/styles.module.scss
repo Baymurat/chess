@@ -21,14 +21,27 @@
   pointer-events: none;
 }
 
-.possibleMove::before {
-  content: '';
-  position: absolute;
-  width: 25%;
-  height: 25%;
-  border-radius: 50%;
-  background: #cbb64a;
+.possibleMove {
+
+  &.underAttack {
+    background: red;
+
+    &::before {
+      content: none;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 25%;
+    height: 25%;
+    border-radius: 50%;
+    background: #cbb64a;
+  }
 }
+
+
 
 .selected {
   background: #cbb64a;
