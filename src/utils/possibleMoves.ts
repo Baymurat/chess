@@ -22,10 +22,10 @@ const pawnMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex
   const result: CellIndex[] = [];
 
   const isWhite = piece.color === "white";
-  const p1 = isWhite ? 1 : -1;
-  const p2 = isWhite ? 2 : -2;
-  const r1 = row + p1;
-  const r2 = row + p2;
+  const step1 = isWhite ? 1 : -1;
+  const step2 = isWhite ? 2 : -2;
+  const r1 = row + step1;
+  const r2 = row + step2;
 
   if (board[r1][column].state === "empty") {
     result.push([r1, column]);
@@ -35,7 +35,30 @@ const pawnMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex
       result.push([r2, column]);
     }
   }
-  
+
+  if (column + 1 < 8) {
+    const isLeftEnemy = (
+      board[r1][column + 1].state !== "empty" 
+      && (board[r1][column + 1].state as Piece).color !== piece.color
+    );
+
+    if (isLeftEnemy) {
+      result.push([r1, column + 1]);
+    }
+  }
+
+  if (column - 1 > -1) {
+    const isRightEnemy = (
+      board[r1][column -1].state !== "empty" 
+      && (board[r1][column - 1].state as Piece).color !== piece.color
+    );
+
+    if (isRightEnemy) {
+      result.push([r1, column - 1]);
+    }
+
+  }
+
   return result;
 };
 
