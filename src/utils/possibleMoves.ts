@@ -12,7 +12,9 @@ export const calculatePossibleMoves = (board: Cell[][], selected: Cell): CellInd
     return knightMove(board, piece, position);
   }
 
-  const a = 1;
+  if (piece.name === PieceNames.ROOK) {
+    return rookMove(board, piece, position);
+  }
   
   return [];
 };
@@ -94,5 +96,78 @@ const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): CellInd
     }
   });
   
+  return result;
+};
+
+const rookMoveHelper = (board: Cell[][], color:PieceColor, row: number, column: number) => {
+  if (board[row][column].state === "empty") {
+    return [true, false];
+  }
+
+  const isEnemy = (board[row][column].state as Piece).color !== color;
+
+  if (isEnemy) {
+    return [true, true];
+  }
+
+  return [false, true];
+};
+
+const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
+  const [row, column] = position;
+  const result: CellIndex[] = [];
+
+  // TO RIGHT
+  for (let i = column + 1; i < 8; i++) {
+    const [isAdd, isBreak] = rookMoveHelper(board, piece.color, row, i);
+
+    if (isAdd) {
+      result.push([row, i]);
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
+  // TO LEFT
+  for (let i = column - 1; i > -1; i--) {
+    const [isAdd, isBreak] = rookMoveHelper(board, piece.color, row, i);
+
+    if (isAdd) {
+      result.push([row, i]);
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
+  // UP
+  for (let i = row + 1; i < 8; i++) {
+    const [isAdd, isBreak] = rookMoveHelper(board, piece.color, i, column);
+
+    if (isAdd) {
+      result.push([i, column]);
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
+  // DOWN
+  for (let i = row - 1; i > -1; i--) {
+    const [isAdd, isBreak] = rookMoveHelper(board, piece.color, i, column);
+
+    if (isAdd) {
+      result.push([i, column]);
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
   return result;
 };
