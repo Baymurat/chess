@@ -1,8 +1,7 @@
 import { Cell, Piece, CellIndex } from "../types/types";
 
-export const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
+const getKnightDirections = (position: CellIndex): CellIndex[] => {
   const [row, column] = position;
-  const result: CellIndex[] = [];
 
   const vUp2 = row + 2;
   const vUp1 = row + 1;
@@ -13,7 +12,7 @@ export const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): 
   const hR1 = column + 1;
   const hL2 = column - 2;
   const hL1 = column - 1;
-  
+
   const allDirections: [number, number, boolean][] = [
     [vUp2, hL1, vUp2 < 8 && hL1 > -1],
     [vUp2, hR1, vUp2 < 8 && hR1 < 8],
@@ -25,16 +24,24 @@ export const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): 
     [vD1, hR2, vD1 > -1 && hR2 < 8],
   ];
 
-  allDirections.forEach(([v, h, canMove]) => {
-    if (canMove) {
-      const isEmpty = board[v][h].state === "empty";
-      const isEnemy = (board[v][h].state as Piece).color !== piece.color;
+  return allDirections.filter(([,,canMove]) => canMove).map(([r, c]) => ([r, c]));
+};
 
-      if (isEmpty || isEnemy) {
-        isEnemy && result.push([v, h]);
-      }
-    }
+export const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
+  const [row, column] = position;
+  const result: CellIndex[] = [];
+
+  getKnightDirections([row, column]).forEach(([v, h]) => {
+    const isEmpty = board[v][h].state === "empty";
+    const isEnemy = (board[v][h].state as Piece).color !== piece.color;
+
+    (isEmpty || isEnemy) && result.push([v, h]);
   });
   
   return result;
+};
+
+export const canKnightReach = (board: Cell[][], knightCell: Cell, targetCell: CellIndex): boolean => {
+  const [row, column] = targetCell;
+  return getKnightDirections(knightCell.index).findIndex(([r, c]) => (r === row && c === column)) !== -1;
 };

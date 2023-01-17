@@ -1,7 +1,7 @@
 import { Cell, Piece, PieceNames, PieceColor, CellIndex } from "../types/types";
 import { rookMove, canRookReach } from "./rookHelper";
 import { pawnMove } from "./pawnHelper";
-import { knightMove } from "./knightHelper";
+import { knightMove, canKnightReach } from "./knightHelper";
 import { bishopMove, canBishopReach } from "./bishopHelper";
 import { kingMove } from "./kingHelper";
 
@@ -21,6 +21,11 @@ export const calculateImpossibleMoves = (board: Cell[][], piece: Piece, possible
       }
 
       if (enemyPiece.name === PieceNames.BISHOP && canBishopReach(board, enemies[j], possibleMoves[i])) {
+        result.push([row, column]);
+        continue;
+      }
+
+      if (enemyPiece.name === PieceNames.KNIGHT && canKnightReach(board, enemies[j], possibleMoves[i])) {
         result.push([row, column]);
         continue;
       }
