@@ -44,7 +44,10 @@ export const calculatePossibleMoves = (board: Cell[][], selected: Cell): CellInd
   }
 
   if (piece.name === PieceNames.QUEEN) {
-    return queenMove(board, piece, position);
+    const rookMoves = rookMove(board, piece, position);
+    const bishopMoves = bishopMove(board, piece, position);
+  
+    return [...rookMoves, ...bishopMoves];
   }
 
   if (piece.name === PieceNames.KING) {
@@ -52,27 +55,6 @@ export const calculatePossibleMoves = (board: Cell[][], selected: Cell): CellInd
   }
 
   return [];
-};
-
-const moveHelper = (board: Cell[][], color:PieceColor, row: number, column: number) => {
-  if (board[row][column].state === "empty") {
-    return [true, false];
-  }
-
-  const isEnemy = (board[row][column].state as Piece).color !== color;
-
-  if (isEnemy) {
-    return [true, true];
-  }
-
-  return [false, true];
-};
-
-const queenMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
-  const rookMoves = rookMove(board, piece, position);
-  const bishopMoves = bishopMove(board, piece, position);
-
-  return [...rookMoves, ...bishopMoves];
 };
 
 const getEnemies = (board: Cell[][], color: PieceColor): Cell[] => {
