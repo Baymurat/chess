@@ -9,16 +9,31 @@ export const calculateImpossibleMoves = (board: Cell[][], piece: Piece, possible
 
     for (let j = 0; j < enemies.length; j++) {
       const enemyPiece = enemies[j].state as Piece;
-      const [enemyRow, enemycolumn] = enemies[j].index;
+      const [enemyRow, enemyColumn] = enemies[j].index;
 
       if (enemyPiece.name === PieceNames.ROOK) {
-        if (enemyRow === row) {
-          result.push([row, column]);
+        if (enemyRow !== row && enemyColumn !== column) {
           continue;
         }
-        if (enemycolumn === column) {
-          result.push([row, column]);
-          continue;
+
+        const [fromRow, toRow] = row < enemyRow ? [row, enemyRow] : [enemyRow, row];
+        const [fromColumn, toColumn] = column < enemyColumn ? [column, enemyColumn] : [enemyColumn, column];
+
+        result.push([row, column]);
+        if (column === enemyColumn) {
+          for (let i = fromRow + 1; i < toRow; i++) {
+            if (board[i][column].state !== "empty") {
+              result.pop();
+              break;
+            }
+          }
+        } else {
+          for (let i = fromColumn + 1; i < toColumn; i++) {
+            if (board[row][i].state !== "empty") {
+              result.pop();
+              break;
+            }
+          }
         }
       }
     }
