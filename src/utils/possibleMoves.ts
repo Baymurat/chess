@@ -1,5 +1,7 @@
 import { Cell, Piece, PieceNames, PieceColor, CellIndex } from "../types/types";
 import { rookMove, canRookReach } from "./rookHelper";
+import { pawnMove } from "./pawnHelper";
+
 export const calculateImpossibleMoves = (board: Cell[][], piece: Piece, possibleMoves: CellIndex[]): CellIndex[] => {
   const result: CellIndex[] = [];
   const enemies = getEnemies(board, piece.color);
@@ -48,51 +50,6 @@ export const calculatePossibleMoves = (board: Cell[][], selected: Cell): CellInd
   }
 
   return [];
-};
-
-const pawnMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
-  const [row, column] = position;
-  const result: CellIndex[] = [];
-
-  const isWhite = piece.color === "white";
-  const step1 = isWhite ? 1 : -1;
-  const step2 = isWhite ? 2 : -2;
-  const r1 = row + step1;
-  const r2 = row + step2;
-
-  if (board[r1][column].state === "empty") {
-    result.push([r1, column]);
-
-    const isStart = isWhite ? row === 1 : row === 6;
-    if (isStart && board[r2][column].state === "empty") {
-      result.push([r2, column]);
-    }
-  }
-
-  if (column + 1 < 8) {
-    const isLeftEnemy = (
-      board[r1][column + 1].state !== "empty" 
-      && (board[r1][column + 1].state as Piece).color !== piece.color
-    );
-
-    if (isLeftEnemy) {
-      result.push([r1, column + 1]);
-    }
-  }
-
-  if (column - 1 > -1) {
-    const isRightEnemy = (
-      board[r1][column -1].state !== "empty" 
-      && (board[r1][column - 1].state as Piece).color !== piece.color
-    );
-
-    if (isRightEnemy) {
-      result.push([r1, column - 1]);
-    }
-
-  }
-
-  return result;
 };
 
 const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
