@@ -9,37 +9,55 @@ export const calculateImpossibleMoves = (board: Cell[][], piece: Piece, possible
 
     for (let j = 0; j < enemies.length; j++) {
       const enemyPiece = enemies[j].state as Piece;
-      const [enemyRow, enemyColumn] = enemies[j].index;
 
       if (enemyPiece.name === PieceNames.ROOK) {
-        if (enemyRow !== row && enemyColumn !== column) {
-          continue;
-        }
-
-        const [fromRow, toRow] = row < enemyRow ? [row, enemyRow] : [enemyRow, row];
-        const [fromColumn, toColumn] = column < enemyColumn ? [column, enemyColumn] : [enemyColumn, column];
-
+        const moves = canRookReach(board, enemies[j], possibleMoves[i]);
+        console.log(moves, enemies[j].index, possibleMoves[i]);
+      }
+      
+      if (enemyPiece.name === PieceNames.ROOK && canRookReach(board, enemies[j], possibleMoves[i])) {
         result.push([row, column]);
-        if (column === enemyColumn) {
-          for (let i = fromRow + 1; i < toRow; i++) {
-            if (board[i][column].state !== "empty") {
-              result.pop();
-              break;
-            }
-          }
-        } else {
-          for (let i = fromColumn + 1; i < toColumn; i++) {
-            if (board[row][i].state !== "empty") {
-              result.pop();
-              break;
-            }
-          }
-        }
       }
     }
   }
 
   return result;
+};
+
+const canRookReach = (board: Cell[][], rookCell: Cell, targetCell: CellIndex): boolean => {
+  const [rookRow, rookColumn] = rookCell.index;
+  const [targetRow, targetColumn] = targetCell;
+
+  if (rookRow !== targetRow && rookColumn !== targetColumn) {
+    return false;
+  }
+
+  const [fromRow, toRow] = targetRow < rookRow ? [targetRow, rookRow] : [rookRow, targetRow];
+  const [fromColumn, toColumn] = targetColumn < rookColumn ? [targetColumn, rookColumn] : [rookColumn, targetColumn];
+
+  if (rookRow === targetRow) {
+    for (let i = fromColumn + 1; i < toColumn; i++) {
+      const isEmpty = board[rookRow][i].state === "empty"; 
+      const isKing = (board[rookRow][i].state as Piece).name === PieceNames.KING;
+      const isAlly = (board[rookRow][i].state as Piece).color === (rookCell.state as Piece).color;
+      
+      if ((!isEmpty && !isKing) || (isKing && isAlly)) {
+        return false;
+      }
+    }
+  } else {
+    for (let i = fromRow + 1; i < toRow; i++) {
+      const isEmpty = board[i][rookColumn].state === "empty"; 
+      const isKing = (board[i][rookColumn].state as Piece).name === PieceNames.KING;
+      const isAlly = (board[i][rookColumn].state as Piece).color === (rookCell.state as Piece).color;
+
+      if ((!isEmpty && !isKing) || (isKing && isAlly)) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 };
 
 export const calculatePossibleMoves = (board: Cell[][], selected: Cell): CellIndex[] => {
@@ -310,55 +328,6 @@ const getEnemies = (board: Cell[][], color: PieceColor): Cell[] => {
   }
 
   return enemyPieces;
-};
-
-// const getUnsaveCells = (board: Cell[][], piece: Piece): CellIndex[] => {
-//   const enemies = getEnemies(board, piece.color);
-
-//   const enemyMoves: CellIndex[] = [];
-  
-//   enemies.forEach((cell) => {
-//     const piece = cell.state as Piece;
-//     const position = cell.index;
-    
-    
-//     let result: CellIndex[] = [];
-    
-//     if (piece.name === PieceNames.KNIGHT) {
-//       result = knightMove(board, piece, position);
-//     }
-
-//     if (piece.name === PieceNames.ROOK) {
-//       result = rookMove(board, piece, position);
-//     }
-
-//     if (piece.name === PieceNames.BISHOP) {
-//       result = bishopMove(board, piece, position);
-//     }
-
-//     if (piece.name === PieceNames.QUEEN) {
-//       result = queenMove(board, piece, position);
-//     }
-
-//     enemyMoves.push(...result);
-//   });
-    
-//   return enemyMoves;
-// };
-
-const isSave = (enemies: Cell[], row: number, column: number): boolean => {
-  for (let i = 0; i < enemies.length; i++) {
-    const enemyPiece = enemies[i].state as Piece;
-    const [enemyRow, enemyColumn] = enemies[i].index;
-
-    if (enemyPiece.name === PieceNames.ROOK) {
-      if (enemyRow !== row && enemyColumn !== column) {
-        continue;
-      }
-    }
-  }
-
-  return true;
 };
 
 const kingMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
