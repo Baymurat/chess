@@ -11,16 +11,16 @@ const Cell = ({
   isPossibleMove, isImpossibleMove, isSelected, isWhite, index, children, state
 }: Props) => {
   const dispatch = useDispatch();
-  const isUnderAttack = state !== "empty";
+  const isUnderAttack = state !== "empty" && isPossibleMove;
 
   return (
     <div 
       className={cx(styles.cell, { 
         [styles.white]: isWhite,
         [styles.possibleMove]: isPossibleMove,
-        [styles.impossibleMove]: isImpossibleMove,
         [styles.selected]: isSelected,
         [styles.underAttack]: isUnderAttack,
+        [styles.impossibleMove]: isImpossibleMove,
       })}
       onClick={() => dispatch(onClickCell({ index }))}
     >

@@ -1,5 +1,5 @@
 import { Cell, Piece, PieceNames, PieceColor, CellIndex } from "../types/types";
-
+import { rookMove, canRookReach } from "./rookHelper";
 export const calculateImpossibleMoves = (board: Cell[][], piece: Piece, possibleMoves: CellIndex[]): CellIndex[] => {
   const result: CellIndex[] = [];
   const enemies = getEnemies(board, piece.color);
@@ -10,11 +10,6 @@ export const calculateImpossibleMoves = (board: Cell[][], piece: Piece, possible
     for (let j = 0; j < enemies.length; j++) {
       const enemyPiece = enemies[j].state as Piece;
 
-      if (enemyPiece.name === PieceNames.ROOK) {
-        const moves = canRookReach(board, enemies[j], possibleMoves[i]);
-        console.log(moves, enemies[j].index, possibleMoves[i]);
-      }
-      
       if (enemyPiece.name === PieceNames.ROOK && canRookReach(board, enemies[j], possibleMoves[i])) {
         result.push([row, column]);
       }
@@ -22,42 +17,6 @@ export const calculateImpossibleMoves = (board: Cell[][], piece: Piece, possible
   }
 
   return result;
-};
-
-const canRookReach = (board: Cell[][], rookCell: Cell, targetCell: CellIndex): boolean => {
-  const [rookRow, rookColumn] = rookCell.index;
-  const [targetRow, targetColumn] = targetCell;
-
-  if (rookRow !== targetRow && rookColumn !== targetColumn) {
-    return false;
-  }
-
-  const [fromRow, toRow] = targetRow < rookRow ? [targetRow, rookRow] : [rookRow, targetRow];
-  const [fromColumn, toColumn] = targetColumn < rookColumn ? [targetColumn, rookColumn] : [rookColumn, targetColumn];
-
-  if (rookRow === targetRow) {
-    for (let i = fromColumn + 1; i < toColumn; i++) {
-      const isEmpty = board[rookRow][i].state === "empty"; 
-      const isKing = (board[rookRow][i].state as Piece).name === PieceNames.KING;
-      const isAlly = (board[rookRow][i].state as Piece).color === (rookCell.state as Piece).color;
-      
-      if ((!isEmpty && !isKing) || (isKing && isAlly)) {
-        return false;
-      }
-    }
-  } else {
-    for (let i = fromRow + 1; i < toRow; i++) {
-      const isEmpty = board[i][rookColumn].state === "empty"; 
-      const isKing = (board[i][rookColumn].state as Piece).name === PieceNames.KING;
-      const isAlly = (board[i][rookColumn].state as Piece).color === (rookCell.state as Piece).color;
-
-      if ((!isEmpty && !isKing) || (isKing && isAlly)) {
-        return false;
-      }
-    }
-  }
-
-  return true;
 };
 
 export const calculatePossibleMoves = (board: Cell[][], selected: Cell): CellIndex[] => {
@@ -187,65 +146,6 @@ const moveHelper = (board: Cell[][], color:PieceColor, row: number, column: numb
   }
 
   return [false, true];
-};
-
-const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
-  const [row, column] = position;
-  const result: CellIndex[] = [];
-
-  // TO RIGHT
-  for (let i = column + 1; i < 8; i++) {
-    const [isAdd, isBreak] = moveHelper(board, piece.color, row, i);
-
-    if (isAdd) {
-      result.push([row, i]);
-    }
-
-    if (isBreak) {
-      break;
-    }
-  }
-
-  // TO LEFT
-  for (let i = column - 1; i > -1; i--) {
-    const [isAdd, isBreak] = moveHelper(board, piece.color, row, i);
-
-    if (isAdd) {
-      result.push([row, i]);
-    }
-
-    if (isBreak) {
-      break;
-    }
-  }
-
-  // UP
-  for (let i = row + 1; i < 8; i++) {
-    const [isAdd, isBreak] = moveHelper(board, piece.color, i, column);
-
-    if (isAdd) {
-      result.push([i, column]);
-    }
-
-    if (isBreak) {
-      break;
-    }
-  }
-
-  // DOWN
-  for (let i = row - 1; i > -1; i--) {
-    const [isAdd, isBreak] = moveHelper(board, piece.color, i, column);
-
-    if (isAdd) {
-      result.push([i, column]);
-    }
-
-    if (isBreak) {
-      break;
-    }
-  }
-
-  return result;
 };
 
 const bishopMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
