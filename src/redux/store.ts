@@ -23,8 +23,9 @@ listenerMiddleware.startListening({
     const [currentRow, currentColumn] = index;
     const clickedCell = board[currentRow][currentColumn];
     const isEmpty =  clickedCell.state === "empty";
+    const isEnemy = (clickedCell.state as Piece).color !== boardStore.turn;
 
-    if (isEmpty) {
+    if (isEmpty || isEnemy) {
       if (clickedCell.isPossibleMove) {
         if (!clickedCell.isImpossibleMove) {
           const from: CellIndex = [prevRow, prevColumn];
@@ -35,33 +36,19 @@ listenerMiddleware.startListening({
       } else {
         listenerApi.dispatch(clearValues());
       }
-    } else {
-      const isEnemy = (clickedCell.state as Piece).color !== boardStore.turn;
 
-      if (isEnemy) {
-        if (clickedCell.isPossibleMove) {
-          if (!clickedCell.isImpossibleMove) {
-            const from: CellIndex = [prevRow, prevColumn];
-            const to: CellIndex = [currentRow, currentColumn];
-            listenerApi.dispatch(movePiece({ from, to }));
-            listenerApi.dispatch(clearValues());
-          }
-        } else {
-          listenerApi.dispatch(clearValues());
-        }
-      } else {
-        listenerApi.dispatch(clearValues());
-        listenerApi.dispatch(setSelectedCell({ index }));
+      return;
+    }
 
-        const clickedCell = board[currentRow][currentColumn];
-        const possibleMoves = calculatePossibleMoves(board, clickedCell);
-        listenerApi.dispatch(setPossibleMoves({ possibleMoves }));
-        
-        if ((clickedCell.state as Piece).name === PieceNames.KING) {
-          const impossibleMoves = calculateImpossibleMoves(board, clickedCell.state as Piece, possibleMoves);
-          listenerApi.dispatch(setImpossibleMoves({ impossibleMoves }));
-        }
-      }
+    listenerApi.dispatch(clearValues());
+    listenerApi.dispatch(setSelectedCell({ index }));
+
+    const possibleMoves = calculatePossibleMoves(board, clickedCell);
+    listenerApi.dispatch(setPossibleMoves({ possibleMoves }));
+    
+    if ((clickedCell.state as Piece).name === PieceNames.KING) {
+      const impossibleMoves = calculateImpossibleMoves(board, clickedCell.state as Piece, possibleMoves);
+      listenerApi.dispatch(setImpossibleMoves({ impossibleMoves }));
     }
   }
 });
