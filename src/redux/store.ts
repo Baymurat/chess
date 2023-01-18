@@ -26,10 +26,12 @@ listenerMiddleware.startListening({
 
     if (isEmpty) {
       if (clickedCell.isPossibleMove) {
-        const from: CellIndex = [prevRow, prevColumn];
-        const to: CellIndex = [currentRow, currentColumn];
-        listenerApi.dispatch(movePiece({ from, to }));
-        listenerApi.dispatch(clearValues());
+        if (!clickedCell.isImpossibleMove) {
+          const from: CellIndex = [prevRow, prevColumn];
+          const to: CellIndex = [currentRow, currentColumn];
+          listenerApi.dispatch(movePiece({ from, to }));
+          listenerApi.dispatch(clearValues());
+        }
       } else {
         listenerApi.dispatch(clearValues());
       }
@@ -38,10 +40,12 @@ listenerMiddleware.startListening({
 
       if (isEnemy) {
         if (clickedCell.isPossibleMove) {
-          const from: CellIndex = [prevRow, prevColumn];
-          const to: CellIndex = [currentRow, currentColumn];
-          listenerApi.dispatch(movePiece({ from, to }));
-          listenerApi.dispatch(clearValues());
+          if (!clickedCell.isImpossibleMove) {
+            const from: CellIndex = [prevRow, prevColumn];
+            const to: CellIndex = [currentRow, currentColumn];
+            listenerApi.dispatch(movePiece({ from, to }));
+            listenerApi.dispatch(clearValues());
+          }
         } else {
           listenerApi.dispatch(clearValues());
         }
@@ -54,7 +58,6 @@ listenerMiddleware.startListening({
         listenerApi.dispatch(setPossibleMoves({ possibleMoves }));
         
         if ((clickedCell.state as Piece).name === PieceNames.KING) {
-          console.log("KING");
           const impossibleMoves = calculateImpossibleMoves(board, clickedCell.state as Piece, possibleMoves);
           listenerApi.dispatch(setImpossibleMoves({ impossibleMoves }));
         }
