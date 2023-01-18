@@ -1,4 +1,4 @@
-import { Cell, Piece, PieceNames, PieceColor, CellIndex } from "../types/types";
+import { Cell, Piece, CellIndex } from "../types/types";
 import { rookMove, canRookReach } from "./rookHelper";
 import { bishopMove, canBishopReach } from "./bishopHelper";
 
