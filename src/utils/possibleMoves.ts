@@ -3,6 +3,7 @@ import { rookMove, canRookReach } from "./rookHelper";
 import { pawnMove, canPawnReach } from "./pawnHelper";
 import { knightMove, canKnightReach } from "./knightHelper";
 import { bishopMove, canBishopReach } from "./bishopHelper";
+import { queenMove, canQueenReach } from "./queenHelper";
 import { kingMove } from "./kingHelper";
 
 export const calculateImpossibleMoves = (board: Cell[][], piece: Piece, possibleMoves: CellIndex[]): CellIndex[] => {
@@ -34,6 +35,11 @@ export const calculateImpossibleMoves = (board: Cell[][], piece: Piece, possible
         result.push([row, column]);
         continue;
       }
+
+      if (enemyPiece.name === PieceNames.QUEEN && canQueenReach(board, enemies[j], possibleMoves[i])) {
+        result.push([row, column]);
+        continue;
+      }
     }
   }
 
@@ -61,10 +67,7 @@ export const calculatePossibleMoves = (board: Cell[][], selected: Cell): CellInd
   }
 
   if (piece.name === PieceNames.QUEEN) {
-    const rookMoves = rookMove(board, piece, position);
-    const bishopMoves = bishopMove(board, piece, position);
-  
-    return [...rookMoves, ...bishopMoves];
+    return queenMove(board, piece, position);
   }
 
   if (piece.name === PieceNames.KING) {
