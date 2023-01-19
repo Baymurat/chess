@@ -1,6 +1,7 @@
 /* eslint-disable */
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const Dotenv = require('dotenv-webpack')
 
 module.exports = {
   entry: {
@@ -49,6 +50,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "public", "index.html")
-    })
+    }),
+    new Dotenv()
   ]
 };
