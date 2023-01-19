@@ -1,3 +1,5 @@
+import { of } from "rxjs";
+import { map } from "rxjs/operators";
 import { Piece, Cell, CellIndex, PieceColor } from "../types/types";
 import { PieceNames } from "../types/types";
 
@@ -166,11 +168,13 @@ export const generateBoard = (): Cell[][] => {
   }
 
   let board: Cell[][] = [];
-  board = createEmptyBoard();
-  board = initOfficers(board, "white");
-  board = initOfficers(board, "black");
-  board = initPawns(board, "white");
-  board = initPawns(board, "black");
+
+  of(createEmptyBoard()).pipe(
+    map((board) => initOfficers(board, "white")),
+    map((board) => initOfficers(board, "black")),
+    map((board) => initPawns(board, "black")),
+    map((board) => initPawns(board, "white")),
+  ).subscribe((b) => (board = b));
 
   return board; 
 };
