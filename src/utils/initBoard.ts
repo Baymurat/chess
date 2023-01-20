@@ -35,6 +35,7 @@ const createCell = (state: "empty" | Piece , index: CellIndex, isWhite: boolean)
   isPossibleMove: false,
   isImpossibleMove: false,
   isSelected: false,
+  isReachableCell: false,
   index,
   state,
   isWhite,

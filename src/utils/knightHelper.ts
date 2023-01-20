@@ -1,4 +1,4 @@
-import { Cell, Piece, CellIndex } from "../types/types";
+import { Cell, Piece, CellIndex, ReachableCell } from "../types/types";
 
 const getKnightDirections = (position: CellIndex): CellIndex[] => {
   const [row, column] = position;
@@ -25,6 +25,24 @@ const getKnightDirections = (position: CellIndex): CellIndex[] => {
   ];
 
   return allDirections.filter(([,,canMove]) => canMove).map(([r, c]) => ([r, c]));
+};
+
+export const knightMove2 = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
+  const [row, column] = position;
+  const result: ReachableCell[] = [];
+
+  getKnightDirections([row, column]).forEach(([v, h]) => {
+    const isEmpty = board[v][h].state === "empty";
+    const isEnemy = (board[v][h].state as Piece).color !== piece.color;
+    const reachableCell: ReachableCell = {
+      index: [v, h],
+      isPossibleMove: true
+    };
+
+    (isEmpty || isEnemy) && result.push(reachableCell);
+  });
+  
+  return result;
 };
 
 export const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {

@@ -21,7 +21,10 @@ export type Cell = {
   isPossibleMove: boolean;
   isImpossibleMove: boolean;
   isWhite: boolean;
+  isReachableCell: boolean;
 }
+
+export type ReachableCell = Pick<Cell, "index" | "isPossibleMove">;
 
 export type BoardStore = {
   board: Cell[][];
@@ -31,6 +34,7 @@ export type BoardStore = {
   possibleMoves: CellIndex[];
   impossibleMoves: CellIndex[];
   turn: PieceColor;
+  reachableCells: ReachableCell[];
 }
 
 export type PieceColor = "white" | "black"

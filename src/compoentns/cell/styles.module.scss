@@ -1,3 +1,7 @@
+$green: #57ad57;
+$red: #db6f6f;
+$yellow: #cbb64a;
+
 .cell {
   width: 50px;
   height: 50px;
@@ -21,30 +25,37 @@
   pointer-events: none;
 }
 
-.possibleMove {
+.selected {
+  background: #cbb64a;
+}
+
+.reachable {
   &::before {
     content: '';
     position: absolute;
     width: 25%;
     height: 25%;
     border-radius: 50%;
-    background: #cbb64a;
+    background: $yellow;
   }
-}
 
-.underAttack {
-  background: #57ad57;
-
-  &::before {
-    content: none;
+  &.impossible::before {
+    background: $red;
   }
-}
 
-.impossibleMove {
-  background: #db6f6f;
-}
+  &.underattack {
+    background: $green;
 
+    &::before {
+      content: none;
+    }
+  }
 
-.selected {
-  background: #cbb64a;
+  &.forbidden {
+    background: $red;
+
+    &::before {
+      content: none;
+    }
+  }
 }

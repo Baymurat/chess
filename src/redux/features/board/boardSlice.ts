@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, ActionCreatorWithoutPayload, SliceCaseReducers } from "@reduxjs/toolkit";
-import { CellIndex, BoardStore } from "../../../types/types";
+import { CellIndex, BoardStore, ReachableCell } from "../../../types/types";
 import { generateBoard } from "../../../utils/initBoard";
 
 const initialState: BoardStore = {
@@ -10,6 +10,7 @@ const initialState: BoardStore = {
   possibleMoves: [],
   impossibleMoves: [],
   turn: "white",
+  reachableCells: [],
 };
 
 const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
@@ -37,12 +38,12 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
       }
     },
     setPossibleMoves(state, action: PayloadAction<{ possibleMoves: CellIndex[] }>) {
-      action.payload.possibleMoves.forEach((move) => {
-        const [r, c] = move;
-        state.board[r][c].isPossibleMove = true;
-      });
+      // action.payload.possibleMoves.forEach((move) => {
+      //   const [r, c] = move;
+      //   state.board[r][c].isPossibleMove = true;
+      // });
       
-      state.possibleMoves = action.payload.possibleMoves;
+      // state.possibleMoves = action.payload.possibleMoves;
     },
     setImpossibleMoves(state, action: PayloadAction<{ impossibleMoves: CellIndex[] }>) {
       action.payload.impossibleMoves.forEach((cell) => {
@@ -51,7 +52,24 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
       });
       state.impossibleMoves = action.payload.impossibleMoves;
     },
+    setReachableCells(state, action: PayloadAction<{ reachableCells: ReachableCell[] }>) {
+      const { reachableCells } = action.payload;
+      reachableCells.forEach(({ index }) => {
+        const [row, column] = index;
+        state.board[row][column].isReachableCell = true;
+        state.board[row][column].isPossibleMove = true;
+      });
+      state.reachableCells = action.payload.reachableCells;
+    },
     clearValues(state) {
+      state.reachableCells.forEach((cell) => {
+        const [row, column] = cell.index;
+        state.board[row][column].isReachableCell = false;
+        state.board[row][column].isPossibleMove = false;
+      });
+
+      state.reachableCells = [];
+
       state.possibleMoves.forEach((move) => {
         const [r, c] = move;
         state.board[r][c].isPossibleMove = false;
@@ -74,7 +92,7 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
 });
 
 export const {
-  movePiece, onClickCell, setSelectedCell, setPossibleMoves, setImpossibleMoves
+  movePiece, onClickCell, setSelectedCell, setPossibleMoves, setImpossibleMoves, setReachableCells
 } = boardSlice.actions;
 
 export const clearValues = boardSlice.actions.clearValues as ActionCreatorWithoutPayload<`${string}/${string}`>;
