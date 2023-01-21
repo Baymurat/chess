@@ -44,13 +44,24 @@ export const canKingReach = (board: Cell[][], kingCell: Cell, targetCell: CellIn
   return getKingDirections(kingCell.index).findIndex(([r, c]) => r === row && c === column) !== -1;
 };
 
-const moveHelper = (cell: Cell, myColor: PieceColor) => {
+const moveHelper = (cell: Cell, myColor: PieceColor, throughAxis: boolean) => {
   if (cell.state === "empty") {
     return [false, false];
   }
 
   const isEnemy = cell.state.color !== myColor;
-  return isEnemy ? [true, true] : [false, true];
+
+  if (isEnemy) {
+    const isQueen = cell.state.name === PieceNames.QUEEN;
+    const isRook = throughAxis && cell.state.name === PieceNames.ROOK;
+    const isBishop = !throughAxis && cell.state.name === PieceNames.BISHOP;
+
+    if (isQueen || isRook || isBishop) {
+      return [true, true];
+    }
+  }
+
+  return [false, true];
 };
 
 export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolean => {
@@ -62,7 +73,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   const color = (board[row][column].state as Piece).color;
 
   for (let i = row + 1; i < 8; i++) {
-    const [inDanger, isBreak] = moveHelper(board[i][column], color);
+    const [inDanger, isBreak] = moveHelper(board[i][column], color, true);
 
     if (inDanger) {
       return true;
@@ -74,7 +85,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   }
 
   for (let i = row - 1; i > -1; i--) {
-    const [inDanger, isBreak] = moveHelper(board[i][column], color);
+    const [inDanger, isBreak] = moveHelper(board[i][column], color, true);
 
     if (inDanger) {
       return true;
@@ -86,7 +97,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   }
 
   for (let i = column + 1; i < 8; i++) {
-    const [inDanger, isBreak] = moveHelper(board[row][i], color);
+    const [inDanger, isBreak] = moveHelper(board[row][i], color, true);
 
     if (inDanger) {
       return true;
@@ -98,9 +109,65 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   }
 
   for (let i = column - 1; i > -1; i--) {
-    const [inDanger, isBreak] = moveHelper(board[row][i], color);
+    const [inDanger, isBreak] = moveHelper(board[row][i], color, true);
 
     if (inDanger) {
+      return true;
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
+  for (let i = row + 1, j = column + 1; i < 8 && j < 8; i++, j++) {
+    const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
+
+    if (inDanger) {
+      console.log("d");
+
+      return true;
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
+  for (let i = row - 1, j = column + 1; i > -1 && j < 8; i--, j++) {
+    const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
+
+    if (inDanger) {
+      console.log("c");
+
+      return true;
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
+  for (let i = row - 1, j = column - 1; i > -1 && j > -1; i--, j--) {
+    const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
+
+    if (inDanger) {
+      console.log("b");
+
+      return true;
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
+  for (let i = row + 1, j = column - 1; i < 8 && j > -1; i++, j--) {
+    const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
+
+    if (inDanger) {
+      console.log("a");
+      
       return true;
     }
 
