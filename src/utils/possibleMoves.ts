@@ -2,7 +2,7 @@ import { Cell, Piece, PieceNames, PieceColor, CellIndex, ReachableCell } from ".
 import { rookMove2, rookMove, canRookReach } from "./rookHelper";
 import { pawnMove, canPawnReach } from "./pawnHelper";
 import { knightMove2, knightMove, canKnightReach } from "./knightHelper";
-import { bishopMove, canBishopReach } from "./bishopHelper";
+import { bishopMove2, bishopMove, canBishopReach } from "./bishopHelper";
 import { queenMove, canQueenReach } from "./queenHelper";
 import { kingMove, canKingReach } from "./kingHelper";
 
@@ -62,6 +62,10 @@ export const calculateReachableCells = (board: Cell[][], selected: Cell): Reacha
 
   if (piece.name === PieceNames.KNIGHT) {
     return knightMove2(board, piece, position);
+  }
+
+  if (piece.name === PieceNames.BISHOP) {
+    return bishopMove2(board, piece, position);
   }
 
   return [];
