@@ -45,7 +45,7 @@ listenerMiddleware.startListening({
     const possibleMoves = calculatePossibleMoves(board, clickedCell);
     const reachableCells = calculateReachableCells(board, clickedCell);
 
-    listenerApi.dispatch(setPossibleMoves({ possibleMoves }));
+    // listenerApi.dispatch(setPossibleMoves({ possibleMoves }));
     listenerApi.dispatch(setReachableCells({ reachableCells }));
     
     if ((clickedCell.state as Piece).name === PieceNames.KING) {

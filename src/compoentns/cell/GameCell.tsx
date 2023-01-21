@@ -8,39 +8,33 @@ import { Cell } from "../../types/types";
 type Props = PropsWithChildren & Cell;
 
 const Cell = ({
-  isPossibleMove, isImpossibleMove, isSelected, isWhite, index, children, state, isReachableCell
+  isPossibleMove, 
+  isImpossibleMove, 
+  isSelected,
+  isWhite,
+  index, 
+  children, 
+  state,
+  isReachableCell,
+  isKing,
 }: Props) => {
   const dispatch = useDispatch();
   const isUnderAttack = state !== "empty" && isPossibleMove;
 
   return (
-    <>
-      {/* <div 
-        className={cx(styles.cell, { 
-          [styles.white]: isWhite,
-          [styles.possibleMove]: isPossibleMove,
-          [styles.selected]: isSelected,
-          [styles.underAttack]: isUnderAttack,
-          [styles.impossibleMove]: isImpossibleMove,
-        })}
-        onClick={() => dispatch(onClickCell({ index }))}
-      >
-        {children}
-      </div> */}
-      <div 
-        className={cx(styles.cell, { 
-          [styles.white]: isWhite,
-          [styles.selected]: isSelected,
-          [styles.reachable]: isReachableCell,
-          [styles.impossible]: !isPossibleMove,
-          [styles.underattack]: isUnderAttack,
-          [styles.forbidden]: isImpossibleMove,
-        })}
-        onClick={() => dispatch(onClickCell({ index }))}
-      >
-        {children}
-      </div>
-    </>
+    <div 
+      className={cx(styles.cell, { 
+        [styles.white]: isWhite,
+        [styles.selected]: isSelected,
+        [styles.reachable]: isReachableCell,
+        [styles.impossible]: !isPossibleMove,
+        [styles.underattack]: isUnderAttack,
+        [styles.forbidden]: !isPossibleMove && isKing,
+      })}
+      onClick={() => dispatch(onClickCell({ index }))}
+    >
+      {children}
+    </div>
   );
 };
 

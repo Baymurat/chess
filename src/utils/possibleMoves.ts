@@ -4,7 +4,7 @@ import { pawnMove2, canPawnReach } from "./pawnHelper";
 import { knightMove2, canKnightReach } from "./knightHelper";
 import { bishopMove2, canBishopReach } from "./bishopHelper";
 import { queenMove2, canQueenReach } from "./queenHelper";
-import { kingMove, canKingReach } from "./kingHelper";
+import { kingMove2, canKingReach } from "./kingHelper";
 
 export const calculateImpossibleMoves = (board: Cell[][], piece: Piece, possibleMoves: CellIndex[]): CellIndex[] => {
   const result: CellIndex[] = [];
@@ -76,6 +76,10 @@ export const calculateReachableCells = (board: Cell[][], selected: Cell): Reacha
     return pawnMove2(board, piece, position);
   }
 
+  if (piece.name === PieceNames.KING) {
+    return kingMove2(board, piece, position);
+  }
+
   return [];
 };
 
@@ -83,9 +87,9 @@ export const calculatePossibleMoves = (board: Cell[][], selected: Cell): CellInd
   const piece = selected.state as Piece;
   const position = selected.index;
 
-  if (piece.name === PieceNames.KING) {
-    return kingMove(board, piece, position);
-  }
+  // if (piece.name === PieceNames.KING) {
+  //   return kingMove(board, piece, position);
+  // }
 
   return [];
 };

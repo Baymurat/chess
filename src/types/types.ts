@@ -22,9 +22,10 @@ export type Cell = {
   isImpossibleMove: boolean;
   isWhite: boolean;
   isReachableCell: boolean;
+  isKing?: boolean;
 }
 
-export type ReachableCell = Pick<Cell, "index" | "isPossibleMove">;
+export type ReachableCell = Pick<Cell, "index" | "isPossibleMove" | "isKing">;
 
 export type BoardStore = {
   board: Cell[][];

@@ -1,4 +1,4 @@
-import { Cell, Piece, CellIndex, PieceColor, PieceNames } from "../types/types";
+import { Cell, Piece, CellIndex, PieceColor, PieceNames, ReachableCell } from "../types/types";
 
 const getKingDirections = (position: CellIndex): CellIndex[] => {
   const [row, column] = position;
@@ -23,15 +23,23 @@ const getKingDirections = (position: CellIndex): CellIndex[] => {
   return allDirections.filter(([,,canMove]) => canMove).map(([r, c]) => ([r, c]));
 };
 
-export const kingMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
-  const result: CellIndex[] = [];
+export const kingMove2 = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
+  const result: ReachableCell[] = [];
 
   getKingDirections(position).forEach(([v, h]) => {  
     const isEmpty = board[v][h].state === "empty";
     const isEnemy = (board[v][h].state as Piece).color !== piece.color;
+    const draftBoard = copyBoard(board);
 
+    const to: CellIndex = [v, h];
+
+    const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, position, to), to);
     if (isEmpty || isEnemy) {
-      result.push([v, h]);
+      result.push({
+        index: [v, h], 
+        isKing: true,
+        isPossibleMove,
+      });
     }
   });
 
