@@ -3,7 +3,7 @@ import { rookMove2, rookMove, canRookReach } from "./rookHelper";
 import { pawnMove, canPawnReach } from "./pawnHelper";
 import { knightMove2, knightMove, canKnightReach } from "./knightHelper";
 import { bishopMove2, bishopMove, canBishopReach } from "./bishopHelper";
-import { queenMove, canQueenReach } from "./queenHelper";
+import { queenMove2, canQueenReach } from "./queenHelper";
 import { kingMove, canKingReach } from "./kingHelper";
 
 export const calculateImpossibleMoves = (board: Cell[][], piece: Piece, possibleMoves: CellIndex[]): CellIndex[] => {
@@ -68,6 +68,10 @@ export const calculateReachableCells = (board: Cell[][], selected: Cell): Reacha
     return bishopMove2(board, piece, position);
   }
 
+  if (piece.name === PieceNames.QUEEN) {
+    return queenMove2(board, piece, position);
+  }
+
   return [];
 };
 
@@ -79,21 +83,21 @@ export const calculatePossibleMoves = (board: Cell[][], selected: Cell): CellInd
     return pawnMove(board, piece, position);
   }
 
-  if (piece.name === PieceNames.KNIGHT) {
-    return knightMove(board, piece, position);
-  }
+  // if (piece.name === PieceNames.KNIGHT) {
+  //   return knightMove(board, piece, position);
+  // }
 
-  if (piece.name === PieceNames.ROOK) {
-    return rookMove(board, piece, position);
-  }
+  // if (piece.name === PieceNames.ROOK) {
+  //   return rookMove(board, piece, position);
+  // }
   
-  if (piece.name === PieceNames.BISHOP) {
-    return bishopMove(board, piece, position);
-  }
+  // if (piece.name === PieceNames.BISHOP) {
+  //   return bishopMove(board, piece, position);
+  // }
 
-  if (piece.name === PieceNames.QUEEN) {
-    return queenMove(board, piece, position);
-  }
+  // if (piece.name === PieceNames.QUEEN) {
+  //   return queenMove(board, piece, position);
+  // }
 
   if (piece.name === PieceNames.KING) {
     return kingMove(board, piece, position);

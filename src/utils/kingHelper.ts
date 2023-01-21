@@ -124,8 +124,6 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
     const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
 
     if (inDanger) {
-      console.log("d");
-
       return true;
     }
 
@@ -138,8 +136,6 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
     const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
 
     if (inDanger) {
-      console.log("c");
-
       return true;
     }
 
@@ -152,8 +148,6 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
     const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
 
     if (inDanger) {
-      console.log("b");
-
       return true;
     }
 
@@ -166,8 +160,6 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
     const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
 
     if (inDanger) {
-      console.log("a");
-      
       return true;
     }
 

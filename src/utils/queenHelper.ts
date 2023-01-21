@@ -1,10 +1,10 @@
-import { Cell, Piece, CellIndex } from "../types/types";
-import { rookMove, canRookReach } from "./rookHelper";
-import { bishopMove, canBishopReach } from "./bishopHelper";
+import { Cell, Piece, CellIndex, ReachableCell } from "../types/types";
+import { rookMove2, canRookReach } from "./rookHelper";
+import { bishopMove2, canBishopReach } from "./bishopHelper";
 
-export const queenMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
-  const rookLikeMoves = rookMove(board, piece, position);
-  const bishopLikeMoves = bishopMove(board, piece, position);
+export const queenMove2 = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
+  const rookLikeMoves = rookMove2(board, piece, position);
+  const bishopLikeMoves = bishopMove2(board, piece, position);
 
   return [...rookLikeMoves, ...bishopLikeMoves];
 };
