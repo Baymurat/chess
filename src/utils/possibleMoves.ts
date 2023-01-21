@@ -1,5 +1,5 @@
 import { Cell, Piece, PieceNames, PieceColor, CellIndex, ReachableCell } from "../types/types";
-import { rookMove, canRookReach } from "./rookHelper";
+import { rookMove2, rookMove, canRookReach } from "./rookHelper";
 import { pawnMove, canPawnReach } from "./pawnHelper";
 import { knightMove2, knightMove, canKnightReach } from "./knightHelper";
 import { bishopMove, canBishopReach } from "./bishopHelper";
@@ -55,6 +55,10 @@ export const calculateImpossibleMoves = (board: Cell[][], piece: Piece, possible
 export const calculateReachableCells = (board: Cell[][], selected: Cell): ReachableCell[] => {
   const piece = selected.state as Piece;
   const position = selected.index;
+
+  if (piece.name === PieceNames.ROOK) {
+    return rookMove2(board, piece, position);
+  }
 
   if (piece.name === PieceNames.KNIGHT) {
     return knightMove2(board, piece, position);

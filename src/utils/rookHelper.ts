@@ -1,4 +1,4 @@
-import { Cell, Piece, PieceNames, PieceColor, CellIndex } from "../types/types";
+import { Cell, Piece, PieceNames, PieceColor, CellIndex, ReachableCell } from "../types/types";
 
 const moveHelper = (board: Cell[][], color:PieceColor, row: number, column: number) => {
   if (board[row][column].state === "empty") {
@@ -12,6 +12,66 @@ const moveHelper = (board: Cell[][], color:PieceColor, row: number, column: numb
   }
 
   return [false, true];
+};
+
+export const rookMove2 = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
+  const [row, column] = position;
+  const result: ReachableCell[] = [];
+
+  // TO RIGHT
+  for (let i = column + 1; i < 8; i++) {
+    const [isAdd, isBreak] = moveHelper(board, piece.color, row, i);
+
+    if (isAdd) {
+      result.push({ index: [row, i], isPossibleMove: true });
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
+  // TO LEFT
+  for (let i = column - 1; i > -1; i--) {
+    const [isAdd, isBreak] = moveHelper(board, piece.color, row, i);
+
+    if (isAdd) {
+      result.push({ index: [row, i], isPossibleMove: true });
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
+  // UP
+  for (let i = row + 1; i < 8; i++) {
+    const [isAdd, isBreak] = moveHelper(board, piece.color, i, column);
+
+    if (isAdd) {
+      result.push({ index: [i, column], isPossibleMove: true });
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
+  // DOWN
+  for (let i = row - 1; i > -1; i--) {
+    const [isAdd, isBreak] = moveHelper(board, piece.color, i, column);
+
+    if (isAdd) {
+      result.push({ index: [i, column], isPossibleMove: true });
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
+
+  return result;
 };
 
 export const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
