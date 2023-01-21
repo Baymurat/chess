@@ -28,12 +28,10 @@ listenerMiddleware.startListening({
 
     if (isEmpty || isEnemy) {
       if (clickedCell.isPossibleMove) {
-        if (!clickedCell.isImpossibleMove) {
-          const from: CellIndex = [prevRow, prevColumn];
-          const to: CellIndex = [currentRow, currentColumn];
-          listenerApi.dispatch(movePiece({ from, to }));
-          listenerApi.dispatch(clearValues());
-        }
+        const from: CellIndex = [prevRow, prevColumn];
+        const to: CellIndex = [currentRow, currentColumn];
+        listenerApi.dispatch(movePiece({ from, to }));
+        listenerApi.dispatch(clearValues());
       } else {
         listenerApi.dispatch(clearValues());
       }

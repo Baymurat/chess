@@ -54,10 +54,10 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
     },
     setReachableCells(state, action: PayloadAction<{ reachableCells: ReachableCell[] }>) {
       const { reachableCells } = action.payload;
-      reachableCells.forEach(({ index }) => {
+      reachableCells.forEach(({ index, isPossibleMove }) => {
         const [row, column] = index;
         state.board[row][column].isReachableCell = true;
-        state.board[row][column].isPossibleMove = true;
+        state.board[row][column].isPossibleMove = isPossibleMove;
       });
       state.reachableCells = action.payload.reachableCells;
     },
