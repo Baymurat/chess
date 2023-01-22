@@ -49,10 +49,12 @@ const swap = (cell: Cell): string => {
 };
 
 export const printBoard = (board: Cell[][]): void => {
-  board.forEach((row) => {
-    const str = row.reduce((acc, curr) => (acc + ` '${swap(curr)}'`), "");
-    console.log(str);
-  });
+  copyBoard(board)
+    .reverse()
+    .forEach((row, i) => {
+      const str = row.reduce((acc, curr) => (acc + ` '${swap(curr)}'`), "");
+      console.log(i, str);
+    });
 
   console.log("______________________");
 };
