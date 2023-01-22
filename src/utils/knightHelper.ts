@@ -27,7 +27,7 @@ const getKnightDirections = (position: CellIndex): CellIndex[] => {
   return allDirections.filter(([,,canMove]) => canMove).map(([r, c]) => ([r, c]));
 };
 
-export const knightMove2 = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
+export const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
   const [row, column] = position;
   const result: ReachableCell[] = [];
 
@@ -40,20 +40,6 @@ export const knightMove2 = (board: Cell[][], piece: Piece, position: CellIndex):
     };
 
     (isEmpty || isEnemy) && result.push(reachableCell);
-  });
-  
-  return result;
-};
-
-export const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
-  const [row, column] = position;
-  const result: CellIndex[] = [];
-
-  getKnightDirections([row, column]).forEach(([v, h]) => {
-    const isEmpty = board[v][h].state === "empty";
-    const isEnemy = (board[v][h].state as Piece).color !== piece.color;
-
-    (isEmpty || isEnemy) && result.push([v, h]);
   });
   
   return result;

@@ -16,7 +16,7 @@ const moveHelper = (board: Cell[][], color:PieceColor, row: number, column: numb
   return [false, true];
 };
 
-export const bishopMove2 = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
+export const bishopMove = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
   const [row, column] = position;
   const [kingRow, kingColumn] = getKingPosition(board, piece.color);
 
@@ -90,64 +90,5 @@ export const bishopMove2 = (board: Cell[][], piece: Piece, position: CellIndex):
     }
   }
 
-  return result;
-};
-
-export const bishopMove = (board: Cell[][], piece: Piece, position: CellIndex): CellIndex[] => {
-  const [row, column] = position;
-  const result: CellIndex[] = [];
-
-  // UP RIGHT
-  for (let i = row + 1, j = column + 1; i < 8 && j < 8; i++, j++) {
-    const [isAdd, isBreak] = moveHelper(board, piece.color, i, j);
-
-    if (isAdd) {
-      result.push([i, j]);
-    }
-
-    if (isBreak) {
-      break;
-    }
-  }
-
-  // UP LEFT
-  for (let i = row + 1, j = column - 1; i < 8 && j > -1; i++, j--) {
-    const [isAdd, isBreak] = moveHelper(board, piece.color, i, j);
-  
-    if (isAdd) {
-      result.push([i, j]);
-    }
-
-    if (isBreak) {
-      break;
-    }
-  }
-    
-  // DOWN LEFT
-  for (let i = row - 1, j = column - 1; i > -1 && j > -1; i--, j--) {
-    const [isAdd, isBreak] = moveHelper(board, piece.color, i, j);
-    
-    if (isAdd) {
-      result.push([i, j]);
-    }
-  
-    if (isBreak) {
-      break;
-    }
-  }
-    
-  // DOWN RIGHT
-  for (let i = row - 1, j = column + 1; i > -1 && j < 8; i--, j++) {
-    const [isAdd, isBreak] = moveHelper(board, piece.color, i, j);
-      
-    if (isAdd) {
-      result.push([i, j]);
-    }
-    
-    if (isBreak) {
-      break;
-    }
-  }
-    
   return result;
 };

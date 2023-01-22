@@ -23,7 +23,7 @@ const getKingDirections = (position: CellIndex): CellIndex[] => {
   return allDirections.filter(([,,canMove]) => canMove).map(([r, c]) => ([r, c]));
 };
 
-export const kingMove2 = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
+export const kingMove = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
   const result: ReachableCell[] = [];
 
   getKingDirections(position).forEach(([v, h]) => {  
