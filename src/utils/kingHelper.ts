@@ -37,7 +37,7 @@ export const kingMove = (board: Cell[][], piece: Piece, position: CellIndex): Re
     if (isEmpty || isEnemy) {
       result.push({
         index: [v, h], 
-        isKing: true,
+        isForbiddenForKing: true,
         isPossibleMove,
       });
     }

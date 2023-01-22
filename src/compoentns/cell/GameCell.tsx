@@ -15,7 +15,7 @@ const Cell = ({
   children, 
   state,
   isReachableCell,
-  isKing,
+  isForbiddenForKing,
 }: Props) => {
   const dispatch = useDispatch();
   const isUnderAttack = state !== "empty" && isPossibleMove;
@@ -28,7 +28,7 @@ const Cell = ({
         [styles.reachable]: isReachableCell,
         [styles.impossible]: !isPossibleMove,
         [styles.underattack]: isUnderAttack,
-        [styles.forbidden]: !isPossibleMove && isKing,
+        [styles.forbidden]: !isPossibleMove && isForbiddenForKing,
       })}
       onClick={() => dispatch(onClickCell({ index }))}
     >
