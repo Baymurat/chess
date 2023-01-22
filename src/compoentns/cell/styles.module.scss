@@ -59,3 +59,11 @@ $yellow: #cbb64a;
     }
   }
 }
+
+:not(.selected).isTargetKing {
+  background: $red;
+
+  &::before {
+    content: none;
+  }
+}

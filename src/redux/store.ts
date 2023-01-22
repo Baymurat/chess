@@ -7,7 +7,9 @@ import boardStateReducer, {
   clearValues,
   movePiece,
   setReachableCells,
+  setKingDangerState,
 } from "./features/board/boardSlice";
+import { isKingInDanger, getKingPosition } from "../utils/kingHelper";
 
 const listenerMiddleware = createListenerMiddleware();
 
@@ -44,6 +46,19 @@ listenerMiddleware.startListening({
     listenerApi.dispatch(setReachableCells({ reachableCells }));
   }
 });
+
+listenerMiddleware.startListening({
+  actionCreator: movePiece,
+  effect: async (action, listenerApi) => {
+    const { boardStore } = listenerApi.getState() as RootState;
+
+    const kingPosition = getKingPosition(boardStore.board, boardStore.turn);
+    const kingInDanger = isKingInDanger(boardStore.board, kingPosition);
+
+    listenerApi.dispatch(setKingDangerState({ index: kingPosition, inDanger: kingInDanger }));
+  }
+});
+
 export const store = configureStore({
   reducer: {
     boardStore: boardStateReducer

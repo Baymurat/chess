@@ -11,6 +11,7 @@ const initialState: BoardStore = {
   impossibleMoves: [],
   turn: "white",
   reachableCells: [],
+  inDangerKingPosition: [-1, -1]
 };
 
 const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
@@ -29,6 +30,21 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
     onClickCell(state, action: PayloadAction<{ index: CellIndex }>) {
       state;
       action;
+    },
+    setKingDangerState(state, action: PayloadAction<{ index: CellIndex, inDanger: boolean }>) {
+      const [row, column] = action.payload.index;
+      const [prevRow, prevColumn] = state.inDangerKingPosition;
+
+      if (row === -1) {
+        return;
+      }
+
+      if (prevRow !== -1) {
+        state.board[prevRow][prevColumn].isTargetKing = false;
+      }
+
+      state.board[row][column].isTargetKing = action.payload.inDanger;
+      state.inDangerKingPosition = [row, column];
     },
     setSelectedCell(state, action: PayloadAction<{ index: CellIndex }>) {
       const [r, c] = action.payload.index;
@@ -68,7 +84,7 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
 });
 
 export const {
-  movePiece, onClickCell, setSelectedCell, setReachableCells
+  movePiece, onClickCell, setSelectedCell, setReachableCells, setKingDangerState
 } = boardSlice.actions;
 
 export const clearValues = boardSlice.actions.clearValues as ActionCreatorWithoutPayload<`${string}/${string}`>;
