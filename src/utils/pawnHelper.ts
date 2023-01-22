@@ -63,7 +63,7 @@ export const pawnMove2 = (board: Cell[][], piece: Piece, position: CellIndex): R
     );
 
     if (isRightEnemy) {
-      const to4: CellIndex = [r1, column + 1];
+      const to4: CellIndex = [r1, column - 1];
       const isP4 = !isKingInDanger(movePieceTo(draftBoard, from, to4), [kingRow, kingColumn]);
       result.push({ index: [r1, column - 1], isPossibleMove: isP4 });
     }
