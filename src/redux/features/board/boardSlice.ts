@@ -37,21 +37,6 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
         state.selectedCellIndex = [r, c];
       }
     },
-    setPossibleMoves(state, action: PayloadAction<{ possibleMoves: CellIndex[] }>) {
-      // action.payload.possibleMoves.forEach((move) => {
-      //   const [r, c] = move;
-      //   state.board[r][c].isPossibleMove = true;
-      // });
-      
-      // state.possibleMoves = action.payload.possibleMoves;
-    },
-    setImpossibleMoves(state, action: PayloadAction<{ impossibleMoves: CellIndex[] }>) {
-      action.payload.impossibleMoves.forEach((cell) => {
-        const [r, c] = cell;
-        state.board[r][c].isImpossibleMove = true;
-      });
-      state.impossibleMoves = action.payload.impossibleMoves;
-    },
     setReachableCells(state, action: PayloadAction<{ reachableCells: ReachableCell[] }>) {
       const { reachableCells } = action.payload;
       reachableCells.forEach(({
@@ -71,21 +56,8 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
         state.board[row][column].isPossibleMove = false;
         state.board[row][column].isKing = false;
       });
-
       state.reachableCells = [];
 
-      state.possibleMoves.forEach((move) => {
-        const [r, c] = move;
-        state.board[r][c].isPossibleMove = false;
-      });
-      state.possibleMoves = [];
-
-      state.impossibleMoves.forEach((cell) => {
-        const [r, c] = cell;
-        state.board[r][c].isImpossibleMove = false;
-      });
-      state.impossibleMoves = [];
-      
       const [rP, cP] = state.selectedCellIndex;
       if (rP !== -1 && cP !== -1) {
         state.board[rP][cP].isSelected = false;
@@ -96,7 +68,7 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
 });
 
 export const {
-  movePiece, onClickCell, setSelectedCell, setPossibleMoves, setImpossibleMoves, setReachableCells
+  movePiece, onClickCell, setSelectedCell, setReachableCells
 } = boardSlice.actions;
 
 export const clearValues = boardSlice.actions.clearValues as ActionCreatorWithoutPayload<`${string}/${string}`>;

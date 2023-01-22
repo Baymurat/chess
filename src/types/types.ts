@@ -19,7 +19,6 @@ export type Cell = {
   index: CellIndex;
   isSelected: boolean;
   isPossibleMove: boolean;
-  isImpossibleMove: boolean;
   isWhite: boolean;
   isReachableCell: boolean;
   isKing?: boolean;

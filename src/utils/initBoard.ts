@@ -33,7 +33,6 @@ const copyBoard = (board: Cell[][]): Cell[][] => {
 
 const createCell = (state: "empty" | Piece , index: CellIndex, isWhite: boolean): Cell => ({
   isPossibleMove: false,
-  isImpossibleMove: false,
   isSelected: false,
   isReachableCell: false,
   index,

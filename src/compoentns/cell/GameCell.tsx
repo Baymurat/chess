@@ -9,7 +9,6 @@ type Props = PropsWithChildren & Cell;
 
 const Cell = ({
   isPossibleMove, 
-  isImpossibleMove, 
   isSelected,
   isWhite,
   index, 

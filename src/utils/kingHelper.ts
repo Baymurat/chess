@@ -46,12 +46,6 @@ export const kingMove2 = (board: Cell[][], piece: Piece, position: CellIndex): R
   return result;
 };
 
-
-export const canKingReach = (board: Cell[][], kingCell: Cell, targetCell: CellIndex): boolean => {
-  const [row, column] = targetCell;
-  return getKingDirections(kingCell.index).findIndex(([r, c]) => r === row && c === column) !== -1;
-};
-
 const moveHelper = (cell: Cell, myColor: PieceColor, throughAxis: boolean) => {
   if (cell.state === "empty") {
     return [false, false];

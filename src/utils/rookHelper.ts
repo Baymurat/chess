@@ -1,4 +1,4 @@
-import { Cell, Piece, PieceNames, PieceColor, CellIndex, ReachableCell } from "../types/types";
+import { Cell, Piece, PieceColor, CellIndex, ReachableCell } from "../types/types";
 import { getKingPosition, copyBoard, isKingInDanger, movePieceTo } from "./kingHelper"; 
 
 const moveHelper = (board: Cell[][], color:PieceColor, row: number, column: number) => {
@@ -149,42 +149,4 @@ export const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): Ce
   }
 
   return result;
-};
-
-export const canRookReach = (board: Cell[][], rookCell: Cell, targetCell: CellIndex): boolean => {
-  const [rookRow, rookColumn] = rookCell.index;
-  const [targetRow, targetColumn] = targetCell;
-
-  const isDifferentAxis = rookRow !== targetRow && rookColumn !== targetColumn;
-  const isSamePosition = rookRow === targetRow && rookColumn === targetColumn;
-  if (isDifferentAxis || isSamePosition) {
-    return false;
-  }
-
-  const [fromRow, toRow] = targetRow < rookRow ? [targetRow, rookRow] : [rookRow, targetRow];
-  const [fromColumn, toColumn] = targetColumn < rookColumn ? [targetColumn, rookColumn] : [rookColumn, targetColumn];
-
-  if (rookRow === targetRow) {
-    for (let i = fromColumn + 1; i < toColumn; i++) {
-      const isEmpty = board[rookRow][i].state === "empty"; 
-      const isKing = (board[rookRow][i].state as Piece).name === PieceNames.KING;
-      const isAlly = (board[rookRow][i].state as Piece).color === (rookCell.state as Piece).color;
-
-      if ((!isEmpty && !isKing) || (isKing && isAlly)) {
-        return false;
-      }
-    }
-  } else {
-    for (let i = fromRow + 1; i < toRow; i++) {
-      const isEmpty = board[i][rookColumn].state === "empty"; 
-      const isKing = (board[i][rookColumn].state as Piece).name === PieceNames.KING;
-      const isAlly = (board[i][rookColumn].state as Piece).color === (rookCell.state as Piece).color;
-
-      if ((!isEmpty && !isKing) || (isKing && isAlly)) {
-        return false;
-      }
-    }
-  }
-
-  return true;
 };

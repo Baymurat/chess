@@ -1,18 +1,6 @@
 import { Cell, Piece, CellIndex, ReachableCell } from "../types/types";
 import { getKingPosition, copyBoard, isKingInDanger, movePieceTo } from "./kingHelper"; 
 
-export const canPawnReach = (board: Cell[][], pawnCell: Cell, targetCell: CellIndex): boolean => {
-  const step = (pawnCell.state as Piece).color === "white" ? 1 : -1;
-  const [pawnRow, pawnColumn] = pawnCell.index;
-  const [targetRow, targetColumn] = targetCell;
-
-  if (pawnRow + step === targetRow && (pawnColumn - 1 === targetColumn || pawnColumn + 1 === targetColumn)) {
-    return true;
-  }
-
-  return false;
-};
-
 export const pawnMove2 = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
   const [row, column] = position;
   const [kingRow, kingColumn] = getKingPosition(board, piece.color);

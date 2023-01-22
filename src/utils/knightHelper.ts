@@ -58,8 +58,3 @@ export const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): 
   
   return result;
 };
-
-export const canKnightReach = (board: Cell[][], knightCell: Cell, targetCell: CellIndex): boolean => {
-  const [row, column] = targetCell;
-  return getKnightDirections(knightCell.index).findIndex(([r, c]) => (r === row && c === column)) !== -1;
-};

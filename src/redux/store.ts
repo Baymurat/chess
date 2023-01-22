@@ -1,13 +1,11 @@
 import { configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
-import { CellIndex, Piece, PieceNames } from "../types/types";
-import { calculatePossibleMoves, calculateImpossibleMoves, calculateReachableCells } from "../utils/possibleMoves";
+import { CellIndex, Piece } from "../types/types";
+import { calculateReachableCells } from "../utils/possibleMoves";
 import boardStateReducer, { 
   onClickCell, 
   setSelectedCell, 
-  setPossibleMoves,
   clearValues,
   movePiece,
-  setImpossibleMoves,
   setReachableCells,
 } from "./features/board/boardSlice";
 
@@ -42,16 +40,8 @@ listenerMiddleware.startListening({
     listenerApi.dispatch(clearValues());
     listenerApi.dispatch(setSelectedCell({ index }));
 
-    const possibleMoves = calculatePossibleMoves(board, clickedCell);
     const reachableCells = calculateReachableCells(board, clickedCell);
-
-    // listenerApi.dispatch(setPossibleMoves({ possibleMoves }));
     listenerApi.dispatch(setReachableCells({ reachableCells }));
-    
-    if ((clickedCell.state as Piece).name === PieceNames.KING) {
-      const impossibleMoves = calculateImpossibleMoves(board, clickedCell.state as Piece, possibleMoves);
-      listenerApi.dispatch(setImpossibleMoves({ impossibleMoves }));
-    }
   }
 });
 export const store = configureStore({
