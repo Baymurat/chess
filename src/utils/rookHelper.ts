@@ -1,5 +1,6 @@
 import { Cell, Piece, PieceColor, CellIndex, ReachableCell } from "../types/types";
-import { getKingPosition, copyBoard, isKingInDanger, movePieceTo } from "./kingHelper"; 
+import { getKingPosition, isKingInDanger, movePieceTo } from "./kingHelper"; 
+import { copyBoard } from "./commonHelper";
 
 const moveHelper = (board: Cell[][], color:PieceColor, row: number, column: number) => {
   if (board[row][column].state === "empty") {

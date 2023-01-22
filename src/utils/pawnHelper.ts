@@ -1,5 +1,6 @@
 import { Cell, Piece, CellIndex, ReachableCell } from "../types/types";
-import { getKingPosition, copyBoard, isKingInDanger, movePieceTo } from "./kingHelper"; 
+import { getKingPosition, isKingInDanger, movePieceTo } from "./kingHelper"; 
+import { copyBoard } from "./commonHelper";
 
 export const pawnMove = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
   const [row, column] = position;
