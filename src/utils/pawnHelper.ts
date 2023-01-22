@@ -25,7 +25,7 @@ export const pawnMove = (board: Cell[][], piece: Piece, position: CellIndex): Re
     const isStart = isWhite ? row === 1 : row === 6;
     if (isStart && board[r2][column].state === "empty") {
       const to2: CellIndex = [r2, column];
-      const isP2 = !isKingInDanger(movePieceTo(draftBoard, from, to2), [kingRow, kingColumn]);
+      const isP2 = !isKingInDanger(movePieceTo(draftBoard, to1, to2), [kingRow, kingColumn]);
       result.push({ index: [r2, column], isPossibleMove: isP2 });
     }
   }
