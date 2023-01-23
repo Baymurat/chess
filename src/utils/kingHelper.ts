@@ -93,7 +93,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
 
   const color = (board[row][column].state as Piece).color;
 
-  // Move in vertical and horizontal directions
+  // Move up (vertical direction)
   if (isDangerPath(
     (counter) => (row + counter) < 8,
     (counter) => moveHelper(board[row + counter][column], color, true)
@@ -101,6 +101,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
     return true;
   }
 
+  // Move down (vertical direction)
   if (isDangerPath(
     (counter) => (row - counter) > -1,
     (counter) => moveHelper(board[row - counter][column], color, true)
@@ -108,6 +109,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
     return true;
   }
   
+  // Move to the right (horizontal direction)
   if (isDangerPath(
     (counter) => (column + counter) < 8,
     (counter) => moveHelper(board[row][column + counter], color, true)
@@ -115,6 +117,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
     return true;
   }
 
+  // Move to the left (horizontal direction)
   if (isDangerPath(
     (counter) => (column - counter) > -1,
     (counter) => moveHelper(board[row][column - counter], color, true)
@@ -122,7 +125,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
     return true;
   }
 
-  // Move in diagonal directions
+  // Move up right (diagonal directions)
   if (isDangerPath(
     (counter) => row + counter < 8 && column + counter < 8,
     (counter) => moveHelper(board[row + counter][column + counter], color, false)
@@ -130,6 +133,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
     return true;
   }
 
+  // Move down right (diagonal directions)
   if (isDangerPath(
     (counter) => row - counter > -1 && column + counter < 8,
     (counter) => moveHelper(board[row - counter][column + counter], color, false)
@@ -137,6 +141,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
     return true;
   }
 
+  // Move down left (diagonal directions)
   if (isDangerPath(
     (counter) => row - counter > -1 && column - counter > -1,
     (counter) => moveHelper(board[row - counter][column - counter], color, false)
@@ -144,6 +149,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
     return true;
   }
 
+  // Move up left (diagonal directions)
   if (isDangerPath(
     (counter) => row + counter < 8 && column - counter > -1,
     (counter) => moveHelper(board[row + counter][column - counter], color, false)
