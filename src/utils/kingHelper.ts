@@ -1,5 +1,5 @@
 import { Cell, Piece, CellIndex, PieceColor, PieceNames, ReachableCell } from "../types/types";
-import { movePieceTo } from "./commonHelper";
+import { movePieceTo, copyBoard } from "./commonHelper";
 
 const getKingDirections = (position: CellIndex): CellIndex[] => {
   const [row, column] = position;
@@ -47,7 +47,7 @@ export const kingMove = (board: Cell[][], piece: Piece, position: CellIndex): Re
   return result;
 };
 
-const moveHelper = (cell: Cell, myColor: PieceColor, throughAxis: boolean): [boolean, boolean] => {
+const kingMoveHelper = (cell: Cell, myColor: PieceColor, alongAxis: boolean): [boolean, boolean] => {
   if (cell.state === "empty") {
     return [false, false];
   }
@@ -56,8 +56,8 @@ const moveHelper = (cell: Cell, myColor: PieceColor, throughAxis: boolean): [boo
 
   if (isEnemy) {
     const isQueen = cell.state.name === PieceNames.QUEEN;
-    const isRook = throughAxis && cell.state.name === PieceNames.ROOK;
-    const isBishop = !throughAxis && cell.state.name === PieceNames.BISHOP;
+    const isRook = alongAxis && cell.state.name === PieceNames.ROOK;
+    const isBishop = !alongAxis && cell.state.name === PieceNames.BISHOP;
 
     if (isQueen || isRook || isBishop) {
       return [true, true];
@@ -121,7 +121,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   // Move up (vertical direction)
   if (isDangerPath(
     (counter) => (row + counter) < 8,
-    (counter) => moveHelper(board[row + counter][column], color, true)
+    (counter) => kingMoveHelper(board[row + counter][column], color, true)
   )) {
     return true;
   }
@@ -129,7 +129,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   // Move down (vertical direction)
   if (isDangerPath(
     (counter) => (row - counter) > -1,
-    (counter) => moveHelper(board[row - counter][column], color, true)
+    (counter) => kingMoveHelper(board[row - counter][column], color, true)
   )) {
     return true;
   }
@@ -137,7 +137,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   // Move to the right (horizontal direction)
   if (isDangerPath(
     (counter) => (column + counter) < 8,
-    (counter) => moveHelper(board[row][column + counter], color, true)
+    (counter) => kingMoveHelper(board[row][column + counter], color, true)
   )) {
     return true;
   }
@@ -145,7 +145,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   // Move to the left (horizontal direction)
   if (isDangerPath(
     (counter) => (column - counter) > -1,
-    (counter) => moveHelper(board[row][column - counter], color, true)
+    (counter) => kingMoveHelper(board[row][column - counter], color, true)
   )) {
     return true;
   }
@@ -153,7 +153,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   // Move up right (diagonal directions)
   if (isDangerPath(
     (counter) => row + counter < 8 && column + counter < 8,
-    (counter) => moveHelper(board[row + counter][column + counter], color, false)
+    (counter) => kingMoveHelper(board[row + counter][column + counter], color, false)
   )) {
     return true;
   }
@@ -161,7 +161,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   // Move down right (diagonal directions)
   if (isDangerPath(
     (counter) => row - counter > -1 && column + counter < 8,
-    (counter) => moveHelper(board[row - counter][column + counter], color, false)
+    (counter) => kingMoveHelper(board[row - counter][column + counter], color, false)
   )) {
     return true;
   }
@@ -169,7 +169,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   // Move down left (diagonal directions)
   if (isDangerPath(
     (counter) => row - counter > -1 && column - counter > -1,
-    (counter) => moveHelper(board[row - counter][column - counter], color, false)
+    (counter) => kingMoveHelper(board[row - counter][column - counter], color, false)
   )) {
     return true;
   }
@@ -177,7 +177,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   // Move up left (diagonal directions)
   if (isDangerPath(
     (counter) => row + counter < 8 && column - counter > -1,
-    (counter) => moveHelper(board[row + counter][column - counter], color, false)
+    (counter) => kingMoveHelper(board[row + counter][column - counter], color, false)
   )) {
     return true;
   }
@@ -209,32 +209,3 @@ export const getKingPosition = (board: Cell[][], color: PieceColor): CellIndex =
 
   return [-1, -1];
 };
-
-export const copyBoard = (board: Cell[][]): Cell[][] => {
-  const result: Cell[][] = [];
-
-  for (let i = 0; i < 8; i++) {
-    const row: Cell[] = [];
-    for (let j = 0; j < 8; j++) {
-      row.push({...board[i][j]});
-    }
-    result.push(row);
-  }
-
-  return result;
-};
-
-// export const movePieceTo = (board: Cell[][], from: CellIndex, to: CellIndex): Cell[][] => {
-//   const [fromRow, fromColumn] = from;
-//   const [toRow, toColumn] = to;
-
-//   const isValidFrom = (fromRow < 8 && fromRow > -1) && (toRow < 8 && toRow > -1);
-//   const isVaidTo = (toRow < 8 && toRow > -1) && (toColumn < 8 && toColumn > -1);
-
-//   if (isVaidTo && isValidFrom) {
-//     board[toRow][toColumn].state = board[fromRow][fromColumn].state;
-//     board[fromRow][fromColumn].state = "empty";
-//   }
-
-//   return board;
-// };
