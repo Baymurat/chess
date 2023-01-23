@@ -1,4 +1,6 @@
 import { Cell, Piece, CellIndex, ReachableCell } from "../types/types";
+import { movePieceTo, copyBoard } from "./commonHelper";
+import { getKingPosition, isKingInDanger } from "./kingHelper"; 
 
 const getKnightDirections = (position: CellIndex): CellIndex[] => {
   const [row, column] = position;
@@ -30,16 +32,25 @@ const getKnightDirections = (position: CellIndex): CellIndex[] => {
 export const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
   const [row, column] = position;
   const result: ReachableCell[] = [];
+  const kingPosition = getKingPosition(board, piece.color);
 
   getKnightDirections([row, column]).forEach(([v, h]) => {
     const isEmpty = board[v][h].state === "empty";
     const isEnemy = (board[v][h].state as Piece).color !== piece.color;
-    const reachableCell: ReachableCell = {
-      index: [v, h],
-      isPossibleMove: true
-    };
 
-    (isEmpty || isEnemy) && result.push(reachableCell);
+
+    if (isEmpty || isEnemy) {
+      const draftBoard = copyBoard(board);
+      const from: CellIndex = [row, column];
+      const to: CellIndex = [v, h];
+  
+      const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), kingPosition);
+      const reachableCell: ReachableCell = {
+        index: [v, h],
+        isPossibleMove,
+      };
+      result.push(reachableCell);
+    } 
   });
   
   return result;
