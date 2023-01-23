@@ -26,61 +26,54 @@ export const getPawnAttackPositions = (position: CellIndex, color: PieceColor): 
   return result;
 };
 
-export const pawnMove = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
+const getPawnMovePositions = (position: CellIndex, color: PieceColor): CellIndex[] => {
   const [row, column] = position;
-  const [kingRow, kingColumn] = getKingPosition(board, piece.color);
 
-  const result: ReachableCell[] = [];
+  const isWhite = color === "white";
 
-  const isWhite = piece.color === "white";
   const step1 = isWhite ? 1 : -1;
   const step2 = isWhite ? 2 : -2;
   const r1 = row + step1;
   const r2 = row + step2;
 
-  const from: CellIndex = [row, column];
+  const result: CellIndex[] = [[r1, column]];
 
-  let draftBoard = copyBoard(board);
-  if (board[r1][column].state === "empty") {
-    const to1: CellIndex = [r1, column];
-    const isP1 = !isKingInDanger(movePieceTo(draftBoard, from, to1), [kingRow, kingColumn]);
-    result.push({ index: [r1, column], isPossibleMove: isP1 });
+  if ((isWhite && row === 1) || (!isWhite && row === 6)) {
+    result.push([r2, column]);
+  } 
 
-    const isStart = isWhite ? row === 1 : row === 6;
-    if (isStart && board[r2][column].state === "empty") {
-      const to2: CellIndex = [r2, column];
-      const isP2 = !isKingInDanger(movePieceTo(draftBoard, to1, to2), [kingRow, kingColumn]);
-      result.push({ index: [r2, column], isPossibleMove: isP2 });
+  return result;
+};
+
+export const pawnMove = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
+  const kingPosition = getKingPosition(board, piece.color);
+
+  const result: ReachableCell[] = [];
+  const movePositions = getPawnMovePositions(position, piece.color);
+  const attackPositions = getPawnAttackPositions(position, piece.color);
+
+  for (let i = 0; i < movePositions.length; i++) {
+    const [row, column] = movePositions[i];
+    const cell = board[row][column].state;
+
+    if (cell === "empty") {
+      const draftBoard = copyBoard(board);
+      const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, position, [row, column]), kingPosition);
+      result.push({ index: [row, column], isPossibleMove });
+    } else {
+      break;
     }
   }
 
-  draftBoard = copyBoard(board);
-  if (column + 1 < 8) {
-    const isLeftEnemy = (
-      board[r1][column + 1].state !== "empty" 
-      && (board[r1][column + 1].state as Piece).color !== piece.color
-    );
-
-    if (isLeftEnemy) {
-      const to3: CellIndex = [r1, column + 1];
-      const isP3 = !isKingInDanger(movePieceTo(draftBoard, from, to3), [kingRow, kingColumn]);
-      result.push({ index: [r1, column + 1], isPossibleMove: isP3 });
+  for (let i = 0; i < attackPositions.length; i++) {
+    const [row, column] = attackPositions[i];
+    const cell = board[row][column].state;
+    
+    if (cell !== "empty" && cell.color !== piece.color) {
+      const draftBoard = copyBoard(board);
+      const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, position, [row, column]), kingPosition);
+      result.push({ index: [row, column], isPossibleMove });
     }
-  }
-
-  draftBoard = copyBoard(board);
-  if (column - 1 > -1) {
-    const isRightEnemy = (
-      board[r1][column -1].state !== "empty" 
-      && (board[r1][column - 1].state as Piece).color !== piece.color
-    );
-
-    if (isRightEnemy) {
-      const to4: CellIndex = [r1, column - 1];
-      const isP4 = !isKingInDanger(movePieceTo(draftBoard, from, to4), [kingRow, kingColumn]);
-      result.push({ index: [r1, column - 1], isPossibleMove: isP4 });
-    }
-
   }
 
   return result;
