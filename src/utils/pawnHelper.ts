@@ -1,6 +1,30 @@
-import { Cell, Piece, CellIndex, ReachableCell } from "../types/types";
+import { Cell, Piece, CellIndex, ReachableCell, PieceColor } from "../types/types";
 import { getKingPosition, isKingInDanger } from "./kingHelper"; 
 import { movePieceTo, copyBoard } from "./commonHelper";
+
+export const getPawnAttackPositions = (position: CellIndex, color: PieceColor): CellIndex[] => {
+  const [row, column] = position;
+
+  const isWhite = color === "white";
+
+  const up = row + 1;
+  const down = row - 1;
+  const left = column - 1;
+  const right = column + 1;
+
+  const allDirections: [number, number, boolean][] = [
+    [up, right, isWhite && up < 8 && right < 8],
+    [down, right, !isWhite && down > -1 && right < 8],
+    [down, left, !isWhite && down > -1 && left > -1],
+    [up, left, isWhite && up < 8 && left > -1]
+  ];
+  
+  const result: CellIndex[] = allDirections
+    .filter(([,, condition]) => condition)
+    .map(([v, h]) => [v, h]);
+
+  return result;
+};
 
 export const pawnMove = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
   const [row, column] = position;

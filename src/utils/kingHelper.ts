@@ -1,6 +1,7 @@
 import { Cell, Piece, CellIndex, PieceColor, PieceNames, ReachableCell } from "../types/types";
 import { movePieceTo, copyBoard } from "./commonHelper";
 import { getKnightDirections } from "./knightHelper";
+import { getPawnAttackPositions } from "./pawnHelper";
 
 const getKingDirections = (position: CellIndex): CellIndex[] => {
   const [row, column] = position;
@@ -87,32 +88,8 @@ const isDangerPath = (
   return false;
 };
 
-const getEnemyPawnsPositions = (index: CellIndex, color: PieceColor): CellIndex[] => {
-  const [row, column] = index;
-
-  const isWhite = color === "white";
-
-  const up = row + 1;
-  const down = row - 1;
-  const left = column - 1;
-  const right = column + 1;
-
-  const allDirections: [number, number, boolean][] = [
-    [up, right, isWhite && up < 8 && right < 8],
-    [down, right, !isWhite && down > -1 && right < 8],
-    [down, left, !isWhite && down > -1 && left > -1],
-    [up, left, isWhite && up < 8 && left > -1]
-  ];
-  
-  const result: CellIndex[] = allDirections
-    .filter(([,, condition]) => condition)
-    .map(([v, h]) => [v, h]);
-
-  return result;
-};
-
 const threatFromPawn = (board: Cell[][], index: CellIndex, color: PieceColor): boolean => {
-  const pawns = getEnemyPawnsPositions(index, color);
+  const pawns = getPawnAttackPositions(index, color);
 
   for (let i = 0; i < pawns.length; i++) {
     const [row, column] = pawns[i];
