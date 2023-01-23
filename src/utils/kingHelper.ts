@@ -114,10 +114,25 @@ const threatFromPawn = (board: Cell[][], index: CellIndex, color: PieceColor): b
   const pawns = getEnemyPawnsPositions(index, color);
 
   for (let i = 0; i < pawns.length; i++) {
-    const [pR, pC] = pawns[i];
-    const cell = board[pR][pC].state;
+    const [row, column] = pawns[i];
+    const cell = board[row][column].state;
 
     if (cell !== "empty" && cell.name === PieceNames.PAWN && cell.color !== color) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+const threatFromKing = (board: Cell[][], index: CellIndex, color: PieceColor): boolean => {
+  const enemyPositions = getKingDirections(index);
+
+  for(let i = 0; i < enemyPositions.length; i++) {
+    const [row, column] = enemyPositions[i];
+    const cell = board[row][column].state;
+
+    if (cell !== "empty" && cell.name === PieceNames.KING && cell.color !== color) {
       return true;
     }
   }
@@ -198,6 +213,10 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   }
   
   if (threatFromPawn(board, kingPosition, color)) {
+    return true;
+  }
+
+  if (threatFromKing(board, kingPosition, color)) {
     return true;
   }
   
