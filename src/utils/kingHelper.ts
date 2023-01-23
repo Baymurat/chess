@@ -46,7 +46,7 @@ export const kingMove = (board: Cell[][], piece: Piece, position: CellIndex): Re
   return result;
 };
 
-const moveHelper = (cell: Cell, myColor: PieceColor, throughAxis: boolean) => {
+const moveHelper = (cell: Cell, myColor: PieceColor, throughAxis: boolean): [boolean, boolean] => {
   if (cell.state === "empty") {
     return [false, false];
   }
@@ -66,6 +66,25 @@ const moveHelper = (cell: Cell, myColor: PieceColor, throughAxis: boolean) => {
   return [false, true];
 };
 
+const isDangerPath = (
+  condition: (counter: number) => boolean,
+  callBack: (counter: number) => [boolean, boolean]
+): boolean => {
+  for (let counter = 1; condition(counter); counter++) {
+    const [inDanger, isBreak] = callBack(counter);
+
+    if (inDanger) {
+      return true;
+    }
+
+    if (isBreak) {
+      break;
+    }
+  }
+
+  return false;
+};
+
 export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolean => {
   const [row, column] = kingPosition;
   if (row === -1) {
@@ -74,101 +93,162 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
 
   const color = (board[row][column].state as Piece).color;
 
-  for (let i = row + 1; i < 8; i++) {
-    const [inDanger, isBreak] = moveHelper(board[i][column], color, true);
-
-    if (inDanger) {
-      return true;
-    }
-
-    if (isBreak) {
-      break;
-    }
+  // Move in vertical and horizontal directions
+  if (isDangerPath(
+    (counter) => (row + counter) < 8,
+    (counter) => moveHelper(board[row + counter][column], color, true)
+  )) {
+    return true;
   }
 
-  for (let i = row - 1; i > -1; i--) {
-    const [inDanger, isBreak] = moveHelper(board[i][column], color, true);
-
-    if (inDanger) {
-      return true;
-    }
-
-    if (isBreak) {
-      break;
-    }
+  if (isDangerPath(
+    (counter) => (row - counter) > -1,
+    (counter) => moveHelper(board[row - counter][column], color, true)
+  )) {
+    return true;
+  }
+  
+  if (isDangerPath(
+    (counter) => (column + counter) < 8,
+    (counter) => moveHelper(board[row][column + counter], color, true)
+  )) {
+    return true;
   }
 
-  for (let i = column + 1; i < 8; i++) {
-    const [inDanger, isBreak] = moveHelper(board[row][i], color, true);
-
-    if (inDanger) {
-      return true;
-    }
-
-    if (isBreak) {
-      break;
-    }
+  if (isDangerPath(
+    (counter) => (column - counter) > -1,
+    (counter) => moveHelper(board[row][column - counter], color, true)
+  )) {
+    return true;
   }
 
-  for (let i = column - 1; i > -1; i--) {
-    const [inDanger, isBreak] = moveHelper(board[row][i], color, true);
-
-    if (inDanger) {
-      return true;
-    }
-
-    if (isBreak) {
-      break;
-    }
+  // Move in diagonal directions
+  if (isDangerPath(
+    (counter) => row + counter < 8 && column + counter < 8,
+    (counter) => moveHelper(board[row + counter][column + counter], color, false)
+  )) {
+    return true;
   }
 
-  for (let i = row + 1, j = column + 1; i < 8 && j < 8; i++, j++) {
-    const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
-
-    if (inDanger) {
-      return true;
-    }
-
-    if (isBreak) {
-      break;
-    }
+  if (isDangerPath(
+    (counter) => row - counter > -1 && column + counter < 8,
+    (counter) => moveHelper(board[row - counter][column + counter], color, false)
+  )) {
+    return true;
   }
 
-  for (let i = row - 1, j = column + 1; i > -1 && j < 8; i--, j++) {
-    const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
-
-    if (inDanger) {
-      return true;
-    }
-
-    if (isBreak) {
-      break;
-    }
+  if (isDangerPath(
+    (counter) => row - counter > -1 && column - counter > -1,
+    (counter) => moveHelper(board[row - counter][column - counter], color, false)
+  )) {
+    return true;
   }
 
-  for (let i = row - 1, j = column - 1; i > -1 && j > -1; i--, j--) {
-    const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
-
-    if (inDanger) {
-      return true;
-    }
-
-    if (isBreak) {
-      break;
-    }
+  if (isDangerPath(
+    (counter) => row + counter < 8 && column - counter > -1,
+    (counter) => moveHelper(board[row + counter][column - counter], color, false)
+  )) {
+    return true;
   }
+  
+  // for (let i = row + 1; i < 8; i++) {
+  //   const [inDanger, isBreak] = moveHelper(board[i][column], color, true);
 
-  for (let i = row + 1, j = column - 1; i < 8 && j > -1; i++, j--) {
-    const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
+  //   if (inDanger) {
+  //     return true;
+  //   }
 
-    if (inDanger) {
-      return true;
-    }
+  //   if (isBreak) {
+  //     break;
+  //   }
+  // }
 
-    if (isBreak) {
-      break;
-    }
-  }
+  // for (let i = row - 1; i > -1; i--) {
+  //   const [inDanger, isBreak] = moveHelper(board[i][column], color, true);
+
+  //   if (inDanger) {
+  //     return true;
+  //   }
+
+  //   if (isBreak) {
+  //     break;
+  //   }
+  // }
+
+  // for (let i = column + 1; i < 8; i++) {
+  //   const [inDanger, isBreak] = moveHelper(board[row][i], color, true);
+
+  //   if (inDanger) {
+  //     return true;
+  //   }
+
+  //   if (isBreak) {
+  //     break;
+  //   }
+  // }
+
+  // for (let i = column - 1; i > -1; i--) {
+  //   const [inDanger, isBreak] = moveHelper(board[row][i], color, true);
+
+  //   if (inDanger) {
+  //     return true;
+  //   }
+
+  //   if (isBreak) {
+  //     break;
+  //   }
+  // }
+
+  // for (let i = row + 1, j = column + 1; i < 8 && j < 8; i++, j++) {
+  //   const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
+
+  //   if (inDanger) {
+  //     return true;
+  //   }
+
+  //   if (isBreak) {
+  //     break;
+  //   }
+  // }
+
+
+  // for (let i = row - 1, j = column + 1; i > -1 && j < 8; i--, j++) {
+  //   const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
+
+  //   if (inDanger) {
+  //     return true;
+  //   }
+
+  //   if (isBreak) {
+  //     break;
+  //   }
+  // }
+
+
+  // for (let i = row - 1, j = column - 1; i > -1 && j > -1; i--, j--) {
+  //   const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
+
+  //   if (inDanger) {
+  //     return true;
+  //   }
+
+  //   if (isBreak) {
+  //     break;
+  //   }
+  // }
+
+
+  // for (let i = row + 1, j = column - 1; i < 8 && j > -1; i++, j--) {
+  //   const [inDanger, isBreak] = moveHelper(board[i][j], color, false);
+
+  //   if (inDanger) {
+  //     return true;
+  //   }
+
+  //   if (isBreak) {
+  //     break;
+  //   }
+  // }
 
   return false;
 };
