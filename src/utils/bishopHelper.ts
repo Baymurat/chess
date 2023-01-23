@@ -1,6 +1,6 @@
 import { Cell, Piece, PieceColor, CellIndex, ReachableCell } from "../types/types";
-import { getKingPosition, isKingInDanger, movePieceTo } from "./kingHelper"; 
-import { copyBoard } from "./commonHelper";
+import { getKingPosition, isKingInDanger } from "./kingHelper"; 
+import { movePieceTo, copyBoard } from "./commonHelper";
 
 
 const moveHelper = (board: Cell[][], color:PieceColor, row: number, column: number) => {

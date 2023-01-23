@@ -1,4 +1,5 @@
 import { Cell, Piece, CellIndex, PieceColor, PieceNames, ReachableCell } from "../types/types";
+import { movePieceTo } from "./commonHelper";
 
 const getKingDirections = (position: CellIndex): CellIndex[] => {
   const [row, column] = position;
@@ -223,17 +224,17 @@ export const copyBoard = (board: Cell[][]): Cell[][] => {
   return result;
 };
 
-export const movePieceTo = (board: Cell[][], from: CellIndex, to: CellIndex): Cell[][] => {
-  const [fromRow, fromColumn] = from;
-  const [toRow, toColumn] = to;
+// export const movePieceTo = (board: Cell[][], from: CellIndex, to: CellIndex): Cell[][] => {
+//   const [fromRow, fromColumn] = from;
+//   const [toRow, toColumn] = to;
 
-  const isValidFrom = (fromRow < 8 && fromRow > -1) && (toRow < 8 && toRow > -1);
-  const isVaidTo = (toRow < 8 && toRow > -1) && (toColumn < 8 && toColumn > -1);
+//   const isValidFrom = (fromRow < 8 && fromRow > -1) && (toRow < 8 && toRow > -1);
+//   const isVaidTo = (toRow < 8 && toRow > -1) && (toColumn < 8 && toColumn > -1);
 
-  if (isVaidTo && isValidFrom) {
-    board[toRow][toColumn].state = board[fromRow][fromColumn].state;
-    board[fromRow][fromColumn].state = "empty";
-  }
+//   if (isVaidTo && isValidFrom) {
+//     board[toRow][toColumn].state = board[fromRow][fromColumn].state;
+//     board[fromRow][fromColumn].state = "empty";
+//   }
 
-  return board;
-};
+//   return board;
+// };

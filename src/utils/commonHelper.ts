@@ -1,4 +1,4 @@
-import { Cell, PieceNames } from "../types/types";
+import { Cell, PieceNames, CellIndex } from "../types/types";
 
 export const copyBoard = (board: Cell[][]): Cell[][] => {
   const result: Cell[][] = [];
@@ -46,6 +46,21 @@ const swap = (cell: Cell): string => {
   }
 
   return "";
+};
+
+export const movePieceTo = (board: Cell[][], from: CellIndex, to: CellIndex): Cell[][] => {
+  const [fromRow, fromColumn] = from;
+  const [toRow, toColumn] = to;
+
+  const isValidFrom = (fromRow < 8 && fromRow > -1) && (toRow < 8 && toRow > -1);
+  const isVaidTo = (toRow < 8 && toRow > -1) && (toColumn < 8 && toColumn > -1);
+
+  if (isVaidTo && isValidFrom) {
+    board[toRow][toColumn].state = board[fromRow][fromColumn].state;
+    board[fromRow][fromColumn].state = "empty";
+  }
+
+  return board;
 };
 
 export const printBoard = (board: Cell[][]): void => {
