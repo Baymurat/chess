@@ -1,5 +1,6 @@
 import { Cell, Piece, CellIndex, PieceColor, PieceNames, ReachableCell } from "../types/types";
 import { movePieceTo, copyBoard } from "./commonHelper";
+import { getKnightDirections } from "./knightHelper";
 
 const getKingDirections = (position: CellIndex): CellIndex[] => {
   const [row, column] = position;
@@ -140,6 +141,20 @@ const threatFromKing = (board: Cell[][], index: CellIndex, color: PieceColor): b
   return false;
 };
 
+const threatFromKnight = (board: Cell[][], index: CellIndex, color: PieceColor): boolean => {
+  const enemyPositions = getKnightDirections(index);
+
+  for (let i = 0; i < enemyPositions.length; i++) {
+    const [row, column] = enemyPositions[i];
+    const cell = board[row][column].state;
+
+    if (cell !== "empty" && cell.name === PieceNames.KNIGHT && cell.color !== color) {
+      return true;
+    }
+  }
+
+  return false;
+};
 export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolean => {
   const [row, column] = kingPosition;
   if (row === -1) {
@@ -219,7 +234,11 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   if (threatFromKing(board, kingPosition, color)) {
     return true;
   }
-  
+
+  if (threatFromKnight(board, kingPosition, color)) {
+    return true;
+  }
+
   return false;
 };
 

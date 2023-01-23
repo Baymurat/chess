@@ -2,7 +2,7 @@ import { Cell, Piece, CellIndex, ReachableCell } from "../types/types";
 import { movePieceTo, copyBoard } from "./commonHelper";
 import { getKingPosition, isKingInDanger } from "./kingHelper"; 
 
-const getKnightDirections = (position: CellIndex): CellIndex[] => {
+export const getKnightDirections = (position: CellIndex): CellIndex[] => {
   const [row, column] = position;
 
   const vUp2 = row + 2;
