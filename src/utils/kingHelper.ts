@@ -33,11 +33,11 @@ export const kingMove = (board: Cell[][], piece: Piece, position: CellIndex): Re
 
     const to: CellIndex = [v, h];
 
-    const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, position, to), to);
     if (isEmpty || isEnemy) {
+      const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, position, to), to);
       result.push({
         index: [v, h], 
-        isForbiddenForKing: true,
+        isForbiddenForKing: !isPossibleMove,
         isPossibleMove,
       });
     }
@@ -83,6 +83,30 @@ const isDangerPath = (
   }
 
   return false;
+};
+
+const getEnemyPawnsPositions = (index: CellIndex, color: PieceColor): CellIndex[] => {
+  const [row, column] = index;
+
+  const isWhite = color === "white";
+
+  const up = row + 1;
+  const down = row - 1;
+  const left = column - 1;
+  const right = column + 1;
+
+  const allDirections: [number, number, boolean][] = [
+    [up, right, isWhite && up < 8 && right < 8],
+    [down, right, !isWhite && down > -1 && right < 8],
+    [down, left, !isWhite && down > -1 && left > -1],
+    [up, left, isWhite && up < 8 && left > -1]
+  ];
+  
+  const result: CellIndex[] = allDirections
+    .filter(([,, condition]) => condition)
+    .map(([v, h]) => [v, h]);
+
+  return result;
 };
 
 export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolean => {
@@ -155,6 +179,17 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
     (counter) => moveHelper(board[row + counter][column - counter], color, false)
   )) {
     return true;
+  }
+
+  const pawns = getEnemyPawnsPositions(kingPosition, color);
+
+  for (let i = 0; i < pawns.length; i++) {
+    const [pR, pC] = pawns[i];
+    const cell = board[pR][pC].state;
+
+    if (cell !== "empty" && cell.name === PieceNames.PAWN && cell.color !== color) {
+      return true;
+    }
   }
   
   return false;
