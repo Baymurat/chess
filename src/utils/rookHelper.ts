@@ -2,12 +2,12 @@ import { Cell, Piece, PieceColor, CellIndex, ReachableCell } from "../types/type
 import { getKingPosition, isKingInDanger } from "./kingHelper"; 
 import { movePieceTo, copyBoard } from "./commonHelper";
 
-const moveHelper = (board: Cell[][], color:PieceColor, row: number, column: number) => {
-  if (board[row][column].state === "empty") {
+const rookMoveHelper = (cell: Cell, color: PieceColor) => {
+  if (cell.state === "empty") {
     return [true, false];
   }
 
-  const isEnemy = (board[row][column].state as Piece).color !== color;
+  const isEnemy = cell.state.color !== color;
 
   if (isEnemy) {
     return [true, true];
@@ -18,19 +18,19 @@ const moveHelper = (board: Cell[][], color:PieceColor, row: number, column: numb
 
 export const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
   const [row, column] = position;
-  const [kingRow, kingColumn] = getKingPosition(board, piece.color);
+  const kingPosition = getKingPosition(board, piece.color);
 
   const result: ReachableCell[] = [];
   
   // TO RIGHT
   let draftBoard = copyBoard(board);
   for (let i = column + 1; i < 8; i++) {
-    const [isAdd, isBreak] = moveHelper(board, piece.color, row, i);
+    const [isAdd, isBreak] = rookMoveHelper(board[row][i], piece.color);
 
     if (isAdd) {
       const from: CellIndex = [row, i - 1];
       const to: CellIndex = [row, i];
-      const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), [kingRow, kingColumn]);
+      const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), kingPosition);
       result.push({ index: [row, i], isPossibleMove });
     }
 
@@ -42,12 +42,12 @@ export const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): Re
   // TO LEFT
   draftBoard = copyBoard(board);
   for (let i = column - 1; i > -1; i--) {
-    const [isAdd, isBreak] = moveHelper(board, piece.color, row, i);
+    const [isAdd, isBreak] = rookMoveHelper(board[row][i], piece.color);
 
     if (isAdd) {
       const from: CellIndex = [row, i + 1];
       const to: CellIndex = [row, i];
-      const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), [kingRow, kingColumn]);
+      const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), kingPosition);
       result.push({ index: [row, i], isPossibleMove });
     }
 
@@ -59,12 +59,12 @@ export const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): Re
   // UP
   draftBoard = copyBoard(board);
   for (let i = row + 1; i < 8; i++) {
-    const [isAdd, isBreak] = moveHelper(board, piece.color, i, column);
+    const [isAdd, isBreak] = rookMoveHelper(board[i][column], piece.color);
 
     if (isAdd) {
       const from: CellIndex = [i - 1, column];
       const to: CellIndex = [i, column];
-      const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), [kingRow, kingColumn]);
+      const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), kingPosition);
       result.push({ index: [i, column], isPossibleMove });
     }
 
@@ -76,12 +76,12 @@ export const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): Re
   // DOWN
   draftBoard = copyBoard(board);
   for (let i = row - 1; i > -1; i--) {
-    const [isAdd, isBreak] = moveHelper(board, piece.color, i, column);
+    const [isAdd, isBreak] = rookMoveHelper(board[i][column], piece.color);
 
     if (isAdd) {
       const from: CellIndex = [i + 1, column];
       const to: CellIndex = [i, column];
-      const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), [kingRow, kingColumn]);
+      const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), kingPosition);
       result.push({ index: [i, column], isPossibleMove });
     }
 
