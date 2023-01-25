@@ -69,6 +69,9 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
     setGameIsOver(state) {
       state.isGameOver = true;
     },
+    restartGame() {
+      return initialState;
+    },
     clearValues(state) {
       state.reachableCells.forEach((cell) => {
         const [row, column] = cell.index;
@@ -93,6 +96,7 @@ export const {
 
 export const clearValues = boardSlice.actions.clearValues as ActionCreatorWithoutPayload<`${string}/${string}`>;
 export const setGameIsOver = boardSlice.actions.setGameIsOver as ActionCreatorWithoutPayload<`${string}/${string}`>;
+export const restartGame = boardSlice.actions.restartGame as ActionCreatorWithoutPayload<`${string}/${string}`>;
 
 export const boardSelector = (state: { boardStore: BoardStore }) => state.boardStore.board;
 export const turnSelector = (state: { boardStore: BoardStore}) => state.boardStore.turn;
