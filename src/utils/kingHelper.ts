@@ -1,7 +1,8 @@
 import { Cell, Piece, CellIndex, PieceColor, PieceNames, ReachableCell } from "../types/types";
-import { movePieceTo, copyBoard } from "./commonHelper";
+import { movePieceTo, copyBoard, getAllies } from "./commonHelper";
 import { getKnightDirections } from "./knightHelper";
 import { getPawnAttackPositions } from "./pawnHelper";
+import { calculateReachableCells } from "./possibleMoves";
 
 const getKingDirections = (position: CellIndex): CellIndex[] => {
   const [row, column] = position;
@@ -26,12 +27,35 @@ const getKingDirections = (position: CellIndex): CellIndex[] => {
   return allDirections.filter(([,,canMove]) => canMove).map(([r, c]) => ([r, c]));
 };
 
-export const kingMove = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {
+export const hasEscapeCell = (board: Cell[][], color: PieceColor): boolean => {
+  const position = getKingPosition(board, color);
+  const reachableCells = kingMove(board, color, position);
+  const escapeCellIndex = reachableCells.findIndex((cell) => cell.isPossibleMove && !cell.isForbiddenForKing);
+
+  return escapeCellIndex !== -1;
+};
+
+export const canAlliesSaveKing = (board: Cell[][], color: PieceColor): boolean => {
+  const allies = getAllies(board, color);
+
+  for (let i = 0; i < allies.length; i++) {
+    const moveCells = calculateReachableCells(board, allies[i]);
+    const saveCell = moveCells.findIndex((cell) => cell.isPossibleMove);
+
+    if (saveCell !== -1) {
+      return true;
+    }
+  }
+  
+  return false;
+};
+
+export const kingMove = (board: Cell[][], color: PieceColor, position: CellIndex): ReachableCell[] => {
   const result: ReachableCell[] = [];
 
   getKingDirections(position).forEach(([v, h]) => {  
     const isEmpty = board[v][h].state === "empty";
-    const isEnemy = (board[v][h].state as Piece).color !== piece.color;
+    const isEnemy = (board[v][h].state as Piece).color !== color;
     const draftBoard = copyBoard(board);
 
     const to: CellIndex = [v, h];

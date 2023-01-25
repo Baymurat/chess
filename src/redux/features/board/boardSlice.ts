@@ -11,7 +11,8 @@ const initialState: BoardStore = {
   impossibleMoves: [],
   turn: "white",
   reachableCells: [],
-  inDangerKingPosition: [-1, -1]
+  inDangerKingPosition: [-1, -1],
+  isGameOver: false,
 };
 
 const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
@@ -65,6 +66,9 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
       });
       state.reachableCells = action.payload.reachableCells;
     },
+    setGameIsOver(state) {
+      state.isGameOver = true;
+    },
     clearValues(state) {
       state.reachableCells.forEach((cell) => {
         const [row, column] = cell.index;
@@ -88,8 +92,10 @@ export const {
 } = boardSlice.actions;
 
 export const clearValues = boardSlice.actions.clearValues as ActionCreatorWithoutPayload<`${string}/${string}`>;
+export const setGameIsOver = boardSlice.actions.setGameIsOver as ActionCreatorWithoutPayload<`${string}/${string}`>;
 
 export const boardSelector = (state: { boardStore: BoardStore }) => state.boardStore.board;
 export const turnSelector = (state: { boardStore: BoardStore}) => state.boardStore.turn;
+export const gameOverSelector = (state: { boardStore: BoardStore}) => state.boardStore.isGameOver;
 
 export default boardSlice.reducer;

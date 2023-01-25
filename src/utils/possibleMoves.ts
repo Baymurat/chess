@@ -31,7 +31,7 @@ export const calculateReachableCells = (board: Cell[][], selected: Cell): Reacha
   }
 
   if (piece.name === PieceNames.KING) {
-    return kingMove(board, piece, position);
+    return kingMove(board, piece.color, position);
   }
 
   return [];

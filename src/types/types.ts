@@ -37,6 +37,7 @@ export type BoardStore = {
   turn: PieceColor;
   reachableCells: ReachableCell[];
   inDangerKingPosition: CellIndex;
+  isGameOver: boolean;
 }
 
 export type PieceColor = "white" | "black"

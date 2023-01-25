@@ -8,8 +8,9 @@ import boardStateReducer, {
   movePiece,
   setReachableCells,
   setKingDangerState,
+  setGameIsOver,
 } from "./features/board/boardSlice";
-import { isKingInDanger, getKingPosition } from "../utils/kingHelper";
+import { isKingInDanger, getKingPosition, hasEscapeCell, canAlliesSaveKing } from "../utils/kingHelper";
 
 const listenerMiddleware = createListenerMiddleware();
 
@@ -56,6 +57,25 @@ listenerMiddleware.startListening({
     const kingInDanger = isKingInDanger(boardStore.board, kingPosition);
 
     listenerApi.dispatch(setKingDangerState({ index: kingPosition, inDanger: kingInDanger }));
+  }
+});
+
+listenerMiddleware.startListening({
+  actionCreator: setKingDangerState,
+  effect: async (action, listenerApi) => {
+    const { inDanger } = action.payload;
+    if (inDanger) {
+      const { boardStore } = listenerApi.getState() as RootState;
+      const canEscape = hasEscapeCell(boardStore.board, boardStore.turn);
+
+      if (!canEscape) {
+        const canAlliesSave = canAlliesSaveKing(boardStore.board, boardStore.turn);
+
+        if (!canAlliesSave) {
+          listenerApi.dispatch(setGameIsOver());
+        }
+      }
+    }
   }
 });
 

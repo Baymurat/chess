@@ -1,14 +1,18 @@
 import { HorizontalLegendRow, GameRow } from "../row";
 import { useSelector } from "react-redux";
-import { turnSelector } from "../../redux/features/board/boardSlice";
+import GameOverBanner from "./GameOverBanner";
+import { turnSelector, gameOverSelector } from "../../redux/features/board/boardSlice";
 
 import styles from "./styles.module.scss";
 
 const Board = () => {
   const turn = useSelector(turnSelector);
-
+  const isGameOver = useSelector(gameOverSelector);
+  console.log(isGameOver);
+  
   return (
     <div className={styles.wrapper}>
+      {isGameOver && <GameOverBanner />}
       <div className={styles.wrapper__header}>{turn}</div>
       <div className={styles.board}>
         <GameRow rowNumber={8} />

@@ -1,4 +1,4 @@
-import { Cell, PieceNames, CellIndex } from "../types/types";
+import { Cell, PieceNames, CellIndex, PieceColor } from "../types/types";
 
 export const copyBoard = (board: Cell[][]): Cell[][] => {
   const result: Cell[][] = [];
@@ -61,6 +61,19 @@ export const movePieceTo = (board: Cell[][], from: CellIndex, to: CellIndex): Ce
   }
 
   return board;
+};
+
+export const getAllies = (board: Cell[][], color: PieceColor): Cell[] => {
+  const result: Cell[] = [];
+  board.forEach((row) => {
+    row.forEach((cell) => {
+      if (cell.state !== "empty" && cell.state.color === color) {
+        result.push(cell);
+      }
+    });
+  });
+
+  return result;
 };
 
 export const printBoard = (board: Cell[][]): void => {
