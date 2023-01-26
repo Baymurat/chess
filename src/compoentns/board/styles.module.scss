@@ -8,6 +8,11 @@
   &__header {
     text-transform: uppercase;
   }
+
+  &__game {
+    display: flex;
+    gap: 2rem;
+  }
 }
 
 .board {

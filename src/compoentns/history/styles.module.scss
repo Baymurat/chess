@@ -1,0 +1,20 @@
+.history {
+  width: 10vw;
+  min-width: 120px;
+  height: 400px;
+  background: green;
+  padding: 0.1rem;
+  overflow-y: scroll;
+  
+  .move {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .scrollDiv {
+    float: left;
+    clear: both;
+  }
+}

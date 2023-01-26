@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, ActionCreatorWithoutPayload, SliceCaseReducers } from "@reduxjs/toolkit";
-import { CellIndex, BoardStore, ReachableCell, Move, Piece } from "../../../types/types";
+import { CellIndex, BoardStore, ReachableCell, Piece } from "../../../types/types";
 import { generateBoard } from "../../../utils/initBoard";
 
 const initialState: BoardStore = {
@@ -91,9 +91,10 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
       const [row, column] = to;
 
       const piece = state.board[row][column].state as Piece;
+      const id: string = Math.random().toString();
 
       state.movesHistory.push({
-        piece, from, to 
+        piece, from, to, id
       });
     }
   }
@@ -108,7 +109,8 @@ export const setGameIsOver = boardSlice.actions.setGameIsOver as ActionCreatorWi
 export const restartGame = boardSlice.actions.restartGame as ActionCreatorWithoutPayload<`${string}/${string}`>;
 
 export const boardSelector = (state: { boardStore: BoardStore }) => state.boardStore.board;
-export const turnSelector = (state: { boardStore: BoardStore}) => state.boardStore.turn;
-export const gameOverSelector = (state: { boardStore: BoardStore}) => state.boardStore.isGameOver;
+export const turnSelector = (state: { boardStore: BoardStore }) => state.boardStore.turn;
+export const gameOverSelector = (state: { boardStore: BoardStore }) => state.boardStore.isGameOver;
+export const historySelector = (state: { boardStore: BoardStore }) => state.boardStore.movesHistory;
 
 export default boardSlice.reducer;

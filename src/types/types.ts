@@ -28,6 +28,7 @@ export type Cell = {
 export type ReachableCell = Pick<Cell, "index" | "isPossibleMove" | "isForbiddenForKing">;
 
 export type Move = {
+  id: string,
   from: CellIndex,
   to: CellIndex,
   piece: Piece,
