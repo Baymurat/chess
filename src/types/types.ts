@@ -27,6 +27,12 @@ export type Cell = {
 
 export type ReachableCell = Pick<Cell, "index" | "isPossibleMove" | "isForbiddenForKing">;
 
+export type Move = {
+  from: CellIndex,
+  to: CellIndex,
+  piece: Piece,
+}
+
 export type BoardStore = {
   board: Cell[][];
   loading: boolean;
@@ -36,6 +42,7 @@ export type BoardStore = {
   reachableCells: ReachableCell[];
   inDangerKingPosition: CellIndex;
   isGameOver: boolean;
+  movesHistory: Move[];
 }
 
 export type PieceColor = "white" | "black"

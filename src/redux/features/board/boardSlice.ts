@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, ActionCreatorWithoutPayload, SliceCaseReducers } from "@reduxjs/toolkit";
-import { CellIndex, BoardStore, ReachableCell } from "../../../types/types";
+import { CellIndex, BoardStore, ReachableCell, Move, Piece } from "../../../types/types";
 import { generateBoard } from "../../../utils/initBoard";
 
 const initialState: BoardStore = {
@@ -11,6 +11,7 @@ const initialState: BoardStore = {
   reachableCells: [],
   inDangerKingPosition: [-1, -1],
   isGameOver: false,
+  movesHistory: [],
 };
 
 const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
@@ -84,12 +85,22 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
         state.board[rP][cP].isSelected = false;
       }
       state.selectedCellIndex = [-1, -1];
+    },
+    addMove(state, action: PayloadAction<{ from: CellIndex, to: CellIndex }>) {
+      const { from, to } = action.payload;
+      const [row, column] = to;
+
+      const piece = state.board[row][column].state as Piece;
+
+      state.movesHistory.push({
+        piece, from, to 
+      });
     }
   }
 });
 
 export const {
-  movePiece, onClickCell, setSelectedCell, setReachableCells, setKingDangerState
+  movePiece, onClickCell, setSelectedCell, setReachableCells, setKingDangerState, addMove
 } = boardSlice.actions;
 
 export const clearValues = boardSlice.actions.clearValues as ActionCreatorWithoutPayload<`${string}/${string}`>;

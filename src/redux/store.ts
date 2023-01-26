@@ -9,6 +9,7 @@ import boardStateReducer, {
   setReachableCells,
   setKingDangerState,
   setGameIsOver,
+  addMove,
 } from "./features/board/boardSlice";
 import { isKingInDanger, getKingPosition, hasEscapeCell, canAlliesSaveKing } from "../utils/kingHelper";
 
@@ -52,6 +53,9 @@ listenerMiddleware.startListening({
   actionCreator: movePiece,
   effect: async (action, listenerApi) => {
     const { boardStore } = listenerApi.getState() as RootState;
+    const { from, to } = action.payload;
+
+    listenerApi.dispatch(addMove({ from, to }));
 
     const kingPosition = getKingPosition(boardStore.board, boardStore.turn);
     const kingInDanger = isKingInDanger(boardStore.board, kingPosition);
