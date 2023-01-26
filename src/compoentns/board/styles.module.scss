@@ -12,6 +12,17 @@
   &__game {
     display: flex;
     gap: 2rem;
+
+    .left {
+      position: relative;
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-direction: column;
+    }
   }
 }
 
@@ -21,6 +32,8 @@
 }
 
 .gameOver {
+  position: absolute;
+  top: 80px;
   color: red;
   background: yellow;
   width: 50vw;

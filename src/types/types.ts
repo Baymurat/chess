@@ -47,3 +47,14 @@ export type BoardStore = {
 }
 
 export type PieceColor = "white" | "black"
+
+export type TimeType = {
+  second: number;
+  minute: number;
+  hour: number;
+}
+
+export type TimerStore = {
+  time: string;
+  isStarted: boolean;
+}

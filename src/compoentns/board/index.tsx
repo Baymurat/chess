@@ -2,6 +2,7 @@ import { HorizontalLegendRow, GameRow } from "../row";
 import { useSelector, useDispatch } from "react-redux";
 import GameOverBanner from "./GameOverBanner";
 import History from "../history";
+import Timer from "../timer";
 import { turnSelector, gameOverSelector, restartGame } from "../../redux/features/board/boardSlice";
 
 import styles from "./styles.module.scss";
@@ -19,18 +20,23 @@ const Board = () => {
       }}>RESTART</button>}
       <div className={styles.wrapper__header}>{turn}</div>
       <div className={styles.wrapper__game}>
-        <div className={styles.board}>
-          <GameRow rowNumber={8} />
-          <GameRow rowNumber={7} />
-          <GameRow rowNumber={6} />
-          <GameRow rowNumber={5} />
-          <GameRow rowNumber={4} />
-          <GameRow rowNumber={3} />
-          <GameRow rowNumber={2}/>
-          <GameRow rowNumber={1} />
-          <HorizontalLegendRow />
+        <div className={styles.left}>
+          <div className={styles.board}>
+            <GameRow rowNumber={8} />
+            <GameRow rowNumber={7} />
+            <GameRow rowNumber={6} />
+            <GameRow rowNumber={5} />
+            <GameRow rowNumber={4} />
+            <GameRow rowNumber={3} />
+            <GameRow rowNumber={2}/>
+            <GameRow rowNumber={1} />
+            <HorizontalLegendRow />
+          </div>
         </div>
-        <History />
+        <div className={styles.right}>
+          <Timer />
+          <History />
+        </div>
       </div>
     </div>
   );};
