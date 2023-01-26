@@ -7,8 +7,6 @@ const initialState: BoardStore = {
   loading: false,
   error: "",
   selectedCellIndex: [-1, -1],
-  possibleMoves: [],
-  impossibleMoves: [],
   turn: "white",
   reachableCells: [],
   inDangerKingPosition: [-1, -1],

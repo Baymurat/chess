@@ -32,8 +32,6 @@ export type BoardStore = {
   loading: boolean;
   error: string;
   selectedCellIndex: CellIndex;
-  possibleMoves: CellIndex[];
-  impossibleMoves: CellIndex[];
   turn: PieceColor;
   reachableCells: ReachableCell[];
   inDangerKingPosition: CellIndex;
