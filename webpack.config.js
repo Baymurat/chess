@@ -7,15 +7,17 @@ module.exports = {
   entry: {
     main: "./src/index.tsx"
   },
-  
+
   mode: "development",
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: "[name]-[hash].js",
+    publicPath: '/',
   },
   devtool: "source-map",
   devServer: {
     port: "3000",
+    historyApiFallback: true,
     static: {
       directory: path.join(__dirname, "public")
     },
