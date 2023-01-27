@@ -22,7 +22,7 @@ listenerMiddleware.startListening({
   actionCreator: onClickCell,
   effect: async (action, listenerApi) => {
     const { payload: { index } } = action;
-    const { boardStore, timerStore } = listenerApi.getState() as RootState;
+    const { boardStore } = listenerApi.getState() as RootState;
 
     const { board } = boardStore;
     const [prevRow, prevColumn] = boardStore.selectedCellIndex;
@@ -37,23 +37,6 @@ listenerMiddleware.startListening({
         const to: CellIndex = [currentRow, currentColumn];
         listenerApi.dispatch(movePiece({ from, to }));
         listenerApi.dispatch(clearValues());
-
-        if (!timerStore.isStarted) {
-          listenerApi.dispatch(setIsStarted({ isStared: true }));
-          timerInstance.startTimer((timeObject) => {
-            const {
-              second, minute, hour 
-            } = timeObject;
-    
-            const s = second < 10 ? `0${second}` : second;
-            const m = minute < 10 ? `0${minute}` : minute;
-            const h = hour < 10 ? `0${hour}` : hour;
-    
-            const time = `${h}:${m}:${s}`;
-            
-            listenerApi.dispatch(setTime({ time }));
-          });
-        }
       } else {
         listenerApi.dispatch(clearValues());
       }
@@ -100,6 +83,30 @@ listenerMiddleware.startListening({
           timerInstance.stopTimer();
         }
       }
+    }
+  }
+});
+
+listenerMiddleware.startListening({
+  actionCreator: movePiece,
+  effect: async (action, listenerApi) => {
+    const { timerStore } = listenerApi.getState() as RootState;
+
+    if (!timerStore.isStarted) {
+      listenerApi.dispatch(setIsStarted({ isStared: true }));
+      timerInstance.startTimer((timeObject) => {
+        const {
+          second, minute, hour 
+        } = timeObject;
+
+        const s = second < 10 ? `0${second}` : second;
+        const m = minute < 10 ? `0${minute}` : minute;
+        const h = hour < 10 ? `0${hour}` : hour;
+
+        const time = `${h}:${m}:${s}`;
+        
+        listenerApi.dispatch(setTime({ time }));
+      });
     }
   }
 });
