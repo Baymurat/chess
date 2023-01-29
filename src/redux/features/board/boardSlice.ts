@@ -101,11 +101,11 @@ const boardSlice = createSlice({
       }
       state.selectedCellIndex = [-1, -1];
     },
-    addMove(state, action: PayloadAction<{ from: CellIndex, to: CellIndex }>) {
-      const { from, to } = action.payload;
-      const [row, column] = to;
+    addMove(state, action: PayloadAction<{ piece: Piece, from: CellIndex, to: CellIndex }>) {
+      const {
+        from, to, piece 
+      } = action.payload;
 
-      const piece = state.board[row][column].state as Piece;
       const id: string = Math.random().toString();
 
       state.movesHistory.push({

@@ -75,7 +75,10 @@ listenerMiddleware.startListening({
     const nextTurn = boardStore.turn === "white" ? "black": "white";
     listenerApi.dispatch(setTurn({ turn: nextTurn }));
 
-    listenerApi.dispatch(addMove({ from, to }));
+    const piece = boardStore.board[to[0]][to[1]].state as Piece;
+    listenerApi.dispatch(addMove({
+      piece, from, to 
+    }));
 
     const kingPosition = getKingPosition(boardStore.board, nextTurn);
     const kingInDanger = isKingInDanger(boardStore.board, kingPosition);
