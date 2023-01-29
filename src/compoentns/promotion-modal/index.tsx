@@ -2,19 +2,24 @@ import GameCell from "../cell/GameCell";
 import { getPiece } from "../row/utils";
 import styles from "./styles.module.scss";
 import cx from "classnames";
+import { useDispatch } from "react-redux";
+import { promotePawn } from "../../redux/features/board/boardSlice"; 
+import { CellIndex, PieceNames } from "../../types/types";
 
 type Props = {
-  side: "white" | "black"
+  side: "white" | "black";
+  index: CellIndex;
 }
 
 const PromotionModal = (props: Props) => {
-  const { side } = props;
+  const { side, index } = props;
   const appearSide = side === "white" ? styles.whiteSide : styles.blackSide;
+  const dispatch = useDispatch();
 
   return (
     <div className={cx(styles.modal, appearSide)}>
       <GameCell
-        onClick={() => {}}
+        onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.QUEEN, color: side }}))}
         state={"empty"}
         index={[-1, -1]}
         isSelected={false}
@@ -25,7 +30,7 @@ const PromotionModal = (props: Props) => {
         <img src={getPiece(`queen_${side}`)} />
       </GameCell>
       <GameCell
-        onClick={() => {}}
+        onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.BISHOP, color: side }}))}
         state={"empty"}
         index={[-1, -1]}
         isSelected={false}
@@ -36,7 +41,7 @@ const PromotionModal = (props: Props) => {
         <img src={getPiece(`bishop_${side}`)} />        
       </GameCell>
       <GameCell
-        onClick={() => {}}
+        onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.ROOK, color: side }}))}
         state={"empty"}
         index={[-1, -1]}
         isSelected={false}
@@ -47,7 +52,7 @@ const PromotionModal = (props: Props) => {
         <img src={getPiece(`rook_${side}`)} />
       </GameCell>
       <GameCell
-        onClick={() => {}}
+        onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.KNIGHT, color: side }}))}
         state={"empty"}
         index={[-1, -1]}
         isSelected={false}

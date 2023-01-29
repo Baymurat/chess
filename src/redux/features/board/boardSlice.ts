@@ -25,6 +25,11 @@ const boardSlice = createSlice({
       const [row, column] = action.payload.index;
       state.board[row][column].isPromoteable = true;
     },
+    promotePawn(state, action: PayloadAction<{ index: CellIndex, piece: Piece }>) {
+      const [row, column] = action.payload.index;
+      state.board[row][column].state = action.payload.piece;
+      state.board[row][column].isPromoteable = false;
+    },
     movePiece(state, action: PayloadAction<{ from: CellIndex, to: CellIndex}>) {
       const [rF, cF] = action.payload.from;
       const [rT, cT] = action.payload.to;
@@ -113,6 +118,7 @@ export const {
   addMove, 
   setTurn,
   setPromotionIndex,
+  promotePawn,
 } = boardSlice.actions;
 
 export const clearValues = boardSlice.actions.clearValues as ActionCreatorWithoutPayload<`${string}/${string}`>;

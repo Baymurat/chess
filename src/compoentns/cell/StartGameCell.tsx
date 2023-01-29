@@ -15,7 +15,7 @@ const StartGameCell = (props: Props) => {
 
   return (
     <div>
-      {isPromoteable && <PromotionModal side={side} />}
+      {isPromoteable && <PromotionModal index={index} side={side} />}
       <GameCell 
         onClick={() => dispatch(onClickCell({ index }))}
         {...props}
