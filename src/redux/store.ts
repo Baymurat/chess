@@ -13,6 +13,7 @@ import boardStateReducer, {
   restartGame,
   setTurn,
   setPromotionIndex,
+  setBoardState,
 } from "./features/board/boardSlice";
 import timerReducer, { setTime, setIsStarted } from "./features/timer/timerSlice";
 import { isKingInDanger, getKingPosition, hasEscapeCell, canAlliesSaveKing } from "../utils/kingHelper";
@@ -26,6 +27,10 @@ listenerMiddleware.startListening({
   effect: async (action, listenerApi) => {
     const { payload: { index } } = action;
     const { boardStore } = listenerApi.getState() as RootState;
+
+    if (boardStore.isBoardDisabled) {
+      return;
+    }
 
     const { board } = boardStore;
     const [prevRow, prevColumn] = boardStore.selectedCellIndex;
@@ -63,6 +68,7 @@ listenerMiddleware.startListening({
 
     if (isPawnPromoteable(boardStore.board[to[0]][to[1]].state, to)) {
       listenerApi.dispatch(setPromotionIndex({ index: to }));
+      listenerApi.dispatch(setBoardState({ isBoardDisabled: true }));
       return;
     }
 

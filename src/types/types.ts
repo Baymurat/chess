@@ -47,6 +47,7 @@ export type BoardStore = {
   inDangerKingPosition: CellIndex;
   isGameOver: boolean;
   movesHistory: Move[];
+  isBoardDisabled: boolean;
 }
 
 export type PieceColor = "white" | "black"

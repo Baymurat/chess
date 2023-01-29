@@ -12,12 +12,16 @@ const initialState: BoardStore = {
   inDangerKingPosition: [-1, -1],
   isGameOver: false,
   movesHistory: [],
+  isBoardDisabled: false,
 };
 
 const boardSlice = createSlice({
   name: "board",
   initialState,
   reducers: {
+    setBoardState(state, action: PayloadAction<{ isBoardDisabled: boolean }>) {
+      state.isBoardDisabled = action.payload.isBoardDisabled;
+    },
     setTurn(state, action: PayloadAction<{ turn: PieceColor }>) {
       state.turn = action.payload.turn;
     },
@@ -29,6 +33,7 @@ const boardSlice = createSlice({
       const [row, column] = action.payload.index;
       state.board[row][column].state = action.payload.piece;
       state.board[row][column].isPromoteable = false;
+      state.isBoardDisabled = false;
     },
     movePiece(state, action: PayloadAction<{ from: CellIndex, to: CellIndex}>) {
       const [rF, cF] = action.payload.from;
@@ -119,6 +124,7 @@ export const {
   setTurn,
   setPromotionIndex,
   promotePawn,
+  setBoardState,
 } = boardSlice.actions;
 
 export const clearValues = boardSlice.actions.clearValues as ActionCreatorWithoutPayload<`${string}/${string}`>;
