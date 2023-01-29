@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction, ActionCreatorWithoutPayload, SliceCaseReducers } from "@reduxjs/toolkit";
-import { CellIndex, BoardStore, ReachableCell, Piece } from "../../../types/types";
+import { createSlice, PayloadAction, ActionCreatorWithoutPayload } from "@reduxjs/toolkit";
+import { CellIndex, BoardStore, ReachableCell, Piece, PieceColor } from "../../../types/types";
 import { generateBoard } from "../../../utils/initBoard";
 
 const initialState: BoardStore = {
@@ -14,14 +14,14 @@ const initialState: BoardStore = {
   movesHistory: [],
 };
 
-const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
+const boardSlice = createSlice({
   name: "board",
   initialState,
   reducers: {
+    setTurn(state, action: PayloadAction<{ turn: PieceColor }>) {
+      state.turn = action.payload.turn;
+    },
     movePiece(state, action: PayloadAction<{ from: CellIndex, to: CellIndex}>) {
-      const nextTurn = state.turn === "white" ? "black" : "white";
-      state.turn = nextTurn;
-
       const [rF, cF] = action.payload.from;
       const [rT, cT] = action.payload.to;
       state.board[rT][cT].state = state.board[rF][cF].state;
@@ -101,7 +101,13 @@ const boardSlice = createSlice<BoardStore, SliceCaseReducers<BoardStore>>({
 });
 
 export const {
-  movePiece, onClickCell, setSelectedCell, setReachableCells, setKingDangerState, addMove
+  movePiece,
+  onClickCell, 
+  setSelectedCell, 
+  setReachableCells,
+  setKingDangerState,
+  addMove, 
+  setTurn,
 } = boardSlice.actions;
 
 export const clearValues = boardSlice.actions.clearValues as ActionCreatorWithoutPayload<`${string}/${string}`>;

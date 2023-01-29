@@ -11,6 +11,7 @@ import boardStateReducer, {
   setGameIsOver,
   addMove,
   restartGame,
+  setTurn,
 } from "./features/board/boardSlice";
 import timerReducer, { setTime, setIsStarted } from "./features/timer/timerSlice";
 import { isKingInDanger, getKingPosition, hasEscapeCell, canAlliesSaveKing } from "../utils/kingHelper";
@@ -58,9 +59,12 @@ listenerMiddleware.startListening({
     const { boardStore } = listenerApi.getState() as RootState;
     const { from, to } = action.payload;
 
+    const nextTurn = boardStore.turn === "white" ? "black": "white";
+    listenerApi.dispatch(setTurn({ turn: nextTurn }));
+
     listenerApi.dispatch(addMove({ from, to }));
 
-    const kingPosition = getKingPosition(boardStore.board, boardStore.turn);
+    const kingPosition = getKingPosition(boardStore.board, nextTurn);
     const kingInDanger = isKingInDanger(boardStore.board, kingPosition);
 
     listenerApi.dispatch(setKingDangerState({ index: kingPosition, inDanger: kingInDanger }));
