@@ -1,24 +1,21 @@
 import { PropsWithChildren } from "react";
 import styles from "./styles.module.scss";
 import cx from "classnames";
-import { onClickCell } from "../../redux/features/board/boardSlice";
-import { useDispatch } from "react-redux";
 import { Cell } from "../../types/types";
 
-type Props = PropsWithChildren & Cell;
+type Props = PropsWithChildren & Cell & { onClick: () => void};
 
-const Cell = ({
+const GameCell = ({
   isPossibleMove, 
   isSelected,
   isWhite,
-  index, 
   children, 
   state,
   isReachableCell,
   isForbiddenForKing,
   isTargetKing,
+  onClick,
 }: Props) => {
-  const dispatch = useDispatch();
   const isUnderAttack = state !== "empty" && isPossibleMove;
 
   return (
@@ -32,11 +29,11 @@ const Cell = ({
         [styles.forbidden]: !isPossibleMove && isForbiddenForKing,
         [styles.isTargetKing]: isTargetKing,
       })}
-      onClick={() => dispatch(onClickCell({ index }))}
+      onClick={onClick}
     >
       {children}
     </div>
   );
 };
 
-export default Cell;
+export default GameCell;

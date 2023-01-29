@@ -14,6 +14,7 @@ const PromotionModal = (props: Props) => {
   return (
     <div className={cx(styles.modal, appearSide)}>
       <GameCell
+        onClick={() => {}}
         state={"empty"}
         index={[-1, -1]}
         isSelected={false}
@@ -24,6 +25,7 @@ const PromotionModal = (props: Props) => {
         <img src={getPiece(`queen_${side}`)} />
       </GameCell>
       <GameCell
+        onClick={() => {}}
         state={"empty"}
         index={[-1, -1]}
         isSelected={false}
@@ -34,6 +36,7 @@ const PromotionModal = (props: Props) => {
         <img src={getPiece(`bishop_${side}`)} />        
       </GameCell>
       <GameCell
+        onClick={() => {}}
         state={"empty"}
         index={[-1, -1]}
         isSelected={false}
@@ -44,6 +47,7 @@ const PromotionModal = (props: Props) => {
         <img src={getPiece(`rook_${side}`)} />
       </GameCell>
       <GameCell
+        onClick={() => {}}
         state={"empty"}
         index={[-1, -1]}
         isSelected={false}

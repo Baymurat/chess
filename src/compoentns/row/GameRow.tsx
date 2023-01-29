@@ -2,12 +2,15 @@ import { DisabledCell, GameCell } from "../cell";
 import { useSelector } from "react-redux";
 import { boardSelector } from "../../redux/features/board/boardSlice";
 import { getPiece } from "./utils";
+import { useDispatch } from "react-redux";
+import { onClickCell } from "../../redux/features/board/boardSlice";
 
 import styles from "./styles.module.scss";
 
 type Props = { rowNumber: number }
 
 const Row = ({ rowNumber }: Props) => {
+  const dispatch = useDispatch();
   const board = useSelector(boardSelector);
   const row = board[rowNumber - 1];
 
@@ -19,6 +22,7 @@ const Row = ({ rowNumber }: Props) => {
 
         return (
           <GameCell 
+            onClick={() => dispatch(onClickCell({ index }))}
             key={`${index[0]}${index[1]}`}
             {...cell}
           >
