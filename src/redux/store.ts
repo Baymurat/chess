@@ -1,5 +1,5 @@
 import { configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
-import { CellIndex, Piece } from "../types/types";
+import { CellIndex, Piece, PieceNames } from "../types/types";
 import { calculateReachableCells } from "../utils/possibleMoves";
 import boardStateReducer, { 
   onClickCell, 
@@ -14,6 +14,7 @@ import boardStateReducer, {
   setTurn,
   setPromotionIndex,
   setBoardState,
+  promotePawn,
 } from "./features/board/boardSlice";
 import timerReducer, { setTime, setIsStarted } from "./features/timer/timerSlice";
 import { isKingInDanger, getKingPosition, hasEscapeCell, canAlliesSaveKing } from "../utils/kingHelper";
@@ -138,6 +139,33 @@ listenerMiddleware.startListening({
     listenerApi.dispatch(setIsStarted({ isStared: false }));
     timerInstance.stopTimer();
   }
+});
+
+listenerMiddleware.startListening({
+  actionCreator: promotePawn,
+  effect: async (action, listenerApi) => {
+    const { index } = action.payload;
+    const { boardStore } = listenerApi.getState() as RootState;
+
+    const nextTurn = boardStore.turn === "white" ? "black": "white";
+    listenerApi.dispatch(setTurn({ turn: nextTurn }));
+
+    const [row, column] = index;
+    const from: CellIndex = [nextTurn === "white" ? row + 1 : row - 1, column];
+    const to = index;
+
+    listenerApi.dispatch(addMove({
+      piece: { name: PieceNames.PAWN, color: nextTurn === "white" ? "black" : "white" },
+      from, 
+      to,
+    }));
+
+    const kingPosition = getKingPosition(boardStore.board, nextTurn);
+    const kingInDanger = isKingInDanger(boardStore.board, kingPosition);
+
+    listenerApi.dispatch(setKingDangerState({ index: kingPosition, inDanger: kingInDanger }));
+    listenerApi.dispatch(setBoardState({ isBoardDisabled: false }));
+  }  
 });
 
 export const store = configureStore({

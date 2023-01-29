@@ -33,8 +33,6 @@ const boardSlice = createSlice({
       const [row, column] = action.payload.index;
       state.board[row][column].state = action.payload.piece;
       state.board[row][column].isPromoteable = false;
-      state.isBoardDisabled = false;
-      state.turn = state.turn === "white" ? "black" : "white";
     },
     movePiece(state, action: PayloadAction<{ from: CellIndex, to: CellIndex}>) {
       const [rF, cF] = action.payload.from;
