@@ -12,10 +12,12 @@ import boardStateReducer, {
   addMove,
   restartGame,
   setTurn,
+  setPromotionIndex,
 } from "./features/board/boardSlice";
 import timerReducer, { setTime, setIsStarted } from "./features/timer/timerSlice";
 import { isKingInDanger, getKingPosition, hasEscapeCell, canAlliesSaveKing } from "../utils/kingHelper";
 import { timerInstance } from "../utils/timer";
+import { isPawnPromoteable } from "../utils/pawnHelper";
 
 const listenerMiddleware = createListenerMiddleware();
 
@@ -58,6 +60,11 @@ listenerMiddleware.startListening({
   effect: async (action, listenerApi) => {
     const { boardStore } = listenerApi.getState() as RootState;
     const { from, to } = action.payload;
+
+    if (isPawnPromoteable(boardStore.board[to[0]][to[1]].state, to)) {
+      listenerApi.dispatch(setPromotionIndex({ index: to }));
+      return;
+    }
 
     const nextTurn = boardStore.turn === "white" ? "black": "white";
     listenerApi.dispatch(setTurn({ turn: nextTurn }));

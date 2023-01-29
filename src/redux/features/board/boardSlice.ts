@@ -21,6 +21,10 @@ const boardSlice = createSlice({
     setTurn(state, action: PayloadAction<{ turn: PieceColor }>) {
       state.turn = action.payload.turn;
     },
+    setPromotionIndex(state, action: PayloadAction<{ index: CellIndex }>) {
+      const [row, column] = action.payload.index;
+      state.board[row][column].isPromoteable = true;
+    },
     movePiece(state, action: PayloadAction<{ from: CellIndex, to: CellIndex}>) {
       const [rF, cF] = action.payload.from;
       const [rT, cT] = action.payload.to;
@@ -108,6 +112,7 @@ export const {
   setKingDangerState,
   addMove, 
   setTurn,
+  setPromotionIndex,
 } = boardSlice.actions;
 
 export const clearValues = boardSlice.actions.clearValues as ActionCreatorWithoutPayload<`${string}/${string}`>;

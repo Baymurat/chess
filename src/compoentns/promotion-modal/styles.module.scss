@@ -1,0 +1,13 @@
+.modal {
+  position: absolute;
+  display: flex;
+  z-index: 1;
+  
+  &.whiteSide {
+    transform: translate(-40%, -110%);
+  }
+
+  &.blackSide {
+    transform: translate(-40%, 110%);
+  }
+}

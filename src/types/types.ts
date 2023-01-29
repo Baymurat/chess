@@ -15,7 +15,7 @@ export type Piece = {
 export type CellIndex = [number, number]
 
 export type Cell = {
-  state: "empty" | Piece; 
+  state: CellState;
   index: CellIndex;
   isSelected: boolean;
   isPossibleMove: boolean;
@@ -23,7 +23,10 @@ export type Cell = {
   isReachableCell: boolean;
   isForbiddenForKing?: boolean;
   isTargetKing?: boolean;
+  isPromoteable?: boolean;
 }
+
+export type CellState = "empty" | Piece;
 
 export type ReachableCell = Pick<Cell, "index" | "isPossibleMove" | "isForbiddenForKing">;
 

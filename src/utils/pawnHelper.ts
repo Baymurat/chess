@@ -1,4 +1,4 @@
-import { Cell, Piece, CellIndex, ReachableCell, PieceColor } from "../types/types";
+import { Cell, Piece, CellIndex, ReachableCell, PieceColor, CellState, PieceNames } from "../types/types";
 import { getKingPosition, isKingInDanger } from "./kingHelper"; 
 import { movePieceTo, copyBoard } from "./commonHelper";
 
@@ -77,4 +77,22 @@ export const pawnMove = (board: Cell[][], piece: Piece, position: CellIndex): Re
   }
 
   return result;
+};
+
+export const isPawnPromoteable = (piece: CellState, index: CellIndex): boolean => {
+  if (piece !== "empty") {
+    const [row] = index;
+    const isWhitePawn = piece.name === PieceNames.PAWN && piece.color === "white";
+    const isBlackPawn = piece.name === PieceNames.PAWN && piece.color === "black";
+
+    if (isWhitePawn && row === 7) {
+      return true;
+    }
+
+    if (isBlackPawn && row === 0) { 
+      return true;
+    }
+  }
+
+  return false;
 };

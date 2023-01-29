@@ -1,4 +1,4 @@
-import { HorizontalLegendRow, GameRow } from "../row";
+import { HorizontalLegendRow, GameRow, StartGameRow } from "../row";
 import { useSelector, useDispatch } from "react-redux";
 import GameOverBanner from "./GameOverBanner";
 import History from "../history";
@@ -29,14 +29,14 @@ const Board = () => {
       <div className={styles.wrapper__game}>
         <div className={styles.left}>
           <div className={styles.board}>
-            <GameRow rowNumber={8} />
+            <StartGameRow side="white" rowNumber={8} />
             <GameRow rowNumber={7} />
             <GameRow rowNumber={6} />
             <GameRow rowNumber={5} />
             <GameRow rowNumber={4} />
             <GameRow rowNumber={3} />
-            <GameRow rowNumber={2}/>
-            <GameRow rowNumber={1} />
+            <GameRow rowNumber={2} />
+            <StartGameRow side="black" rowNumber={1} />
             <HorizontalLegendRow />
           </div>
         </div>
