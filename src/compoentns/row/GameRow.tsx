@@ -1,11 +1,11 @@
-import { DisabledCell, GameCell } from "../cell";
 import { useSelector } from "react-redux";
-import { boardSelector } from "../../redux/features/board/boardSlice";
-import { getPiece } from "./utils";
 import { useDispatch } from "react-redux";
-import { onClickCell } from "../../redux/features/board/boardSlice";
 
+import { boardSelector } from "../../redux/features/board/boardSlice";
+import { onClickCell } from "../../redux/features/board/boardSlice";
+import { DisabledCell, GameCell } from "../cell";
 import styles from "./styles.module.scss";
+import { getPiece } from "./utils";
 
 type Props = { rowNumber: number }
 

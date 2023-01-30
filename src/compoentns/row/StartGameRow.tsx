@@ -1,9 +1,9 @@
-import { DisabledCell, StartGameCell } from "../cell";
 import { useSelector } from "react-redux";
-import { boardSelector } from "../../redux/features/board/boardSlice";
-import { getPiece } from "./utils";
 
+import { boardSelector } from "../../redux/features/board/boardSlice";
+import { DisabledCell, StartGameCell } from "../cell";
 import styles from "./styles.module.scss";
+import { getPiece } from "./utils";
 
 type Props = { rowNumber: number, side: "black" | "white" }
 

@@ -1,7 +1,8 @@
-import { PropsWithChildren } from "react";
-import styles from "./styles.module.scss";
 import cx from "classnames";
+import { PropsWithChildren } from "react";
+
 import { Cell } from "../../types/types";
+import styles from "./styles.module.scss";
 
 type Props = PropsWithChildren & Cell & { onClick: () => void};
 

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { timeSelector } from "../../redux/features/timer/timerSlice";
 
+import { timeSelector } from "../../redux/features/timer/timerSlice";
 import styles from "./styles.module.scss";
 
 const Timer = () => {

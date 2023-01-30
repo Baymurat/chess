@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction, ActionCreatorWithoutPayload } from "@reduxjs/toolkit";
-import { CellIndex, BoardStore, ReachableCell, Piece, PieceColor } from "../../../types/types";
+import { ActionCreatorWithoutPayload,createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+import { BoardStore, CellIndex, Piece, PieceColor,ReachableCell } from "../../../types/types";
 import { generateBoard } from "../../../utils/initBoard";
 
 const initialState: BoardStore = {

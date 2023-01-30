@@ -1,11 +1,12 @@
-import { Provider } from "react-redux";
-import Board from "./compoentns/board";
-import { store } from "./redux/store";
-import WelcomePage from "./compoentns/welcome-page";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 import "../style/style.scss";
+
 import React from "react";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router, Route,Routes } from "react-router-dom";
+
+import Board from "./compoentns/board";
+import WelcomePage from "./compoentns/welcome-page";
+import { store } from "./redux/store";
 
 const App = () => (
   <Provider store={store}>

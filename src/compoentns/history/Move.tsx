@@ -1,6 +1,6 @@
 import React from "react";
-import type { Move as MoveType } from "../../types/types";
 
+import type { Move as MoveType } from "../../types/types";
 import styles from "./styles.module.scss";
 
 type Props = MoveType

@@ -1,5 +1,5 @@
-import { Cell, Piece, CellIndex, PieceColor, PieceNames, ReachableCell } from "../types/types";
-import { movePieceTo, copyBoard, getAllies } from "./commonHelper";
+import { Cell, CellIndex, Piece, PieceColor, PieceNames, ReachableCell } from "../types/types";
+import { copyBoard, getAllies,movePieceTo } from "./commonHelper";
 import { getKnightDirections } from "./knightHelper";
 import { getPawnAttackPositions } from "./pawnHelper";
 import { calculateReachableCells } from "./possibleMoves";

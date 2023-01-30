@@ -1,5 +1,4 @@
 import DisabledCell from "../cell/DisabledCell";
-
 import styles from "./styles.module.scss";
 
 const HorizontalLegendRow = () => (

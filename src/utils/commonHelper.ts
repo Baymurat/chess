@@ -1,4 +1,4 @@
-import { Cell, PieceNames, CellIndex, PieceColor } from "../types/types";
+import { Cell, CellIndex, PieceColor,PieceNames } from "../types/types";
 
 export const copyBoard = (board: Cell[][]): Cell[][] => {
   const result: Cell[][] = [];

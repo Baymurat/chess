@@ -1,9 +1,10 @@
 import { PropsWithChildren } from "react";
-import { Cell } from "../../types/types";
-import { GameCell } from "./index";
-import PromotionModal from "../promotion-modal";
-import { onClickCell } from "../../redux/features/board/boardSlice";
 import { useDispatch } from "react-redux";
+
+import { onClickCell } from "../../redux/features/board/boardSlice";
+import { Cell } from "../../types/types";
+import PromotionModal from "../promotion-modal";
+import { GameCell } from "./index";
 
 type Props = PropsWithChildren & Cell & { side: "white" | "black" };
 

@@ -1,5 +1,5 @@
-import { Cell, Piece, CellIndex, ReachableCell } from "../types/types";
-import { movePieceTo, copyBoard } from "./commonHelper";
+import { Cell, CellIndex, Piece, ReachableCell } from "../types/types";
+import { copyBoard,movePieceTo } from "./commonHelper";
 import { getKingPosition, isKingInDanger } from "./kingHelper";
 
 export const getKnightDirections = (position: CellIndex): CellIndex[] => {

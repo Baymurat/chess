@@ -1,25 +1,26 @@
 import { configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
+
 import { CellIndex, Piece, PieceNames } from "../types/types";
+import { canAlliesSaveKing,getKingPosition, hasEscapeCell, isKingInDanger } from "../utils/kingHelper";
+import { isPawnPromoteable } from "../utils/pawnHelper";
 import { calculateReachableCells } from "../utils/possibleMoves";
+import { timerInstance } from "../utils/timer";
 import boardStateReducer, {
-  onClickCell,
-  setSelectedCell,
+  addMove,
   clearValues,
   movePiece,
-  setReachableCells,
-  setKingDangerState,
-  setGameIsOver,
-  addMove,
-  restartGame,
-  setTurn,
-  setPromotionIndex,
-  setBoardState,
+  onClickCell,
   promotePawn,
+  restartGame,
+  setBoardState,
+  setGameIsOver,
+  setKingDangerState,
+  setPromotionIndex,
+  setReachableCells,
+  setSelectedCell,
+  setTurn,
 } from "./features/board/boardSlice";
-import timerReducer, { setTime, setIsStarted } from "./features/timer/timerSlice";
-import { isKingInDanger, getKingPosition, hasEscapeCell, canAlliesSaveKing } from "../utils/kingHelper";
-import { timerInstance } from "../utils/timer";
-import { isPawnPromoteable } from "../utils/pawnHelper";
+import timerReducer, { setIsStarted,setTime } from "./features/timer/timerSlice";
 
 const listenerMiddleware = createListenerMiddleware();
 

@@ -9,9 +9,12 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": { "project": ["./tsconfig.json"] },
   "plugins": [
-      "@typescript-eslint"
+    "@typescript-eslint",
+    "simple-import-sort", 
   ],
   "rules": {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
       "no-trailing-spaces": "error",
       // enable additional rules
       "linebreak-style": ["error", "unix"],

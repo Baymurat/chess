@@ -1,16 +1,15 @@
-import pawnBlack from "../../../assets/chess_pieces/pawn_black.png";
-import rookBlack from "../../../assets/chess_pieces/rook_black.png";
-import knightBlack from "../../../assets/chess_pieces/knight_black.png";
 import bishopBlack from "../../../assets/chess_pieces/bishop_black.png";
-import kingBlack from "../../../assets/chess_pieces/king_black.png";
-import queenBlack from "../../../assets/chess_pieces/queen_black.png";
-
-import pawnWhite from "../../../assets/chess_pieces/pawn_white.png";
-import rookWhite from "../../../assets/chess_pieces/rook_white.png";
-import knightWhite from "../../../assets/chess_pieces/knight_white.png";
 import bishopWhite from "../../../assets/chess_pieces/bishop_white.png";
+import kingBlack from "../../../assets/chess_pieces/king_black.png";
 import kingWhite from "../../../assets/chess_pieces/king_white.png";
+import knightBlack from "../../../assets/chess_pieces/knight_black.png";
+import knightWhite from "../../../assets/chess_pieces/knight_white.png";
+import pawnBlack from "../../../assets/chess_pieces/pawn_black.png";
+import pawnWhite from "../../../assets/chess_pieces/pawn_white.png";
+import queenBlack from "../../../assets/chess_pieces/queen_black.png";
 import queenWhite from "../../../assets/chess_pieces/queen_white.png";
+import rookBlack from "../../../assets/chess_pieces/rook_black.png";
+import rookWhite from "../../../assets/chess_pieces/rook_white.png";
 
 export const getPiece = (name: string) => {
 

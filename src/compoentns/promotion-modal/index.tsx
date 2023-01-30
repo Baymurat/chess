@@ -1,10 +1,11 @@
+import cx from "classnames";
+import { useDispatch } from "react-redux";
+
+import { promotePawn } from "../../redux/features/board/boardSlice";
+import { CellIndex, PieceNames } from "../../types/types";
 import GameCell from "../cell/GameCell";
 import { getPiece } from "../row/utils";
 import styles from "./styles.module.scss";
-import cx from "classnames";
-import { useDispatch } from "react-redux";
-import { promotePawn } from "../../redux/features/board/boardSlice";
-import { CellIndex, PieceNames } from "../../types/types";
 
 type Props = {
   side: "white" | "black";

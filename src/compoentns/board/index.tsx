@@ -1,11 +1,11 @@
-import { HorizontalLegendRow, GameRow, StartGameRow } from "../row";
-import { useSelector, useDispatch } from "react-redux";
-import GameOverBanner from "./GameOverBanner";
-import History from "../history";
-import Timer from "../timer";
+import { useDispatch,useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { turnSelector, gameOverSelector, restartGame } from "../../redux/features/board/boardSlice";
 
+import { gameOverSelector, restartGame,turnSelector } from "../../redux/features/board/boardSlice";
+import History from "../history";
+import { GameRow, HorizontalLegendRow, StartGameRow } from "../row";
+import Timer from "../timer";
+import GameOverBanner from "./GameOverBanner";
 import styles from "./styles.module.scss";
 
 const Board = () => {

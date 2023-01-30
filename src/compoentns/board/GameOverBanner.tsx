@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import { restartGame } from "../../redux/features/board/boardSlice";
 
+import { restartGame } from "../../redux/features/board/boardSlice";
 import styles from "./styles.module.scss";
 
 const GameOverBanner = () => {

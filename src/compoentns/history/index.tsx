@@ -1,8 +1,8 @@
-import { useRef, useEffect } from "react";
+import { useEffect,useRef } from "react";
 import { useSelector} from "react-redux";
+
 import { historySelector } from "../../redux/features/board/boardSlice";
 import Move from "./Move";
-
 import styles from "./styles.module.scss";
 
 const History = () => {

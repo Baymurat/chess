@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import { TimerStore } from "../../../types/types";
 
 const initialState: TimerStore = {

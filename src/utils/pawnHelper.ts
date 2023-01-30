@@ -1,6 +1,6 @@
-import { Cell, Piece, CellIndex, ReachableCell, PieceColor, CellState, PieceNames } from "../types/types";
+import { Cell, CellIndex, CellState, Piece, PieceColor, PieceNames,ReachableCell } from "../types/types";
+import { copyBoard,movePieceTo } from "./commonHelper";
 import { getKingPosition, isKingInDanger } from "./kingHelper";
-import { movePieceTo, copyBoard } from "./commonHelper";
 
 export const getPawnAttackPositions = (position: CellIndex, color: PieceColor): CellIndex[] => {
   const [row, column] = position;

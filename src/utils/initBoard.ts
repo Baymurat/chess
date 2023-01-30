@@ -1,6 +1,7 @@
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
-import { Piece, Cell, CellIndex, PieceColor } from "../types/types";
+
+import { Cell, CellIndex, Piece, PieceColor } from "../types/types";
 import { PieceNames } from "../types/types";
 
 const createEmptyBoard = (): Cell[][] => {
