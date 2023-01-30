@@ -1,5 +1,5 @@
 import { Cell, Piece, CellIndex, ReachableCell, PieceColor, CellState, PieceNames } from "../types/types";
-import { getKingPosition, isKingInDanger } from "./kingHelper"; 
+import { getKingPosition, isKingInDanger } from "./kingHelper";
 import { movePieceTo, copyBoard } from "./commonHelper";
 
 export const getPawnAttackPositions = (position: CellIndex, color: PieceColor): CellIndex[] => {
@@ -18,7 +18,7 @@ export const getPawnAttackPositions = (position: CellIndex, color: PieceColor): 
     [down, left, !isWhite && down > -1 && left > -1],
     [up, left, isWhite && up < 8 && left > -1]
   ];
-  
+
   const result: CellIndex[] = allDirections
     .filter(([,, condition]) => condition)
     .map(([v, h]) => [v, h]);
@@ -40,7 +40,7 @@ const getPawnMovePositions = (position: CellIndex, color: PieceColor): CellIndex
 
   if ((isWhite && row === 1) || (!isWhite && row === 6)) {
     result.push([r2, column]);
-  } 
+  }
 
   return result;
 };
@@ -68,7 +68,7 @@ export const pawnMove = (board: Cell[][], piece: Piece, position: CellIndex): Re
   for (let i = 0; i < attackPositions.length; i++) {
     const [row, column] = attackPositions[i];
     const cell = board[row][column].state;
-    
+
     if (cell !== "empty" && cell.color !== piece.color) {
       const draftBoard = copyBoard(board);
       const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, position, [row, column]), kingPosition);
@@ -89,7 +89,7 @@ export const isPawnPromoteable = (piece: CellState, index: CellIndex): boolean =
       return true;
     }
 
-    if (isBlackPawn && row === 0) { 
+    if (isBlackPawn && row === 0) {
       return true;
     }
   }

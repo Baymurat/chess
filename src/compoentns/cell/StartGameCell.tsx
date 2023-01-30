@@ -9,14 +9,14 @@ type Props = PropsWithChildren & Cell & { side: "white" | "black" };
 
 const StartGameCell = (props: Props) => {
   const {
-    isPromoteable, side, index 
+    isPromoteable, side, index
   } = props;
   const dispatch = useDispatch();
 
   return (
     <div>
       {isPromoteable && <PromotionModal index={index} side={side} />}
-      <GameCell 
+      <GameCell
         onClick={() => dispatch(onClickCell({ index }))}
         {...props}
       />

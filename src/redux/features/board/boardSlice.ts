@@ -69,7 +69,7 @@ const boardSlice = createSlice({
     setReachableCells(state, action: PayloadAction<{ reachableCells: ReachableCell[] }>) {
       const { reachableCells } = action.payload;
       reachableCells.forEach(({
-        index, isPossibleMove, isForbiddenForKing 
+        index, isPossibleMove, isForbiddenForKing
       }) => {
         const [row, column] = index;
         state.board[row][column].isReachableCell = true;
@@ -101,7 +101,7 @@ const boardSlice = createSlice({
     },
     addMove(state, action: PayloadAction<{ piece: Piece, from: CellIndex, to: CellIndex }>) {
       const {
-        from, to, piece 
+        from, to, piece
       } = action.payload;
 
       const id: string = Math.random().toString();
@@ -115,11 +115,11 @@ const boardSlice = createSlice({
 
 export const {
   movePiece,
-  onClickCell, 
-  setSelectedCell, 
+  onClickCell,
+  setSelectedCell,
   setReachableCells,
   setKingDangerState,
-  addMove, 
+  addMove,
   setTurn,
   setPromotionIndex,
   promotePawn,

@@ -46,14 +46,14 @@ export const canAlliesSaveKing = (board: Cell[][], color: PieceColor): boolean =
       return true;
     }
   }
-  
+
   return false;
 };
 
 export const kingMove = (board: Cell[][], color: PieceColor, position: CellIndex): ReachableCell[] => {
   const result: ReachableCell[] = [];
 
-  getKingDirections(position).forEach(([v, h]) => {  
+  getKingDirections(position).forEach(([v, h]) => {
     const isEmpty = board[v][h].state === "empty";
     const isEnemy = (board[v][h].state as Piece).color !== color;
     const draftBoard = copyBoard(board);
@@ -63,7 +63,7 @@ export const kingMove = (board: Cell[][], color: PieceColor, position: CellIndex
     if (isEmpty || isEnemy) {
       const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, position, to), to);
       result.push({
-        index: [v, h], 
+        index: [v, h],
         isForbiddenForKing: !isPossibleMove,
         isPossibleMove,
       });
@@ -179,7 +179,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   )) {
     return true;
   }
-  
+
   // Move to the right (horizontal direction)
   if (isDangerPath(
     (counter) => (column + counter) < 8,
@@ -227,7 +227,7 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
   )) {
     return true;
   }
-  
+
   if (threatFromPawn(board, kingPosition, color)) {
     return true;
   }
@@ -246,11 +246,11 @@ export const isKingInDanger = (board: Cell[][], kingPosition: CellIndex): boolea
 export const getKingPosition = (board: Cell[][], color: PieceColor): CellIndex => {
   for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[i].length; j++) {
-      if (board[i][j].state !== "empty" 
+      if (board[i][j].state !== "empty"
           && (board[i][j].state as Piece).name === PieceNames.KING
           && (board[i][j].state as Piece).color === color) {
         return [i, j];
-      } 
+      }
     }
   }
 

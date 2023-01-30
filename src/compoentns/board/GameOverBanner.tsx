@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 
 const GameOverBanner = () => {
   const dispatch = useDispatch();
-  
+
   return (
     <div className={styles.gameOver}>
       CHECKMATE

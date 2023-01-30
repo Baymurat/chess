@@ -77,8 +77,8 @@ const initOfficers = (board: Cell[][], color: PieceColor): Cell[][] => {
     copy[0][3].state = buildPiece(PieceNames.QUEEN, "white");
     copy[0][4].state = buildPiece(PieceNames.KING, "white");
   } else {
-    copy[7][0].state = buildPiece(PieceNames.ROOK, "black");  
-    copy[7][7].state = buildPiece(PieceNames.ROOK, "black");  
+    copy[7][0].state = buildPiece(PieceNames.ROOK, "black");
+    copy[7][7].state = buildPiece(PieceNames.ROOK, "black");
     copy[7][1].state = buildPiece(PieceNames.KNIGHT, "black");
     copy[7][6].state = buildPiece(PieceNames.KNIGHT, "black");
     copy[7][2].state = buildPiece(PieceNames.BISHOP, "black");
@@ -93,15 +93,15 @@ const initOfficers = (board: Cell[][], color: PieceColor): Cell[][] => {
 const initPawns = (board: Cell[][], color: PieceColor): Cell[][] => {
   const copy = copyBoard(board);
   const dummy = new Array(8).fill("");
-  
+
   if (color === "white") {
     dummy.forEach((e, i) => {
       copy[1][i].state = buildPiece(PieceNames.PAWN, color);
-    });  
+    });
   } else {
     dummy.forEach((e, i) => {
       copy[6][i].state = buildPiece(PieceNames.PAWN, color);
-    }); 
+    });
   }
 
   return copy;
@@ -114,7 +114,7 @@ const parseCell = (row: number) => (elem: string, index: number): Cell => {
 
   const [p, c] = elem.split("-");
   const color: PieceColor = c === "W" ? "white" : "black";
-  
+
   let name: PieceNames = PieceNames.PAWN;
 
   if (p === "Q") {
@@ -176,5 +176,5 @@ export const generateBoard = (): Cell[][] => {
     map((board) => initPawns(board, "white")),
   ).subscribe((b) => (board = b));
 
-  return board; 
+  return board;
 };

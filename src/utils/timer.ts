@@ -3,7 +3,7 @@ import { TimeType } from "../types/types";
 const parseSeconds = (seconds: number): TimeType => {
   const hour = Math.floor(seconds / 60 / 60);
   const minute = Math.floor((seconds - (hour * 60 * 60)) / 60);
-  const second = seconds - (hour * 60 * 60) - (minute * 60); 
+  const second = seconds - (hour * 60 * 60) - (minute * 60);
 
   return {
     second, minute, hour
@@ -30,7 +30,7 @@ class Timer {
   getTime(): TimeType {
     return parseSeconds(this.counted);
   }
-  
+
   startTimer(callBack: (i: TimeType) => void) {
     if (this.intervalId) {
       return;

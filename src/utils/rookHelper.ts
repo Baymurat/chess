@@ -1,5 +1,5 @@
 import { Cell, Piece, PieceColor, CellIndex, ReachableCell } from "../types/types";
-import { getKingPosition, isKingInDanger } from "./kingHelper"; 
+import { getKingPosition, isKingInDanger } from "./kingHelper";
 import { movePieceTo, copyBoard } from "./commonHelper";
 
 const rookMoveHelper = (cell: Cell, color: PieceColor) => {
@@ -21,7 +21,7 @@ export const rookMove = (board: Cell[][], piece: Piece, position: CellIndex): Re
   const kingPosition = getKingPosition(board, piece.color);
 
   const result: ReachableCell[] = [];
-  
+
   // TO RIGHT
   let draftBoard = copyBoard(board);
   for (let i = column + 1; i < 8; i++) {

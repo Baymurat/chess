@@ -6,10 +6,10 @@ import { Cell } from "../../types/types";
 type Props = PropsWithChildren & Cell & { onClick: () => void};
 
 const GameCell = ({
-  isPossibleMove, 
+  isPossibleMove,
   isSelected,
   isWhite,
-  children, 
+  children,
   state,
   isReachableCell,
   isForbiddenForKing,
@@ -19,8 +19,8 @@ const GameCell = ({
   const isUnderAttack = state !== "empty" && isPossibleMove;
 
   return (
-    <div 
-      className={cx(styles.cell, { 
+    <div
+      className={cx(styles.cell, {
         [styles.white]: isWhite,
         [styles.selected]: isSelected,
         [styles.reachable]: isReachableCell,

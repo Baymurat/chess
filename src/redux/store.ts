@@ -1,9 +1,9 @@
 import { configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
 import { CellIndex, Piece, PieceNames } from "../types/types";
 import { calculateReachableCells } from "../utils/possibleMoves";
-import boardStateReducer, { 
-  onClickCell, 
-  setSelectedCell, 
+import boardStateReducer, {
+  onClickCell,
+  setSelectedCell,
   clearValues,
   movePiece,
   setReachableCells,
@@ -78,7 +78,7 @@ listenerMiddleware.startListening({
 
     const piece = boardStore.board[to[0]][to[1]].state as Piece;
     listenerApi.dispatch(addMove({
-      piece, from, to 
+      piece, from, to
     }));
 
     const kingPosition = getKingPosition(boardStore.board, nextTurn);
@@ -117,7 +117,7 @@ listenerMiddleware.startListening({
       listenerApi.dispatch(setIsStarted({ isStared: true }));
       timerInstance.startTimer((timeObject) => {
         const {
-          second, minute, hour 
+          second, minute, hour
         } = timeObject;
 
         const s = second < 10 ? `0${second}` : second;
@@ -125,7 +125,7 @@ listenerMiddleware.startListening({
         const h = hour < 10 ? `0${hour}` : hour;
 
         const time = `${h}:${m}:${s}`;
-        
+
         listenerApi.dispatch(setTime({ time }));
       });
     }
@@ -156,7 +156,7 @@ listenerMiddleware.startListening({
 
     listenerApi.dispatch(addMove({
       piece: { name: PieceNames.PAWN, color: nextTurn === "white" ? "black" : "white" },
-      from, 
+      from,
       to,
     }));
 
@@ -165,7 +165,7 @@ listenerMiddleware.startListening({
 
     listenerApi.dispatch(setKingDangerState({ index: kingPosition, inDanger: kingInDanger }));
     listenerApi.dispatch(setBoardState({ isBoardDisabled: false }));
-  }  
+  }
 });
 
 export const store = configureStore({

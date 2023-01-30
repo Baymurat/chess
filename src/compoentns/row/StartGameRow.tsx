@@ -18,13 +18,13 @@ const StartGameRow = ({ rowNumber, side }: Props) => {
         const { index } = cell;
 
         return (
-          <StartGameCell 
+          <StartGameCell
             side={side}
             key={`${index[0]}${index[1]}`}
             {...cell}
           >
-            {cell.state === "empty" 
-              ? "" 
+            {cell.state === "empty"
+              ? ""
               : <img src={getPiece(`${cell.state.name}_${cell.state.color}`)} />}
           </StartGameCell>
         );

@@ -9,7 +9,7 @@ const letters = "ABCDEFGH";
 
 const parseMove = (move: MoveType): string => {
   const {
-    from, to, piece 
+    from, to, piece
   } = move;
 
   const [r1, c1] = from;

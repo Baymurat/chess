@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "../style/style.scss";
 import React from "react";
 
-const App = () => (   
+const App = () => (
   <Provider store={store}>
     <Router>
       <Routes>

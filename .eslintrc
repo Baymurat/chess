@@ -12,6 +12,7 @@
       "@typescript-eslint"
   ],
   "rules": {
+      "no-trailing-spaces": "error",
       // enable additional rules
       "linebreak-style": ["error", "unix"],
       "quotes": ["error", "double"],

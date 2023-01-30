@@ -12,15 +12,15 @@ const Board = () => {
   const turn = useSelector(turnSelector);
   const dispatch = useDispatch();
   const isGameOver = useSelector(gameOverSelector);
-  
+
   return (
     <div className={styles.wrapper}>
       {isGameOver && <GameOverBanner />}
       {!isGameOver && <button onClick={() => {
         dispatch(restartGame());
       }}>RESTART</button>}
-      <Link 
-        to={"/"} 
+      <Link
+        to={"/"}
         onClick={() => dispatch(restartGame())}
       >
         Back to menu

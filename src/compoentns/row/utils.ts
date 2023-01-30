@@ -51,7 +51,7 @@ export const getPiece = (name: string) => {
     case "queen_white": {
       return queenWhite;
     }
-    
+
     default: return "";
   }
 };

@@ -1,5 +1,5 @@
 import { Cell, Piece, PieceColor, CellIndex, ReachableCell } from "../types/types";
-import { getKingPosition, isKingInDanger } from "./kingHelper"; 
+import { getKingPosition, isKingInDanger } from "./kingHelper";
 import { movePieceTo, copyBoard } from "./commonHelper";
 
 
@@ -44,7 +44,7 @@ export const bishopMove = (board: Cell[][], piece: Piece, position: CellIndex): 
   draftBoard = copyBoard(board);
   for (let i = row + 1, j = column - 1; i < 8 && j > -1; i++, j--) {
     const [isAdd, isBreak] = moveHelper(board, piece.color, i, j);
-  
+
     if (isAdd) {
       const from: CellIndex = [i - 1, j + 1];
       const to: CellIndex = [i, j];
@@ -56,36 +56,36 @@ export const bishopMove = (board: Cell[][], piece: Piece, position: CellIndex): 
       break;
     }
   }
-    
+
   // DOWN LEFT
   draftBoard = copyBoard(board);
   for (let i = row - 1, j = column - 1; i > -1 && j > -1; i--, j--) {
     const [isAdd, isBreak] = moveHelper(board, piece.color, i, j);
-    
+
     if (isAdd) {
       const from: CellIndex = [i + 1, j + 1];
       const to: CellIndex = [i, j];
       const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), [kingRow, kingColumn]);
       result.push({index: [i, j], isPossibleMove });
     }
-  
+
     if (isBreak) {
       break;
     }
   }
-    
+
   // DOWN RIGHT
   draftBoard = copyBoard(board);
   for (let i = row - 1, j = column + 1; i > -1 && j < 8; i--, j++) {
     const [isAdd, isBreak] = moveHelper(board, piece.color, i, j);
-      
+
     if (isAdd) {
       const from: CellIndex = [i + 1, j - 1];
       const to: CellIndex = [i, j];
       const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), [kingRow, kingColumn]);
       result.push({index: [i, j], isPossibleMove });
     }
-    
+
     if (isBreak) {
       break;
     }

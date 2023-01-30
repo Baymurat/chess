@@ -3,7 +3,7 @@ import { getPiece } from "../row/utils";
 import styles from "./styles.module.scss";
 import cx from "classnames";
 import { useDispatch } from "react-redux";
-import { promotePawn } from "../../redux/features/board/boardSlice"; 
+import { promotePawn } from "../../redux/features/board/boardSlice";
 import { CellIndex, PieceNames } from "../../types/types";
 
 type Props = {
@@ -38,7 +38,7 @@ const PromotionModal = (props: Props) => {
         isWhite={true}
         isReachableCell={false}
       >
-        <img src={getPiece(`bishop_${side}`)} />        
+        <img src={getPiece(`bishop_${side}`)} />
       </GameCell>
       <GameCell
         onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.ROOK, color: side }}))}

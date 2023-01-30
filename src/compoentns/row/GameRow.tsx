@@ -21,13 +21,13 @@ const Row = ({ rowNumber }: Props) => {
         const { index } = cell;
 
         return (
-          <GameCell 
+          <GameCell
             onClick={() => dispatch(onClickCell({ index }))}
             key={`${index[0]}${index[1]}`}
             {...cell}
           >
-            {cell.state === "empty" 
-              ? "" 
+            {cell.state === "empty"
+              ? ""
               : <img src={getPiece(`${cell.state.name}_${cell.state.color}`)} />}
           </GameCell>
         );
