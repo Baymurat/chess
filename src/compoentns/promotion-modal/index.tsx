@@ -20,50 +20,51 @@ const PromotionModal = (props: Props) => {
   return (
     <div className={cx(styles.modal, appearSide)}>
       <GameCell
-        onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.QUEEN, color: side }}))}
-        state={"empty"}
+        onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.QUEEN, color: side } }))}
+        state="empty"
         index={[-1, -1]}
         isSelected={false}
         isPossibleMove={false}
-        isWhite={true}
+        isWhite
         isReachableCell={false}
       >
         <img src={getPiece(`queen_${side}`)} />
       </GameCell>
       <GameCell
-        onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.BISHOP, color: side }}))}
-        state={"empty"}
+        onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.BISHOP, color: side } }))}
+        state="empty"
         index={[-1, -1]}
         isSelected={false}
         isPossibleMove={false}
-        isWhite={true}
+        isWhite
         isReachableCell={false}
       >
         <img src={getPiece(`bishop_${side}`)} />
       </GameCell>
       <GameCell
-        onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.ROOK, color: side }}))}
-        state={"empty"}
+        onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.ROOK, color: side } }))}
+        state="empty"
         index={[-1, -1]}
         isSelected={false}
         isPossibleMove={false}
-        isWhite={true}
+        isWhite
         isReachableCell={false}
       >
         <img src={getPiece(`rook_${side}`)} />
       </GameCell>
       <GameCell
-        onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.KNIGHT, color: side }}))}
-        state={"empty"}
+        onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.KNIGHT, color: side } }))}
+        state="empty"
         index={[-1, -1]}
         isSelected={false}
         isPossibleMove={false}
-        isWhite={true}
+        isWhite
         isReachableCell={false}
       >
         <img src={getPiece(`knight_${side}`)} />
       </GameCell>
     </div>
-  );};
+  );
+};
 
 export default PromotionModal;

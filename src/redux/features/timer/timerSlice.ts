@@ -16,8 +16,8 @@ const timerSlice = createSlice({
     },
     setIsStarted(state, action: PayloadAction<{ isStared: boolean }>) {
       state.isStarted = action.payload.isStared;
-    }
-  }
+    },
+  },
 });
 
 export const { setTime, setIsStarted } = timerSlice.actions;

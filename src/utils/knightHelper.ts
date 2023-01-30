@@ -1,5 +1,5 @@
 import { Cell, CellIndex, Piece, ReachableCell } from "../types/types";
-import { copyBoard,movePieceTo } from "./commonHelper";
+import { copyBoard, movePieceTo } from "./commonHelper";
 import { getKingPosition, isKingInDanger } from "./kingHelper";
 
 export const getKnightDirections = (position: CellIndex): CellIndex[] => {
@@ -26,7 +26,7 @@ export const getKnightDirections = (position: CellIndex): CellIndex[] => {
     [vD1, hR2, vD1 > -1 && hR2 < 8],
   ];
 
-  return allDirections.filter(([,,canMove]) => canMove).map(([r, c]) => ([r, c]));
+  return allDirections.filter(([,, canMove]) => canMove).map(([r, c]) => ([r, c]));
 };
 
 export const knightMove = (board: Cell[][], piece: Piece, position: CellIndex): ReachableCell[] => {

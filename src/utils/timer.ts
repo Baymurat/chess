@@ -6,13 +6,15 @@ const parseSeconds = (seconds: number): TimeType => {
   const second = seconds - (hour * 60 * 60) - (minute * 60);
 
   return {
-    second, minute, hour
+    second, minute, hour,
   };
 };
 
 class Timer {
   private counted: number;
+
   private intervalId!: NodeJS.Timer | null;
+
   private static instance: Timer | null = null;
 
   static getInstance(): Timer {

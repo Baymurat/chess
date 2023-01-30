@@ -1,5 +1,5 @@
-import { useEffect,useRef } from "react";
-import { useSelector} from "react-redux";
+import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 
 import { historySelector } from "../../redux/features/board/boardSlice";
 import Move from "./Move";
@@ -16,10 +16,11 @@ const History = () => {
   return (
     <div className={styles.history}>
       {history.map((move) => (
-        <Move key={move.id} {...move}/>
+        <Move key={move.id} {...move} />
       ))}
-      <div ref={scrollDivRef} className={styles.scrollDiv}></div>
+      <div ref={scrollDivRef} className={styles.scrollDiv} />
     </div>
-  );};
+  );
+};
 
 export default History;

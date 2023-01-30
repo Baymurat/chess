@@ -1,5 +1,5 @@
 import { Cell, CellIndex, Piece, PieceColor, ReachableCell } from "../types/types";
-import { copyBoard,movePieceTo } from "./commonHelper";
+import { copyBoard, movePieceTo } from "./commonHelper";
 import { getKingPosition, isKingInDanger } from "./kingHelper";
 
 
@@ -32,7 +32,7 @@ export const bishopMove = (board: Cell[][], piece: Piece, position: CellIndex): 
       const from: CellIndex = [i - 1, j - 1];
       const to: CellIndex = [i, j];
       const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), [kingRow, kingColumn]);
-      result.push({index: [i, j], isPossibleMove });
+      result.push({ index: [i, j], isPossibleMove });
     }
 
     if (isBreak) {
@@ -49,7 +49,7 @@ export const bishopMove = (board: Cell[][], piece: Piece, position: CellIndex): 
       const from: CellIndex = [i - 1, j + 1];
       const to: CellIndex = [i, j];
       const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), [kingRow, kingColumn]);
-      result.push({index: [i, j], isPossibleMove });
+      result.push({ index: [i, j], isPossibleMove });
     }
 
     if (isBreak) {
@@ -66,7 +66,7 @@ export const bishopMove = (board: Cell[][], piece: Piece, position: CellIndex): 
       const from: CellIndex = [i + 1, j + 1];
       const to: CellIndex = [i, j];
       const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), [kingRow, kingColumn]);
-      result.push({index: [i, j], isPossibleMove });
+      result.push({ index: [i, j], isPossibleMove });
     }
 
     if (isBreak) {
@@ -83,7 +83,7 @@ export const bishopMove = (board: Cell[][], piece: Piece, position: CellIndex): 
       const from: CellIndex = [i + 1, j - 1];
       const to: CellIndex = [i, j];
       const isPossibleMove = !isKingInDanger(movePieceTo(draftBoard, from, to), [kingRow, kingColumn]);
-      result.push({index: [i, j], isPossibleMove });
+      result.push({ index: [i, j], isPossibleMove });
     }
 
     if (isBreak) {

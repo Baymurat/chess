@@ -1,5 +1,5 @@
-import { Cell, CellIndex, CellState, Piece, PieceColor, PieceNames,ReachableCell } from "../types/types";
-import { copyBoard,movePieceTo } from "./commonHelper";
+import { Cell, CellIndex, CellState, Piece, PieceColor, PieceNames, ReachableCell } from "../types/types";
+import { copyBoard, movePieceTo } from "./commonHelper";
 import { getKingPosition, isKingInDanger } from "./kingHelper";
 
 export const getPawnAttackPositions = (position: CellIndex, color: PieceColor): CellIndex[] => {
@@ -16,7 +16,7 @@ export const getPawnAttackPositions = (position: CellIndex, color: PieceColor): 
     [up, right, isWhite && up < 8 && right < 8],
     [down, right, !isWhite && down > -1 && right < 8],
     [down, left, !isWhite && down > -1 && left > -1],
-    [up, left, isWhite && up < 8 && left > -1]
+    [up, left, isWhite && up < 8 && left > -1],
   ];
 
   const result: CellIndex[] = allDirections

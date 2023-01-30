@@ -1,7 +1,7 @@
 import { configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
 
 import { CellIndex, Piece, PieceNames } from "../types/types";
-import { canAlliesSaveKing,getKingPosition, hasEscapeCell, isKingInDanger } from "../utils/kingHelper";
+import { canAlliesSaveKing, getKingPosition, hasEscapeCell, isKingInDanger } from "../utils/kingHelper";
 import { isPawnPromoteable } from "../utils/pawnHelper";
 import { calculateReachableCells } from "../utils/possibleMoves";
 import { timerInstance } from "../utils/timer";
@@ -20,7 +20,7 @@ import boardStateReducer, {
   setSelectedCell,
   setTurn,
 } from "./features/board/boardSlice";
-import timerReducer, { setIsStarted,setTime } from "./features/timer/timerSlice";
+import timerReducer, { setIsStarted, setTime } from "./features/timer/timerSlice";
 
 const listenerMiddleware = createListenerMiddleware();
 
@@ -38,7 +38,7 @@ listenerMiddleware.startListening({
     const [prevRow, prevColumn] = boardStore.selectedCellIndex;
     const [currentRow, currentColumn] = index;
     const clickedCell = board[currentRow][currentColumn];
-    const isEmpty =  clickedCell.state === "empty";
+    const isEmpty = clickedCell.state === "empty";
     const isEnemy = (clickedCell.state as Piece).color !== boardStore.turn;
 
     if (isEmpty || isEnemy) {
@@ -59,7 +59,7 @@ listenerMiddleware.startListening({
 
     const reachableCells = calculateReachableCells(board, clickedCell);
     listenerApi.dispatch(setReachableCells({ reachableCells }));
-  }
+  },
 });
 
 listenerMiddleware.startListening({
@@ -74,19 +74,19 @@ listenerMiddleware.startListening({
       return;
     }
 
-    const nextTurn = boardStore.turn === "white" ? "black": "white";
+    const nextTurn = boardStore.turn === "white" ? "black" : "white";
     listenerApi.dispatch(setTurn({ turn: nextTurn }));
 
     const piece = boardStore.board[to[0]][to[1]].state as Piece;
     listenerApi.dispatch(addMove({
-      piece, from, to
+      piece, from, to,
     }));
 
     const kingPosition = getKingPosition(boardStore.board, nextTurn);
     const kingInDanger = isKingInDanger(boardStore.board, kingPosition);
 
     listenerApi.dispatch(setKingDangerState({ index: kingPosition, inDanger: kingInDanger }));
-  }
+  },
 });
 
 listenerMiddleware.startListening({
@@ -106,7 +106,7 @@ listenerMiddleware.startListening({
         }
       }
     }
-  }
+  },
 });
 
 listenerMiddleware.startListening({
@@ -118,7 +118,7 @@ listenerMiddleware.startListening({
       listenerApi.dispatch(setIsStarted({ isStared: true }));
       timerInstance.startTimer((timeObject) => {
         const {
-          second, minute, hour
+          second, minute, hour,
         } = timeObject;
 
         const s = second < 10 ? `0${second}` : second;
@@ -130,16 +130,16 @@ listenerMiddleware.startListening({
         listenerApi.dispatch(setTime({ time }));
       });
     }
-  }
+  },
 });
 
 listenerMiddleware.startListening({
   actionCreator: restartGame,
   effect: async (action, listenerApi) => {
-    listenerApi.dispatch(setTime({ time: "00:00:00"}));
+    listenerApi.dispatch(setTime({ time: "00:00:00" }));
     listenerApi.dispatch(setIsStarted({ isStared: false }));
     timerInstance.stopTimer();
-  }
+  },
 });
 
 listenerMiddleware.startListening({
@@ -148,7 +148,7 @@ listenerMiddleware.startListening({
     const { index } = action.payload;
     const { boardStore } = listenerApi.getState() as RootState;
 
-    const nextTurn = boardStore.turn === "white" ? "black": "white";
+    const nextTurn = boardStore.turn === "white" ? "black" : "white";
     listenerApi.dispatch(setTurn({ turn: nextTurn }));
 
     const [row, column] = index;
@@ -166,7 +166,7 @@ listenerMiddleware.startListening({
 
     listenerApi.dispatch(setKingDangerState({ index: kingPosition, inDanger: kingInDanger }));
     listenerApi.dispatch(setBoardState({ isBoardDisabled: false }));
-  }
+  },
 });
 
 export const store = configureStore({
@@ -175,7 +175,7 @@ export const store = configureStore({
     timerStore: timerReducer,
   },
   devTools: true,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(listenerMiddleware.middleware)
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(listenerMiddleware.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

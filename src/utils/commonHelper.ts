@@ -1,4 +1,4 @@
-import { Cell, CellIndex, PieceColor,PieceNames } from "../types/types";
+import { Cell, CellIndex, PieceColor, PieceNames } from "../types/types";
 
 export const copyBoard = (board: Cell[][]): Cell[][] => {
   const result: Cell[][] = [];
@@ -6,7 +6,7 @@ export const copyBoard = (board: Cell[][]): Cell[][] => {
   for (let i = 0; i < 8; i++) {
     const row: Cell[] = [];
     for (let j = 0; j < 8; j++) {
-      row.push({...board[i][j]});
+      row.push({ ...board[i][j] });
     }
     result.push(row);
   }
@@ -80,7 +80,7 @@ export const printBoard = (board: Cell[][]): void => {
   copyBoard(board)
     .reverse()
     .forEach((row, i) => {
-      const str = row.reduce((acc, curr) => (acc + ` '${swap(curr)}'`), "");
+      const str = row.reduce((acc, curr) => (`${acc} '${swap(curr)}'`), "");
       console.log(i, str);
     });
 

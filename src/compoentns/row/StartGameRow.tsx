@@ -28,9 +28,9 @@ const StartGameRow = ({ rowNumber, side }: Props) => {
               : <img src={getPiece(`${cell.state.name}_${cell.state.color}`)} />}
           </StartGameCell>
         );
-      }
-      )}
+      })}
     </div>
-  );};
+  );
+};
 
 export default StartGameRow;

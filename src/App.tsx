@@ -2,7 +2,7 @@ import "../style/style.scss";
 
 import React from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router, Route,Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Board from "./compoentns/board";
 import WelcomePage from "./compoentns/welcome-page";

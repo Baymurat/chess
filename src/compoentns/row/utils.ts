@@ -12,8 +12,7 @@ import rookBlack from "../../../assets/chess_pieces/rook_black.png";
 import rookWhite from "../../../assets/chess_pieces/rook_white.png";
 
 export const getPiece = (name: string) => {
-
-  switch(name.toLowerCase()) {
+  switch (name.toLowerCase()) {
     case "pawn_black": {
       return pawnBlack;
     }

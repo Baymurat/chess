@@ -1,3 +1,3 @@
 export { default as DisabledCell } from "./DisabledCell";
-export { default as GameCell  } from "./GameCell";
+export { default as GameCell } from "./GameCell";
 export { default as StartGameCell } from "./StartGameCell";

@@ -15,6 +15,7 @@ const GameOverBanner = () => {
         Restart
       </button>
     </div>
-  );};
+  );
+};
 
 export default GameOverBanner;

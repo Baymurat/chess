@@ -1,7 +1,7 @@
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { gameOverSelector, restartGame,turnSelector } from "../../redux/features/board/boardSlice";
+import { gameOverSelector, restartGame, turnSelector } from "../../redux/features/board/boardSlice";
 import History from "../history";
 import { GameRow, HorizontalLegendRow, StartGameRow } from "../row";
 import Timer from "../timer";
@@ -16,11 +16,15 @@ const Board = () => {
   return (
     <div className={styles.wrapper}>
       {isGameOver && <GameOverBanner />}
-      {!isGameOver && <button onClick={() => {
-        dispatch(restartGame());
-      }}>RESTART</button>}
+      {!isGameOver && (
+        <button onClick={() => {
+          dispatch(restartGame());
+        }}
+        >RESTART
+        </button>
+      )}
       <Link
-        to={"/"}
+        to="/"
         onClick={() => dispatch(restartGame())}
       >
         Back to menu
@@ -46,6 +50,7 @@ const Board = () => {
         </div>
       </div>
     </div>
-  );};
+  );
+};
 
 export default Board;

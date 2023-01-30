@@ -1,8 +1,7 @@
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 
-import { Cell, CellIndex, Piece, PieceColor } from "../types/types";
-import { PieceNames } from "../types/types";
+import { Cell, CellIndex, Piece, PieceColor, PieceNames } from "../types/types";
 
 const createEmptyBoard = (): Cell[][] => {
   const arr: Cell[][] = [];
@@ -24,7 +23,7 @@ const copyBoard = (board: Cell[][]): Cell[][] => {
   for (let i = 0; i < 8; i++) {
     const row: Cell[] = [];
     for (let j = 0; j < 8; j++) {
-      row.push({...board[i][j]});
+      row.push({ ...board[i][j] });
     }
     copy.push(row);
   }
@@ -32,7 +31,7 @@ const copyBoard = (board: Cell[][]): Cell[][] => {
   return copy;
 };
 
-const createCell = (state: "empty" | Piece , index: CellIndex, isWhite: boolean): Cell => ({
+const createCell = (state: "empty" | Piece, index: CellIndex, isWhite: boolean): Cell => ({
   isPossibleMove: false,
   isSelected: false,
   isReachableCell: false,

@@ -10,7 +10,7 @@ type Props = PropsWithChildren & Cell & { side: "white" | "black" };
 
 const StartGameCell = (props: Props) => {
   const {
-    isPromoteable, side, index
+    isPromoteable, side, index,
   } = props;
   const dispatch = useDispatch();
 
@@ -22,6 +22,7 @@ const StartGameCell = (props: Props) => {
         {...props}
       />
     </div>
-  );};
+  );
+};
 
 export default StartGameCell;

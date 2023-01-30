@@ -1,8 +1,6 @@
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { boardSelector } from "../../redux/features/board/boardSlice";
-import { onClickCell } from "../../redux/features/board/boardSlice";
+import { boardSelector, onClickCell } from "../../redux/features/board/boardSlice";
 import { DisabledCell, GameCell } from "../cell";
 import styles from "./styles.module.scss";
 import { getPiece } from "./utils";
@@ -31,9 +29,9 @@ const Row = ({ rowNumber }: Props) => {
               : <img src={getPiece(`${cell.state.name}_${cell.state.color}`)} />}
           </GameCell>
         );
-      }
-      )}
+      })}
     </div>
-  );};
+  );
+};
 
 export default Row;

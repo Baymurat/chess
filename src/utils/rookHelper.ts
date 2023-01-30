@@ -1,5 +1,5 @@
 import { Cell, CellIndex, Piece, PieceColor, ReachableCell } from "../types/types";
-import { copyBoard,movePieceTo } from "./commonHelper";
+import { copyBoard, movePieceTo } from "./commonHelper";
 import { getKingPosition, isKingInDanger } from "./kingHelper";
 
 const rookMoveHelper = (cell: Cell, color: PieceColor) => {

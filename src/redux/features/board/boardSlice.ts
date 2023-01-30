@@ -1,6 +1,6 @@
-import { ActionCreatorWithoutPayload,createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ActionCreatorWithoutPayload, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { BoardStore, CellIndex, Piece, PieceColor,ReachableCell } from "../../../types/types";
+import { BoardStore, CellIndex, Piece, PieceColor, ReachableCell } from "../../../types/types";
 import { generateBoard } from "../../../utils/initBoard";
 
 const initialState: BoardStore = {
@@ -70,7 +70,7 @@ const boardSlice = createSlice({
     setReachableCells(state, action: PayloadAction<{ reachableCells: ReachableCell[] }>) {
       const { reachableCells } = action.payload;
       reachableCells.forEach(({
-        index, isPossibleMove, isForbiddenForKing
+        index, isPossibleMove, isForbiddenForKing,
       }) => {
         const [row, column] = index;
         state.board[row][column].isReachableCell = true;
@@ -102,16 +102,16 @@ const boardSlice = createSlice({
     },
     addMove(state, action: PayloadAction<{ piece: Piece, from: CellIndex, to: CellIndex }>) {
       const {
-        from, to, piece
+        from, to, piece,
       } = action.payload;
 
       const id: string = Math.random().toString();
 
       state.movesHistory.push({
-        piece, from, to, id
+        piece, from, to, id,
       });
-    }
-  }
+    },
+  },
 });
 
 export const {
