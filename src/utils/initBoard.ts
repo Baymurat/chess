@@ -140,23 +140,23 @@ const parseCell = (row: number) => (elem: string, index: number): Cell => {
 };
 
 const generateTestBoard = (): Cell[][] => {
-  const string_row1 = JSON.parse(process.env.ROW_1 || "");
-  const string_row2 = JSON.parse(process.env.ROW_2 || "");
-  const string_row3 = JSON.parse(process.env.ROW_3 || "");
-  const string_row4 = JSON.parse(process.env.ROW_4 || "");
-  const string_row5 = JSON.parse(process.env.ROW_5 || "");
-  const string_row6 = JSON.parse(process.env.ROW_6 || "");
-  const string_row7 = JSON.parse(process.env.ROW_7 || "");
-  const string_row8 = JSON.parse(process.env.ROW_8 || "");
+  const stringRow1 = JSON.parse(process.env.ROW_1 || "");
+  const stringRow2 = JSON.parse(process.env.ROW_2 || "");
+  const stringRow3 = JSON.parse(process.env.ROW_3 || "");
+  const stringRow4 = JSON.parse(process.env.ROW_4 || "");
+  const stringRow5 = JSON.parse(process.env.ROW_5 || "");
+  const stringRow6 = JSON.parse(process.env.ROW_6 || "");
+  const stringRow7 = JSON.parse(process.env.ROW_7 || "");
+  const stringRow8 = JSON.parse(process.env.ROW_8 || "");
 
-  const row1: Cell[] = string_row1.map(parseCell(0));
-  const row2: Cell[] = string_row2.map(parseCell(1));
-  const row3: Cell[] = string_row3.map(parseCell(2));
-  const row4: Cell[] = string_row4.map(parseCell(3));
-  const row5: Cell[] = string_row5.map(parseCell(4));
-  const row6: Cell[] = string_row6.map(parseCell(5));
-  const row7: Cell[] = string_row7.map(parseCell(6));
-  const row8: Cell[] = string_row8.map(parseCell(7));
+  const row1: Cell[] = stringRow1.map(parseCell(0));
+  const row2: Cell[] = stringRow2.map(parseCell(1));
+  const row3: Cell[] = stringRow3.map(parseCell(2));
+  const row4: Cell[] = stringRow4.map(parseCell(3));
+  const row5: Cell[] = stringRow5.map(parseCell(4));
+  const row6: Cell[] = stringRow6.map(parseCell(5));
+  const row7: Cell[] = stringRow7.map(parseCell(6));
+  const row8: Cell[] = stringRow8.map(parseCell(7));
 
   const board: Cell[][] = [row1, row2, row3, row4, row5, row6, row7, row8];
   return board;
@@ -170,11 +170,13 @@ export const generateBoard = (): Cell[][] => {
   let board: Cell[][] = [];
 
   of(createEmptyBoard()).pipe(
-    map((board) => initOfficers(board, "white")),
-    map((board) => initOfficers(board, "black")),
-    map((board) => initPawns(board, "black")),
-    map((board) => initPawns(board, "white")),
-  ).subscribe((b) => (board = b));
+    map((b) => initOfficers(b, "white")),
+    map((b) => initOfficers(b, "black")),
+    map((b) => initPawns(b, "black")),
+    map((b) => initPawns(b, "white")),
+  ).subscribe((b) => {
+    board = b;
+  });
 
   return board;
 };

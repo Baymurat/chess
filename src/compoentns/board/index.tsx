@@ -17,9 +17,11 @@ const Board = () => {
     <div className={styles.wrapper}>
       {isGameOver && <GameOverBanner />}
       {!isGameOver && (
-        <button onClick={() => {
-          dispatch(restartGame());
-        }}
+        <button
+          type="button"
+          onClick={() => {
+            dispatch(restartGame());
+          }}
         >RESTART
         </button>
       )}

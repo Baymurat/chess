@@ -11,7 +11,10 @@ const GameOverBanner = () => {
       CHECKMATE
       <br />
       GAME OVER
-      <button onClick={() => dispatch(restartGame())}>
+      <button
+        type="button"
+        onClick={() => dispatch(restartGame())}
+      >
         Restart
       </button>
     </div>

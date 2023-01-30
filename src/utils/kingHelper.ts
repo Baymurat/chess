@@ -6,7 +6,6 @@ import { calculateReachableCells } from "./possibleMoves";
 
 const getKingDirections = (position: CellIndex): CellIndex[] => {
   const [row, column] = position;
-  const a = { z: 1 };
 
   const up = row + 1;
   const down = row - 1;

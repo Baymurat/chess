@@ -26,7 +26,7 @@ const Row = ({ rowNumber }: Props) => {
           >
             {cell.state === "empty"
               ? ""
-              : <img src={getPiece(`${cell.state.name}_${cell.state.color}`)} />}
+              : <img alt="piece" src={getPiece(`${cell.state.name}_${cell.state.color}`)} />}
           </GameCell>
         );
       })}

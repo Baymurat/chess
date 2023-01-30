@@ -28,7 +28,7 @@ const PromotionModal = (props: Props) => {
         isWhite
         isReachableCell={false}
       >
-        <img src={getPiece(`queen_${side}`)} />
+        <img alt="piece" src={getPiece(`queen_${side}`)} />
       </GameCell>
       <GameCell
         onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.BISHOP, color: side } }))}
@@ -39,7 +39,7 @@ const PromotionModal = (props: Props) => {
         isWhite
         isReachableCell={false}
       >
-        <img src={getPiece(`bishop_${side}`)} />
+        <img alt="piece" src={getPiece(`bishop_${side}`)} />
       </GameCell>
       <GameCell
         onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.ROOK, color: side } }))}
@@ -50,7 +50,7 @@ const PromotionModal = (props: Props) => {
         isWhite
         isReachableCell={false}
       >
-        <img src={getPiece(`rook_${side}`)} />
+        <img alt="piece" src={getPiece(`rook_${side}`)} />
       </GameCell>
       <GameCell
         onClick={() => dispatch(promotePawn({ index, piece: { name: PieceNames.KNIGHT, color: side } }))}
@@ -61,7 +61,7 @@ const PromotionModal = (props: Props) => {
         isWhite
         isReachableCell={false}
       >
-        <img src={getPiece(`knight_${side}`)} />
+        <img alt="piece" src={getPiece(`knight_${side}`)} />
       </GameCell>
     </div>
   );

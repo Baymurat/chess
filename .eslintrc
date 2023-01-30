@@ -4,7 +4,8 @@
       "eslint:recommended",
       "airbnb",
       "plugin:@typescript-eslint/recommended",
-      "plugin:import/typescript"
+      "plugin:import/typescript",
+      "plugin:react/jsx-runtime"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": { "project": ["./tsconfig.json"] },
@@ -14,6 +15,9 @@
     "eslint-plugin-import"
   ],
   "rules": {
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
+    "no-param-reassign": "off",
     "import/newline-after-import": "error",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
