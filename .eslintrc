@@ -11,8 +11,10 @@
   "plugins": [
     "@typescript-eslint",
     "simple-import-sort", 
+    "eslint-plugin-import"
   ],
   "rules": {
+    "import/newline-after-import": "error",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
       "no-trailing-spaces": "error",
